@@ -1,5 +1,6 @@
 import { createRootRoute, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+import { Header } from "../components/header";
 {
   /* <div className="p-2 flex gap-2">
     <Link to="/" className="[&.active]:font-bold">
@@ -12,7 +13,10 @@ import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 }
 const RootLayout = () => (
   <>
-    <Outlet />
+    <div className="flex flex-col h-screen overflow-hidden bg-base-200">
+      <Header />
+      <Outlet />
+    </div>
     <TanStackRouterDevtools />
   </>
 );

@@ -1,9 +1,7 @@
 import { signInWithEmailAndPassword } from "firebase/auth/web-extension";
-import React, { useState, type ChangeEvent } from "react";
+import React, { useState } from "react";
 import z from "zod";
 import { auth } from "../lib/firebase";
-import { signOut } from "firebase/auth/cordova";
-import { useUser } from "../lib/hooks";
 
 const createLoginSchema = z.object({
   email: z.email(),
@@ -11,7 +9,6 @@ const createLoginSchema = z.object({
 });
 
 const Login = () => {
-  const user = useUser();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -33,53 +30,31 @@ const Login = () => {
       console.log(err);
     }
   };
-
-  const handleSignOut = () => {
-    signOut(auth)
-      .then(() => {
-        console.log("Logged out!");
-      })
-      .catch((error) => {
-        console.log(error);
-        console.log("Something unexpected happened!");
-      });
-  };
-
   return (
-    <div className="hero bg-base-200 min-h-screen">
-      <div className="hero-content flex-col lg:flex-row-reverse">
-        <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-          <div className="card-body">
-            <p>{user?.email}</p>
-            {user && (
-              <button onClick={handleSignOut} className="btn btn-neutral mt-4">
-                Sign out
-              </button>
-            )}
-            <form action={loginAction} className="space-y-2">
-              {/*Like the article with comments and posts. use the composition pattern for email and password */}
-              <InputWithLabel
-                id="email"
-                type="email"
-                value={email}
-                onInputChange={handleEmailInput}
-              >
-                Email
-              </InputWithLabel>
-              <InputWithLabel
-                id="password"
-                type="password"
-                value={password}
-                onInputChange={handlePasswordInput}
-              >
-                Password
-              </InputWithLabel>
-              <button type="submit" className="btn btn-neutral mt-4">
-                Login
-              </button>
-            </form>
-          </div>
-        </div>
+    <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+      <div className="card-body">
+        <form action={loginAction} className="space-y-2">
+          {/*Like the article with comments and posts. use the composition pattern for email and password */}
+          <InputWithLabel
+            id="email"
+            type="email"
+            value={email}
+            onInputChange={handleEmailInput}
+          >
+            Email
+          </InputWithLabel>
+          <InputWithLabel
+            id="password"
+            type="password"
+            value={password}
+            onInputChange={handlePasswordInput}
+          >
+            Password
+          </InputWithLabel>
+          <button type="submit" className="btn btn-neutral mt-4">
+            Login
+          </button>
+        </form>
       </div>
     </div>
   );
