@@ -2,7 +2,7 @@ import { first_protocol } from "../protocols/protocol_keys";
 import { t1_protocols } from "../protocols/tierOne";
 import { t3_protocol } from "../protocols/tierThree";
 import { t2_protocols } from "../protocols/tierTwo";
-import type { workout } from "../workout";
+import type { workout } from "../workoutRepo";
 
 const A1: workout = {
   name: "Squat day",
