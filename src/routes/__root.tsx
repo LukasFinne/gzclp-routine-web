@@ -1,6 +1,7 @@
-import { createRootRoute, Outlet } from "@tanstack/react-router";
+import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { Header } from "../components/header";
+import type { User } from "firebase/auth";
 {
   /* <div className="p-2 flex gap-2">
     <Link to="/" className="[&.active]:font-bold">
@@ -21,4 +22,6 @@ const RootLayout = () => (
   </>
 );
 
-export const Route = createRootRoute({ component: RootLayout });
+export const Route = createRootRouteWithContext<{ user: User | null }>()({
+  component: RootLayout,
+});

@@ -1,4 +1,4 @@
-export interface workout {
+export interface WorkoutData {
   name: string;
   tier1: tier;
   tier2: tier;

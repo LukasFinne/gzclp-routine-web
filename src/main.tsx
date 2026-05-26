@@ -4,10 +4,15 @@ import { RouterProvider, createRouter } from "@tanstack/react-router";
 
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";
+import { useUser } from "./lib/hooks";
 
 // Create a new router instance
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-const router = createRouter({ routeTree });
+const router = createRouter({
+  routeTree,
+  context: {
+    user: null,
+  },
+});
 
 // Register the router instance for type safety
 declare module "@tanstack/react-router" {
@@ -16,6 +21,11 @@ declare module "@tanstack/react-router" {
   }
 }
 
+const App = () => {
+  const user = useUser();
+  return <RouterProvider router={router} context={{ user }} />;
+};
+
 // Render the app
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const rootElement = document.getElementById("root")!;
@@ -23,7 +33,7 @@ if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>
-      <RouterProvider router={router} />
+      <App />
     </StrictMode>,
   );
 }

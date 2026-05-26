@@ -2,9 +2,9 @@ import { first_protocol } from "../protocols/protocol_keys";
 import { t1_protocols } from "../protocols/tierOne";
 import { t3_protocol } from "../protocols/tierThree";
 import { t2_protocols } from "../protocols/tierTwo";
-import type { workout } from "../workoutRepo";
+import type { WorkoutData } from "../workoutRepo";
 
-const A1: workout = {
+const A1: WorkoutData = {
   name: "Squat day",
   tier1: {
     name: "Squat",
@@ -23,7 +23,7 @@ const A1: workout = {
   },
 };
 
-const A2: workout = {
+const A2: WorkoutData = {
   name: "Bench day",
   tier1: {
     name: "Bench",
@@ -42,7 +42,7 @@ const A2: workout = {
   },
 };
 
-const B1: workout = {
+const B1: WorkoutData = {
   name: "OHP day",
   tier1: {
     name: "OHP",
@@ -61,7 +61,7 @@ const B1: workout = {
   },
 };
 
-const B2: workout = {
+const B2: WorkoutData = {
   name: "Deadlift day",
   tier1: {
     name: "Deadlift",
@@ -80,7 +80,7 @@ const B2: workout = {
   },
 };
 
-export const WorkoutDefaultValues = new Map<string, workout>([
+export const WorkoutDefaultValues = new Map<string, WorkoutData>([
   ["A1", A1],
   ["A2", A2],
   ["B1", B1],

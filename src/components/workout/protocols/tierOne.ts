@@ -1,4 +1,4 @@
-import { type protocol } from "../workout";
+import { type protocol } from "../workoutRepo";
 
 const protocol_t1_1: protocol = {
   reps: 3,

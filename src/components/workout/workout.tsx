@@ -1,9 +1,10 @@
 import { useEffect, useState, useTransition } from "react";
-import { Button } from "../button";
-import { setupDefaultWorkouts, useWorkouts } from "./hooks";
+import { setupDefaultWorkouts } from "./hooks";
+import { Link } from "@tanstack/react-router";
+import { useUserCurrentWorkout } from "../../lib/user/hook";
 
 export const WorkoutPage = ({ userId }: { userId: string }) => {
-  const workout = useWorkouts(userId);
+  const workout = useUserCurrentWorkout();
   const [isPending, startTransition] = useTransition();
   const [message, setMessage] = useState("");
 
@@ -38,9 +39,10 @@ export const WorkoutPage = ({ userId }: { userId: string }) => {
 
   return (
     <div>
-      <h1>{workout.id}</h1>
       <p>Current workout: {workout.currentWorkout}</p>
-      <Button name="Start workout" style="btn btn-primary" />
+      <Link className="btn btn-primary" to="/train">
+        Start workout
+      </Link>
     </div>
   );
 };

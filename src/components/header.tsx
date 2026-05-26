@@ -1,8 +1,9 @@
+import { Link } from "@tanstack/react-router";
 import { useUser } from "../lib/hooks";
 import { SignOut } from "./sign-out";
 
 export const Header = () => {
-  const user = useUser()
+  const user = useUser();
   return (
     <div className="navbar bg-base-100 shadow-sm">
       <div className="navbar-start">
@@ -47,7 +48,9 @@ export const Header = () => {
             </li>
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">daisyUI</a>
+        <Link to="/" className="btn btn-ghost text-xl">
+          daisyUI
+        </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
@@ -72,9 +75,7 @@ export const Header = () => {
           </li>
         </ul>
       </div>
-      <div className="navbar-end">
-        {user && <SignOut/>}
-      </div>
+      <div className="navbar-end">{user && <SignOut />}</div>
     </div>
   );
 };
