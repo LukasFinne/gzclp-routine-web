@@ -1,16 +1,31 @@
-interface ButtonProps {
-  name: string;
-  type?: "button" | "submit";
+import type { ButtonHTMLAttributes } from "react";
+
+interface ButtonProps extends Omit<
+  ButtonHTMLAttributes<HTMLButtonElement>,
+  "style"
+> {
   style?: string;
 }
+
 export const Button = ({
   name,
   type = "button",
-  style = "btn btn-netural",
+  className = "",
+  style = "btn btn-neutral",
+  onClick,
+  children,
+  ...props
 }: ButtonProps) => {
   return (
-    <button id={name} type={type} className={style}>
-      {name}
+    <button
+      id={name}
+      name={name}
+      type={type}
+      className={`${style} ${className}`.trim()}
+      onClick={onClick}
+      {...props}
+    >
+      {children}
     </button>
   );
 };

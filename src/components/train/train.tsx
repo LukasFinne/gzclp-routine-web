@@ -1,4 +1,5 @@
 import { useCurrentDay } from "../../lib/user/hook";
+import { Button } from "../button";
 import { useCurrentWorkout } from "./hooks";
 import { UpdateWorkoutKey } from "./workoutKeys";
 import type { User } from "firebase/auth";
@@ -14,10 +15,8 @@ export const Train = ({ user }: { user: User }) => {
   return (
     <>
       <p>Train Component</p>
-      <button className="btn btn-primary" onClick={handleKeyRotation}>
-        Rotate
-      </button>
-      <ul>
+      <Button style="btn btn-primary" name="rotateBtn" onClick={handleKeyRotation}>Rotate</Button>
+      <ul> 
         <li>{currentWorkout?.name}</li>
       </ul>
     </>

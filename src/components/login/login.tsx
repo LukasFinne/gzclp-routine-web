@@ -3,6 +3,7 @@ import { WarningAlert } from "../alert";
 import { loginAction, type LoginState } from "./loginAction";
 import { Email } from "./email";
 import { Password } from "./password";
+import { Button } from "../button";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -40,18 +41,13 @@ const Login = () => {
             disabled={isPending}
             validationErrors={actionState.errors?.password}
           />
-
-          <button
-            type="submit"
-            disabled={isPending}
-            className="btn btn-neutral mt-4 w-full"
-          >
+          <Button type="submit" name="loginBtn" className="mt-4 w-full">
             {isPending ? (
               <span className="loading loading-dots loading-md"></span>
             ) : (
               <p>Login</p>
             )}
-          </button>
+          </Button>
         </form>
       </div>
     </div>
