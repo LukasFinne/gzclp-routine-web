@@ -13,7 +13,7 @@ export const WorkoutPage = ({ userId }: { userId: string }) => {
       startTransition(async () => {
         try {
           setMessage("");
-          await setupDefaultWorkouts(userId);
+          // await setupDefaultWorkouts(userId);
         } catch (error) {
           console.log(error);
           setMessage("Failed to setup user");

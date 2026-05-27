@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { db } from "../../lib/firebase";
 import type { WorkoutData } from "../workout/workoutRepo";
 import { useUser } from "../../lib/hooks";
-import type { WorkoutKeys } from "./workoutKeys";
+import { type WorkoutKeys } from "./workoutKeys";
 
 export const useCurrentWorkout = (currentWorkout: WorkoutKeys) => {
   const user = useUser();
@@ -32,40 +32,7 @@ export const useCurrentWorkout = (currentWorkout: WorkoutKeys) => {
     return () => {
       unsub();
     };
-  }, [user]);
+  }, [user, currentWorkout]);
 
   return workout;
 };
-
-export const useCurrentKey = () => {
-  const user = useUser();
-
-  const key = useState<WorkoutKeys>("A1")
-  useEffect(() => {
-    if (!user) {
-      return;
-    }
-    const docRef = doc(db, `users/${user.uid}`);
-
-    const unsub = onSnapshot(
-      docRef,
-      (snapshot) => {
-        if (snapshot.exists()) {
-          const workout = snapshot.data();
-          setWorkout(workout);
-        } else {
-          setWorkout(null);
-        }
-      },
-      (error) => {
-        console.error("Error fetching real-time workout:", error);
-      },
-    );
-
-    return () => {
-      unsub();
-    };
-  }, [user]);
-
-  return key;
-}

@@ -2,14 +2,15 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "../firebase";
 import { useUser } from "../hooks";
+import type { WorkoutKeys } from "../../components/train/workoutKeys";
 
 interface User {
-  currentWorkout: string;
+  currentWorkout: WorkoutKeys;
 }
 
 export const useUserCurrentWorkout = () => {
   const firebaseUser = useUser();
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User>({currentWorkout: "A1"});
   useEffect(() => {
     if (!firebaseUser) {
       return;
@@ -20,13 +21,8 @@ export const useUserCurrentWorkout = () => {
     const unsub = onSnapshot(
       docRef,
       (snapshot) => {
-        if (snapshot.exists()) {
-          const data: User = snapshot.data() as User;
-
-          setUser(data);
-        } else {
-          setUser(null);
-        }
+        const data: User = snapshot.data() as User;
+        setUser(data);
       },
       (error) => {
         console.error("Error fetching real-time workout:", error);
