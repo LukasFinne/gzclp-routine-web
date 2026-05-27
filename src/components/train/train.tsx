@@ -1,16 +1,14 @@
-import { useUserCurrentWorkout } from "../../lib/user/hook";
+import { useCurrentDay } from "../../lib/user/hook";
 import { useCurrentWorkout } from "./hooks";
 import { UpdateWorkoutKey } from "./workoutKeys";
-import { useUser } from "../../lib/hooks";
+import type { User } from "firebase/auth";
 
-export const Train = () => {
-  const user = useUser();
-  const userWorkout = useUserCurrentWorkout();
+export const Train = ({ user }: { user: User }) => {
+  const userWorkout = useCurrentDay();
   const currentWorkout = useCurrentWorkout(userWorkout.currentWorkout);
 
   const handleKeyRotation = () => {
-    if (!user) return;
-    UpdateWorkoutKey(user, userWorkout.currentWorkout)
+    UpdateWorkoutKey(user, userWorkout.currentWorkout);
   };
 
   return (

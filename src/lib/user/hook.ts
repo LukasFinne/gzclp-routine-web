@@ -8,7 +8,7 @@ interface User {
   currentWorkout: WorkoutKeys;
 }
 
-export const useUserCurrentWorkout = () => {
+export const useCurrentDay = () => {
   const firebaseUser = useUser();
   const [user, setUser] = useState<User>({currentWorkout: "A1"});
   useEffect(() => {

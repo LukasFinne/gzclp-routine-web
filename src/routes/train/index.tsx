@@ -1,4 +1,8 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  redirect,
+  useRouteContext,
+} from "@tanstack/react-router";
 import { Train } from "../../components/train/train";
 
 export const Route = createFileRoute("/train/")({
@@ -12,5 +16,9 @@ export const Route = createFileRoute("/train/")({
 });
 
 function RouteComponent() {
-  return <Train />;
+  const { user } = useRouteContext({ from: "/train/" });
+  if (!user) {
+    return <p>Error</p>
+  }
+  return <Train user={user} />;
 }
