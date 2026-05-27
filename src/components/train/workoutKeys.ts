@@ -11,7 +11,7 @@ const KeyStatus: Record<WorkoutKeys, WorkoutKeys> = {
   B2: "A1",
 };
 
-const RotateWorkoutKey = (key: WorkoutKeys) => {
+export const RotateWorkoutKey = (key: WorkoutKeys) => {
   return KeyStatus[key]
 };
 
