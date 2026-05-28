@@ -49,7 +49,7 @@ export const Header = () => {
           </ul>
         </div>
         <Link to="/" className="btn btn-ghost text-xl">
-          daisyUI
+          GZCLP
         </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
