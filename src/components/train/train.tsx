@@ -1,17 +1,18 @@
 import { useEffect, useReducer } from "react";
 import { Button } from "../button";
 import type { User } from "firebase/auth";
-import type { WorkoutData } from "../workout/workoutRepo";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import { useCurrentDay } from "../../lib/user/hook";
-import { toTrainWorkout, trainReducer, type Tier } from "./reducer";
+import { toTrainWorkout, trainReducer } from "./reducer";
+import type { WorkoutData } from "../../lib/workout/workout";
+import type { TierType } from "../../lib/workout/tier";
 
 export const Train = ({ user }: { user: User }) => {
   const currentDay = useCurrentDay();
   const [workouts, dispatchWorkouts] = useReducer(trainReducer, {
     workoutData: null,
-    tier: "T1",
+    tier: "tier1",
     isLoading: false,
     isError: false,
   });
@@ -60,16 +61,14 @@ export const Train = ({ user }: { user: User }) => {
             <p>Loading...</p>
           ) : (
             <WorkoutData
-              onSuccess={(currentTier) => {
+              onSuccess={() => {
                 dispatchWorkouts({
                   type: "WORKOUT_ON_SUCCESS",
-                  payload: currentTier,
                 });
               }}
-              onFailure={(currentTier) => {
+              onFailure={() => {
                 dispatchWorkouts({
                   type: "WORKOUT_ON_FAILURE",
-                  payload: currentTier,
                 });
               }}
               workoutData={workouts.workoutData}
@@ -88,10 +87,10 @@ const WorkoutData = ({
   onSuccess,
   onFailure,
 }: {
-  currentTier: Tier;
+  currentTier: TierType;
   workoutData: WorkoutData;
-  onSuccess: (currentTier: Tier) => void;
-  onFailure: (currentTier: Tier) => void;
+  onSuccess: () => void;
+  onFailure: () => void;
 }) => {
   const trainData = toTrainWorkout(currentTier, workoutData);
 
@@ -104,7 +103,7 @@ const WorkoutData = ({
       <div className="w-full space-x-4 ">
         <Button
           onClick={() => {
-            onSuccess(currentTier);
+            onSuccess();
           }}
           style="btn btn-secondary btn-xl sm:btn-md"
         >
@@ -112,7 +111,7 @@ const WorkoutData = ({
         </Button>
         <Button
           onClick={() => {
-            onFailure(currentTier);
+            onFailure();
           }}
           style="btn btn-primary btn-xl sm:btn-md"
         >

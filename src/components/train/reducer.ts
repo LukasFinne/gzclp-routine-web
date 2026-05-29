@@ -1,6 +1,7 @@
-import type { WorkoutData } from "../workout/workoutRepo";
+import type { TierType } from "../../lib/workout/tier";
+import type { WorkoutData } from "../../lib/workout/workout";
 
-type Action =
+export type Action =
   | {
       type: "WORKOUT_FETCH_INIT";
     }
@@ -13,39 +14,36 @@ type Action =
     }
   | {
       type: "WORKOUT_ON_SUCCESS";
-      payload: Tier;
     }
   | {
       type: "WORKOUT_ON_FAILURE";
-      payload: Tier;
     };
 
-export type Tier = "T1" | "T2" | "T3";
-
-const TierRotation: Record<Tier, Tier> = {
-  T1: "T2",
-  T2: "T3",
-  T3: "T1",
+const TierRotation: Record<TierType, TierType> = {
+  tier1: "tier2",
+  tier2: "tier3",
+  tier3: "tier1",
 };
 
-const RotateTier = (current: Tier) => {
+const RotateTier = (current: TierType) => {
   return TierRotation[current];
 };
-export const toTrainWorkout = (state: Tier, data: WorkoutData) => {
+
+export const toTrainWorkout = (state: TierType, data: WorkoutData) => {
   switch (state) {
-    case "T1":
+    case "tier1":
       return {
         name: data.tier1.name,
         protocol: data.tier1.protocol,
         weight: data.tier1.weight,
       };
-    case "T2":
+    case "tier2":
       return {
         name: data.tier2.name,
         protocol: data.tier2.protocol,
         weight: data.tier2.weight,
       };
-    case "T3":
+    case "tier3":
       return {
         name: data.tier3.name,
         protocol: data.tier3.protocol,
@@ -54,9 +52,9 @@ export const toTrainWorkout = (state: Tier, data: WorkoutData) => {
   }
 };
 
-interface State {
+export interface State {
   workoutData: WorkoutData | null;
-  tier: Tier;
+  tier: TierType;
   isLoading: boolean;
   isError: boolean;
 }
@@ -83,16 +81,34 @@ export const trainReducer = (state: State, action: Action) => {
         isError: true,
       };
     case "WORKOUT_ON_SUCCESS":
+      if (state.workoutData === null) {
+        throw new Error("workdata is null");
+      }
       return {
         ...state,
-        tier: RotateTier(action.payload),
+        workoutData: updateWeight(state.workoutData, 12.5, state.tier),
+        tier: RotateTier(state.tier),
       };
     case "WORKOUT_ON_FAILURE":
       return {
         ...state,
-        tier: RotateTier(action.payload),
+        tier: RotateTier(state.tier),
       };
     default:
       throw new Error();
   }
+};
+
+export const updateWeight = (
+  data: WorkoutData,
+  newWeight: number,
+  currentTier: TierType,
+): WorkoutData => {
+  return {
+    ...data,
+    [currentTier]: {
+      ...data[currentTier],
+      weight: newWeight,
+    },
+  };
 };
