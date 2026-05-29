@@ -90,8 +90,12 @@ export const trainReducer = (state: State, action: Action) => {
         tier: RotateTier(state.tier),
       };
     case "WORKOUT_ON_FAILURE":
+      if (state.workoutData === null) {
+        throw new Error("workdata is null");
+      }
       return {
         ...state,
+        workoutData: updateWeight(state.workoutData, 12.5, state.tier),
         tier: RotateTier(state.tier),
       };
     default:
