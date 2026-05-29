@@ -1,4 +1,4 @@
-import type { Tier, TierType } from "./tier";
+import type { Tier } from "./tier";
 
 export interface WorkoutData {
   name: string;
