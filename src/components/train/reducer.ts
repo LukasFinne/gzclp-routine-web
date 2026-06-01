@@ -22,7 +22,8 @@ export type Action =
 const TierRotation: Record<TierType, TierType> = {
   tier1: "tier2",
   tier2: "tier3",
-  tier3: "tier1",
+  tier3: "finished",
+  finished: "finished"
 };
 
 const RotateTier = (current: TierType) => {
@@ -49,6 +50,12 @@ export const toTrainWorkout = (state: TierType, data: WorkoutData) => {
         protocol: data.tier3.protocol,
         weight: data.tier3.weight,
       };
+    case "finished":
+      return {
+        name: "finished",
+        protocol: "",
+        weight: 12,
+    }
   }
 };
 
@@ -107,6 +114,11 @@ export const updateWeight = (
   data: WorkoutData,
   currentTier: TierType,
 ): WorkoutData => {
+
+  if (currentTier === "finished") {
+    return data;
+  }
+  
   return {
     ...data,
     [currentTier]: {
@@ -129,3 +141,5 @@ const weightIncrease = (name: string, weight: number): number => {
       return weight;
   }
 };
+
+

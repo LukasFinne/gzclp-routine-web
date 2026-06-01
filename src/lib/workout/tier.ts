@@ -6,4 +6,4 @@ export interface Tier {
   weight: number;
 }
 
-export type TierType = "tier1" | "tier2" | "tier3"
+export type TierType = "tier1" | "tier2" | "tier3" | "finished"

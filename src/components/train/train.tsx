@@ -4,9 +4,9 @@ import type { User } from "firebase/auth";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import { useCurrentDay } from "../../lib/user/hook";
-import { toTrainWorkout, trainReducer } from "./reducer";
+import { trainReducer, type Action } from "./reducer";
 import type { WorkoutData } from "../../lib/workout/workout";
-import type { TierType } from "../../lib/workout/tier";
+import type { Tier, TierType } from "../../lib/workout/tier";
 
 export const Train = ({ user }: { user: User }) => {
   const currentDay = useCurrentDay();
@@ -16,6 +16,10 @@ export const Train = ({ user }: { user: User }) => {
     isLoading: false,
     isError: false,
   });
+
+  const handleOnClick = (action: Action) => {
+    dispatchWorkouts(action);
+  };
 
   useEffect(() => {
     try {
@@ -44,15 +48,10 @@ export const Train = ({ user }: { user: User }) => {
     }
   }, [currentDay]);
 
-  // Tier rotation logic ->
-  // 1. tier 1 -> tier 2
-  // 2. tier 2 -> tier 3
-  // 3. tier 3 -> finish workout
-  // Behöver bara ha en failed och success button med sido effekt som next?
-
   if (workouts.isError) {
     return <p>Something went wrong..</p>;
   }
+
   return (
     <>
       <div className="hero bg-base-200 min-h-screen">
@@ -60,19 +59,12 @@ export const Train = ({ user }: { user: User }) => {
           {workouts.isLoading || workouts.workoutData === null ? (
             <p>Loading...</p>
           ) : (
-            <WorkoutData
-              onSuccess={() => {
-                dispatchWorkouts({
-                  type: "WORKOUT_ON_SUCCESS",
-                });
-              }}
-              onFailure={() => {
-                dispatchWorkouts({
-                  type: "WORKOUT_ON_FAILURE",
-                });
-              }}
-              workoutData={workouts.workoutData}
+            <GetTier
               currentTier={workouts.tier}
+              data={workouts.workoutData}
+              onClick={(action) => {
+                handleOnClick(action);
+              }}
             />
           )}
         </div>
@@ -80,20 +72,30 @@ export const Train = ({ user }: { user: User }) => {
     </>
   );
 };
-
-const WorkoutData = ({
-  workoutData,
-  currentTier,
-  onSuccess,
-  onFailure,
-}: {
+interface GetTierProps {
   currentTier: TierType;
-  workoutData: WorkoutData;
-  onSuccess: () => void;
-  onFailure: () => void;
-}) => {
-  const trainData = toTrainWorkout(currentTier, workoutData);
+  data: WorkoutData;
+  onClick: (action: Action) => void;
+}
 
+export const GetTier = ({ currentTier, data, onClick }: GetTierProps) => {
+  const tiers = {
+    tier1: <TierComponent trainData={data.tier1} onClick={onClick} />,
+    tier2: <TierComponent trainData={data.tier2} onClick={onClick} />,
+    tier3: <TierComponent trainData={data.tier3} onClick={onClick} />,
+    finished: <p>Finished</p>,
+  };
+
+  return tiers[currentTier];
+};
+
+const TierComponent = ({
+  trainData,
+  onClick,
+}: {
+  trainData: Tier;
+  onClick: (action: Action) => void;
+}) => {
   return (
     <div className="max-w-md">
       <h1 className="text-5xl font-bold">{trainData.name}</h1>
@@ -103,17 +105,17 @@ const WorkoutData = ({
       <div className="w-full space-x-4 ">
         <Button
           onClick={() => {
-            onSuccess();
+            onClick({ type: "WORKOUT_ON_SUCCESS" });
           }}
-          style="btn btn-secondary btn-xl sm:btn-md"
+          className="btn btn-secondary btn-xl sm:btn-md"
         >
           Failed
         </Button>
         <Button
           onClick={() => {
-            onFailure();
+            onClick({ type: "WORKOUT_ON_FAILURE" });
           }}
-          style="btn btn-primary btn-xl sm:btn-md"
+          className="btn btn-primary btn-xl sm:btn-md"
         >
           Success
         </Button>
