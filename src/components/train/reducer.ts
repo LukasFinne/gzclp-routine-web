@@ -86,7 +86,7 @@ export const trainReducer = (state: State, action: Action) => {
       }
       return {
         ...state,
-        workoutData: updateWeight(state.workoutData, 12.5, state.tier),
+        workoutData: updateWeight(state.workoutData, state.tier),
         tier: RotateTier(state.tier),
       };
     case "WORKOUT_ON_FAILURE":
@@ -95,7 +95,7 @@ export const trainReducer = (state: State, action: Action) => {
       }
       return {
         ...state,
-        workoutData: updateWeight(state.workoutData, 12.5, state.tier),
+        workoutData: updateWeight(state.workoutData, state.tier),
         tier: RotateTier(state.tier),
       };
     default:
@@ -103,16 +103,31 @@ export const trainReducer = (state: State, action: Action) => {
   }
 };
 
+// TODO: Update weight to be different for bench and ohp. and squat and deadlift.
 export const updateWeight = (
   data: WorkoutData,
-  newWeight: number,
   currentTier: TierType,
 ): WorkoutData => {
+  console.log("updating weight");
   return {
     ...data,
     [currentTier]: {
       ...data[currentTier],
-      weight: newWeight,
+      name: data[currentTier].name,
+      weight: weightIncrease(data[currentTier].name, data[currentTier].weight),
     },
   };
+};
+
+const weightIncrease = (name: string, weight: number): number => {
+  switch (name) {
+    case "squat":
+    case "deadlift":
+      return weight + 5;
+    case "ohp":
+    case "bench":
+      return weight + 2.5;
+    default:
+      return weight;
+  }
 };
