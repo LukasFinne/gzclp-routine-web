@@ -103,18 +103,16 @@ export const trainReducer = (state: State, action: Action) => {
   }
 };
 
-// TODO: Update weight to be different for bench and ohp. and squat and deadlift.
 export const updateWeight = (
   data: WorkoutData,
   currentTier: TierType,
 ): WorkoutData => {
-  console.log("updating weight");
   return {
     ...data,
     [currentTier]: {
       ...data[currentTier],
       name: data[currentTier].name,
-      weight: weightIncrease(data[currentTier].name, data[currentTier].weight),
+      weight: currentTier === "tier3" ? data[currentTier].weight : weightIncrease(data[currentTier].name, data[currentTier].weight),
     },
   };
 };

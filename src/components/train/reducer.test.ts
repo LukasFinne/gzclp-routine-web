@@ -132,6 +132,31 @@ describe("trainReducer", () => {
     const action: Action = { type: "WORKOUT_ON_SUCCESS" };
     const state: State = {
       workoutData: createWeightData(
+        { tier1: "ohp", tier2: "deadlift", tier3: "bench" },
+        { tier1: 10, tier2: 12.5, tier3: 12.5 },
+      ),
+      isError: false,
+      isLoading: false,
+      tier: "tier2",
+    };
+    const newState = trainReducer(state, action);
+
+    const expectedState = {
+      workoutData: createWeightData(
+        { tier1: "ohp", tier2: "deadlift", tier3: "bench" },
+        { tier1: 10, tier2: 17.5, tier3: 12.5 },
+      ),
+      isError: false,
+      isLoading: false,
+      tier: "tier3",
+    };
+    expect(newState).toStrictEqual(expectedState);
+  });
+
+  it("tier3 weight should not change after action", () => {
+    const action: Action = { type: "WORKOUT_ON_SUCCESS" };
+    const state: State = {
+      workoutData: createWeightData(
         { tier1: "ohp", tier2: "bench", tier3: "deadlift" },
         { tier1: 10, tier2: 12.5, tier3: 12.5 },
       ),
@@ -144,7 +169,7 @@ describe("trainReducer", () => {
     const expectedState = {
       workoutData: createWeightData(
         { tier1: "ohp", tier2: "bench", tier3: "deadlift" },
-        { tier1: 10, tier2: 12.5, tier3: 17.5 },
+        { tier1: 10, tier2: 12.5, tier3: 12.5 },
       ),
       isError: false,
       isLoading: false,
