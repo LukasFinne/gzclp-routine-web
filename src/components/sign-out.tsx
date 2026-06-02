@@ -15,7 +15,7 @@ export const SignOut = () => {
 
   return (
     <form action={signOutAction}>
-      <Button name="Sign out" type="submit" />
+      <Button name="Sign out" type="submit">Sign out</Button>
     </form>
   );
 };

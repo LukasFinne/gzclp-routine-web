@@ -1,5 +1,5 @@
 import type { TierType } from "../../lib/workout/tier";
-import type { WorkoutData } from "../../lib/workout/workout";
+import type { Name, WorkoutData } from "../../lib/workout/workout";
 
 export type Action =
   | {
@@ -23,40 +23,11 @@ const TierRotation: Record<TierType, TierType> = {
   tier1: "tier2",
   tier2: "tier3",
   tier3: "finished",
-  finished: "finished"
+  finished: "finished",
 };
 
 const RotateTier = (current: TierType) => {
   return TierRotation[current];
-};
-
-export const toTrainWorkout = (state: TierType, data: WorkoutData) => {
-  switch (state) {
-    case "tier1":
-      return {
-        name: data.tier1.name,
-        protocol: data.tier1.protocol,
-        weight: data.tier1.weight,
-      };
-    case "tier2":
-      return {
-        name: data.tier2.name,
-        protocol: data.tier2.protocol,
-        weight: data.tier2.weight,
-      };
-    case "tier3":
-      return {
-        name: data.tier3.name,
-        protocol: data.tier3.protocol,
-        weight: data.tier3.weight,
-      };
-    case "finished":
-      return {
-        name: "finished",
-        protocol: "",
-        weight: 12,
-    }
-  }
 };
 
 export interface State {
@@ -102,7 +73,6 @@ export const trainReducer = (state: State, action: Action) => {
       }
       return {
         ...state,
-        workoutData: updateWeight(state.workoutData, state.tier),
         tier: RotateTier(state.tier),
       };
     default:
@@ -114,32 +84,32 @@ export const updateWeight = (
   data: WorkoutData,
   currentTier: TierType,
 ): WorkoutData => {
-
   if (currentTier === "finished") {
     return data;
   }
-  
+
   return {
     ...data,
     [currentTier]: {
       ...data[currentTier],
-      name: data[currentTier].name,
-      weight: currentTier === "tier3" ? data[currentTier].weight : weightIncrease(data[currentTier].name, data[currentTier].weight),
+      name: `Workout Day`,
+      weight:
+        currentTier === "tier3"
+          ? data[currentTier].weight
+          : weightIncrease(data[currentTier].name, data[currentTier].weight),
     },
   };
 };
 
-const weightIncrease = (name: string, weight: number): number => {
+const weightIncrease = (name: Name, weight: number): number => {
   switch (name) {
-    case "squat":
-    case "deadlift":
+    case "Squat":
+    case "Deadlift":
       return weight + 5;
-    case "ohp":
-    case "bench":
+    case "OHP":
+    case "Bench":
       return weight + 2.5;
     default:
       return weight;
   }
 };
-
-

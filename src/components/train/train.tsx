@@ -1,12 +1,13 @@
 import { useEffect, useReducer } from "react";
-import { Button } from "../button";
 import type { User } from "firebase/auth";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import { useCurrentDay } from "../../lib/user/hook";
 import { trainReducer, type Action } from "./reducer";
 import type { WorkoutData } from "../../lib/workout/workout";
-import type { Tier, TierType } from "../../lib/workout/tier";
+import type { TierType } from "../../lib/workout/tier";
+import { Tier } from "./tier";
+import { Finished } from "./finish/finished";
 
 export const Train = ({ user }: { user: User }) => {
   const currentDay = useCurrentDay();
@@ -32,7 +33,11 @@ export const Train = ({ user }: { user: User }) => {
       const unsub = onSnapshot(
         docRef,
         (snapshot) => {
-          const data = snapshot.data() as WorkoutData;
+          const data = {
+            docId: snapshot.id,
+            ...snapshot.data()
+          } as WorkoutData
+          
           dispatchWorkouts({ type: "WORKOUT_FETCH_SUCCESS", payload: data });
         },
         (error) => {
@@ -80,46 +85,11 @@ interface GetTierProps {
 
 export const GetTier = ({ currentTier, data, onClick }: GetTierProps) => {
   const tiers = {
-    tier1: <TierComponent trainData={data.tier1} onClick={onClick} />,
-    tier2: <TierComponent trainData={data.tier2} onClick={onClick} />,
-    tier3: <TierComponent trainData={data.tier3} onClick={onClick} />,
-    finished: <p>Finished</p>,
+    tier1: <Tier data={data.tier1} onClick={onClick} />,
+    tier2: <Tier data={data.tier2} onClick={onClick} />,
+    tier3: <Tier data={data.tier3} onClick={onClick} />,
+    finished: <Finished data={data} />,
   };
 
   return tiers[currentTier];
-};
-
-const TierComponent = ({
-  trainData,
-  onClick,
-}: {
-  trainData: Tier;
-  onClick: (action: Action) => void;
-}) => {
-  return (
-    <div className="max-w-md">
-      <h1 className="text-5xl font-bold">{trainData.name}</h1>
-      <ul className="py-6">
-        <li>{trainData.name}</li>
-      </ul>
-      <div className="w-full space-x-4 ">
-        <Button
-          onClick={() => {
-            onClick({ type: "WORKOUT_ON_SUCCESS" });
-          }}
-          className="btn btn-secondary btn-xl sm:btn-md"
-        >
-          Failed
-        </Button>
-        <Button
-          onClick={() => {
-            onClick({ type: "WORKOUT_ON_FAILURE" });
-          }}
-          className="btn btn-primary btn-xl sm:btn-md"
-        >
-          Success
-        </Button>
-      </div>
-    </div>
-  );
 };
