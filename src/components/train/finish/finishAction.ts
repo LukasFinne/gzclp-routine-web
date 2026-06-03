@@ -1,5 +1,5 @@
 import { doc, writeBatch } from "firebase/firestore";
-import type { WorkoutData } from "../../../lib/workout/workout";
+import { updateWorkoutDay, type WorkoutData } from "../../../lib/workout/workout";
 import { db } from "../../../lib/firebase";
 import type { User } from "firebase/auth";
 
@@ -28,9 +28,16 @@ export const finishAction = async (
 
   try {
     console.log("initiaing...")
-    const docRef = doc(db, `users/${user.uid}/workouts/${data.docId}`)
+    const userDocRef = doc(db, `users/${user.uid}`)
+    const newWorkoutDay = {
+      currentWorkout: updateWorkoutDay(data.docId) 
+    }
+    const workoutDataRef = doc(db, `users/${user.uid}/workouts/${data.docId}`)
     const batch = writeBatch(db)
-    batch.set(docRef, data, {
+    batch.set(userDocRef, newWorkoutDay,{
+      merge:true
+    })
+    batch.set(workoutDataRef, data, {
       merge: true
     })
     await batch.commit()
