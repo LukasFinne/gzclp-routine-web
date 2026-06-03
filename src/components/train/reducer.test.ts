@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { trainReducer, type Action, type State } from "./reducer";
+import { trainReducer, updateProtocol, type Action, type State } from "./reducer";
 import type { Name, TierType } from "../../lib/workout/tier";
 import type { Stage } from "../../lib/workout/protocol";
 
@@ -281,6 +281,67 @@ describe("trainReducer", () => {
     expect(newState).toStrictEqual(expectedState);
   });
 });
+
+
+describe("upateProtocol", () => {
+  it("tier 1 stage 1 to 2", () => {
+    const workoutData = createWeightData(
+      { tier1: "Squat", tier2: "Bench", tier3: "Lat pulldown" },
+      { tier1: 20, tier2: 15, tier3: 10 },
+      { tier1: 1, tier2: 2, tier3: 1 },
+    )
+    
+    // Capture the NEW object returned by the function
+    const result = updateProtocol(workoutData, "tier1")
+    
+    const expectedData = createWeightData(
+      { tier1: "Squat", tier2: "Bench", tier3: "Lat pulldown" },
+      { tier1: 20, tier2: 15, tier3: 10 },
+      { tier1: 2, tier2: 2, tier3: 1 },
+    )
+    
+    // Assert against the result, not the original input
+    expect(result).toStrictEqual(expectedData)
+  })
+  it("tier 1 stage 2 to 3", () => {
+    const workoutData = createWeightData(
+      { tier1: "Squat", tier2: "Bench", tier3: "Lat pulldown" },
+      { tier1: 20, tier2: 15, tier3: 10 },
+      { tier1: 2, tier2: 2, tier3: 1 },
+    )
+    
+    // Capture the NEW object returned by the function
+    const result = updateProtocol(workoutData, "tier1")
+    
+    const expectedData = createWeightData(
+      { tier1: "Squat", tier2: "Bench", tier3: "Lat pulldown" },
+      { tier1: 20, tier2: 15, tier3: 10 },
+      { tier1: 3, tier2: 2, tier3: 1 },
+    )
+    
+    // Assert against the result, not the original input
+    expect(result).toStrictEqual(expectedData)
+  })
+  it("tier 1 stage 3 to 1", () => {
+    const workoutData = createWeightData(
+      { tier1: "Squat", tier2: "Bench", tier3: "Lat pulldown" },
+      { tier1: 20, tier2: 15, tier3: 10 },
+      { tier1: 2, tier2: 2, tier3: 1 },
+    )
+    
+    // Capture the NEW object returned by the function
+    const result = updateProtocol(workoutData, "tier1")
+    
+    const expectedData = createWeightData(
+      { tier1: "Squat", tier2: "Bench", tier3: "Lat pulldown" },
+      { tier1: 20, tier2: 15, tier3: 10 },
+      { tier1: 3, tier2: 2, tier3: 1 },
+    )
+    
+    // Assert against the result, not the original input
+    expect(result).toStrictEqual(expectedData)
+  })
+})
 
 const createWeightData = (
   names: Partial<Record<TierType, string>> & { root?: string },
