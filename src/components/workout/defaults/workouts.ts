@@ -1,5 +1,4 @@
 import type { WorkoutData } from "../../../lib/workout/workout";
-import { first_protocol } from "../protocols/protocol_keys";
 import { t1_protocols } from "../protocols/tierOne";
 import { t3_protocol } from "../protocols/tierThree";
 import { t2_protocols } from "../protocols/tierTwo";

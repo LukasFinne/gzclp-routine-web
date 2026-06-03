@@ -1,5 +1,4 @@
 import type { protocol } from "./protocol";
-import type { Name } from "./workout";
 
 export interface Tier {
   name: Name;

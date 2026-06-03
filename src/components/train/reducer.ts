@@ -1,5 +1,6 @@
-import type { TierType } from "../../lib/workout/tier";
-import type { Name, WorkoutData } from "../../lib/workout/workout";
+import { ProtocolsByTier } from "../../lib/workout/protocol";
+import type { Name, TierType } from "../../lib/workout/tier";
+import type { WorkoutData } from "../../lib/workout/workout";
 
 export type Action =
   | {
@@ -73,6 +74,7 @@ export const trainReducer = (state: State, action: Action) => {
       }
       return {
         ...state,
+        workoutData: updateProtocol(state.workoutData, state.tier),
         tier: RotateTier(state.tier),
       };
     default:
@@ -92,7 +94,7 @@ export const updateWeight = (
     ...data,
     [currentTier]: {
       ...data[currentTier],
-      name: `Workout Day`,
+      name: `${data[currentTier].name} Day`,
       weight:
         currentTier === "tier3"
           ? data[currentTier].weight
@@ -113,3 +115,22 @@ const weightIncrease = (name: Name, weight: number): number => {
       return weight;
   }
 };
+
+export const updateProtocol = (
+  data: WorkoutData,
+  currentTier: TierType
+): WorkoutData => {
+
+  if (currentTier === "finished") {
+    return data;
+  }
+
+  const newProtocol = ProtocolsByTier(currentTier)
+  return {
+    ...data,
+    [currentTier]: {
+      ...data[currentTier],
+      protocol: newProtocol.get(data[currentTier].protocol.stage)
+    },
+  };
+}

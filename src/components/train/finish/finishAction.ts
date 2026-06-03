@@ -1,7 +1,6 @@
 import { doc, writeBatch } from "firebase/firestore";
 import type { WorkoutData } from "../../../lib/workout/workout";
 import { db } from "../../../lib/firebase";
-import { useUser } from "../../../lib/hooks";
 import type { User } from "firebase/auth";
 
 export interface WorkoutState {

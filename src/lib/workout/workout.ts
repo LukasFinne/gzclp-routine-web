@@ -1,9 +1,9 @@
-import type { Tier } from "./tier";
+import type { Name, Tier } from "./tier";
 
 
 export interface WorkoutData {
   docId: string;
-  name: string;
+  name: Name;
   tier1: Tier;
   tier2: Tier;
   tier3: Tier;
