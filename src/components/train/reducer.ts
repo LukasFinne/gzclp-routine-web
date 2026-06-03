@@ -2,6 +2,8 @@ import { ProtocolsByTier } from "../../lib/workout/protocol";
 import type { Name, TierType } from "../../lib/workout/tier";
 import type { WorkoutData } from "../../lib/workout/workout";
 
+const EIGHTY_FIVE_PERCENT = 0.85
+
 export type Action =
   | {
       type: "WORKOUT_FETCH_INIT";
@@ -130,6 +132,7 @@ export const updateProtocol = (
     ...data,
     [currentTier]: {
       ...data[currentTier],
+      weight: data[currentTier].protocol.stage === 3 ? data[currentTier].weight * EIGHTY_FIVE_PERCENT : data[currentTier].weight,
       protocol: newProtocol.get(data[currentTier].protocol.stage)
     },
   };

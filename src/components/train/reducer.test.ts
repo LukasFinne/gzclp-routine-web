@@ -322,11 +322,11 @@ describe("upateProtocol", () => {
     // Assert against the result, not the original input
     expect(result).toStrictEqual(expectedData)
   })
-  it("tier 1 stage 3 to 1", () => {
+  it("tier 1 stage 3 to 1 and weight should decrease by 85 percent", () => {
     const workoutData = createWeightData(
       { tier1: "Squat", tier2: "Bench", tier3: "Lat pulldown" },
-      { tier1: 20, tier2: 15, tier3: 10 },
-      { tier1: 2, tier2: 2, tier3: 1 },
+      { tier1: 100, tier2: 15, tier3: 10 },
+      { tier1: 3, tier2: 2, tier3: 1 },
     )
     
     // Capture the NEW object returned by the function
@@ -334,8 +334,8 @@ describe("upateProtocol", () => {
     
     const expectedData = createWeightData(
       { tier1: "Squat", tier2: "Bench", tier3: "Lat pulldown" },
-      { tier1: 20, tier2: 15, tier3: 10 },
-      { tier1: 3, tier2: 2, tier3: 1 },
+      { tier1: 85, tier2: 15, tier3: 10 },
+      { tier1: 1, tier2: 2, tier3: 1 },
     )
     
     // Assert against the result, not the original input
