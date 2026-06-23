@@ -21,8 +21,14 @@ export const Train = ({ user }: { user: User }) => {
 
   const handleOnClick = (action: Action) => {
     dispatchWorkouts(action);
-    if (action.type == "WORKOUT_ON_FAILURE_FINISH" || action.type =="WORKOUT_ON_SUCCESS_FINISH") {
-      nav({ to: "/finish" }).catch(() => {
+    if (action.type === "WORKOUT_ON_FAILURE_FINISH" || action.type === "WORKOUT_ON_SUCCESS_FINISH") {
+      nav({
+        to: "/finish",
+        state: (prev) => ({
+          ...prev,
+          workouts: workouts.workoutData,
+        }),
+      }).catch(() => {
         console.log("failed to navigate");
       });
     }
