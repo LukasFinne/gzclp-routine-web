@@ -31,8 +31,7 @@ export type Action =
 const TierRotation: Record<TierType, TierType> = {
   tier1: "tier2",
   tier2: "tier3",
-  tier3: "finished",
-  finished: "finished",
+  tier3: "tier1",
 };
 
 const RotateTier = (current: TierType) => {
@@ -110,10 +109,6 @@ export const updateWeight = (
   data: WorkoutData,
   currentTier: TierType,
 ): WorkoutData => {
-  if (currentTier === "finished") {
-    return data;
-  }
-
   return {
     ...data,
     [currentTier]: {
@@ -144,10 +139,6 @@ export const updateProtocol = (
   data: WorkoutData,
   currentTier: TierType,
 ): WorkoutData => {
-  if (currentTier === "finished") {
-    return data;
-  }
-
   const newProtocol = ProtocolsByTier(currentTier);
   return {
     ...data,

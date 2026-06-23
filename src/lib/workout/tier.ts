@@ -13,4 +13,4 @@ export type Name =
   | "Deadlift"
   | "Dumbell row";
 
-export type TierType = "tier1" | "tier2" | "tier3" | "finished";
+export type TierType = "tier1" | "tier2" | "tier3";

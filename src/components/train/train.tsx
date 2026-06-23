@@ -7,7 +7,6 @@ import { trainReducer, type Action } from "./reducer";
 import type { WorkoutData } from "../../lib/workout/workout";
 import type { TierType } from "../../lib/workout/tier";
 import { Tier } from "./tier";
-import { Finished } from "./finish/finished";
 import { useNavigate } from "@tanstack/react-router";
 
 export const Train = ({ user }: { user: User }) => {
@@ -102,7 +101,6 @@ export const GetTier = ({ currentTier, data, onClick }: GetTierProps) => {
         onClick={onClick}
       />
     ),
-    finished: <Finished data={data} />,
   };
 
   return tiers[currentTier];
