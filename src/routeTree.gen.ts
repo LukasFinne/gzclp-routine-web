@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TrainIndexRouteImport } from './routes/train/index'
+import { Route as FinishIndexRouteImport } from './routes/finish/index'
 import { Route as AboutIndexRouteImport } from './routes/about/index'
 
 const IndexRoute = IndexRouteImport.update({
@@ -23,6 +24,11 @@ const TrainIndexRoute = TrainIndexRouteImport.update({
   path: '/train/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FinishIndexRoute = FinishIndexRouteImport.update({
+  id: '/finish/',
+  path: '/finish/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutIndexRoute = AboutIndexRouteImport.update({
   id: '/about/',
   path: '/about/',
@@ -32,30 +38,34 @@ const AboutIndexRoute = AboutIndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about/': typeof AboutIndexRoute
+  '/finish/': typeof FinishIndexRoute
   '/train/': typeof TrainIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutIndexRoute
+  '/finish': typeof FinishIndexRoute
   '/train': typeof TrainIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about/': typeof AboutIndexRoute
+  '/finish/': typeof FinishIndexRoute
   '/train/': typeof TrainIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about/' | '/train/'
+  fullPaths: '/' | '/about/' | '/finish/' | '/train/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/train'
-  id: '__root__' | '/' | '/about/' | '/train/'
+  to: '/' | '/about' | '/finish' | '/train'
+  id: '__root__' | '/' | '/about/' | '/finish/' | '/train/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutIndexRoute: typeof AboutIndexRoute
+  FinishIndexRoute: typeof FinishIndexRoute
   TrainIndexRoute: typeof TrainIndexRoute
 }
 
@@ -75,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TrainIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/finish/': {
+      id: '/finish/'
+      path: '/finish'
+      fullPath: '/finish/'
+      preLoaderRoute: typeof FinishIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about/': {
       id: '/about/'
       path: '/about'
@@ -88,6 +105,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutIndexRoute: AboutIndexRoute,
+  FinishIndexRoute: FinishIndexRoute,
   TrainIndexRoute: TrainIndexRoute,
 }
 export const routeTree = rootRouteImport
