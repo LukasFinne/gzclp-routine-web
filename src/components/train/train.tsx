@@ -8,9 +8,11 @@ import type { WorkoutData } from "../../lib/workout/workout";
 import type { TierType } from "../../lib/workout/tier";
 import { Tier } from "./tier";
 import { Finished } from "./finish/finished";
+import { useNavigate } from "@tanstack/react-router";
 
 export const Train = ({ user }: { user: User }) => {
   const currentDay = useCurrentDay();
+  const nav = useNavigate();
   const [workouts, dispatchWorkouts] = useReducer(trainReducer, {
     workoutData: null,
     tier: "tier1",
@@ -20,6 +22,11 @@ export const Train = ({ user }: { user: User }) => {
 
   const handleOnClick = (action: Action) => {
     dispatchWorkouts(action);
+    if (action.type == "WORKOUT_ON_FAILURE_FINISH" || action.type =="WORKOUT_ON_SUCCESS_FINISH") {
+      nav({ to: "/finish" }).catch(() => {
+        console.log("failed to navigate");
+      });
+    }
   };
 
   useEffect(() => {
@@ -35,9 +42,9 @@ export const Train = ({ user }: { user: User }) => {
         (snapshot) => {
           const data = {
             docId: snapshot.id,
-            ...snapshot.data()
-          } as WorkoutData
-          
+            ...snapshot.data(),
+          } as WorkoutData;
+
           dispatchWorkouts({ type: "WORKOUT_FETCH_SUCCESS", payload: data });
         },
         (error) => {
@@ -84,10 +91,17 @@ interface GetTierProps {
 }
 
 export const GetTier = ({ currentTier, data, onClick }: GetTierProps) => {
+  //When Tier3 components. Have onfinish action on both failure and success that updates the final data and uploads it and then navigates to finish screen?
   const tiers = {
-    tier1: <Tier data={data.tier1} onClick={onClick} />,
-    tier2: <Tier data={data.tier2} onClick={onClick} />,
-    tier3: <Tier data={data.tier3} onClick={onClick} />,
+    tier1: <Tier data={data.tier1} onFail={{type:"WORKOUT_ON_FAILURE"}} onSuccess={{type: "WORKOUT_ON_SUCCESS"}} onClick={onClick} />,
+    tier2: <Tier data={data.tier2} onFail={{type:"WORKOUT_ON_FAILURE"}} onSuccess={{type: "WORKOUT_ON_SUCCESS"}} onClick={onClick} />,
+    tier3: (
+      <Tier
+        data={data.tier3}
+        onFail={{type:"WORKOUT_ON_FAILURE_FINISH"}} onSuccess={{type: "WORKOUT_ON_SUCCESS_FINISH"}}
+        onClick={onClick}
+      />
+    ),
     finished: <Finished data={data} />,
   };
 

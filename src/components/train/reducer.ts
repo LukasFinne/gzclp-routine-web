@@ -2,7 +2,7 @@ import { ProtocolsByTier } from "../../lib/workout/protocol";
 import type { Name, TierType } from "../../lib/workout/tier";
 import type { WorkoutData } from "../../lib/workout/workout";
 
-const EIGHTY_FIVE_PERCENT = 0.85
+const EIGHTY_FIVE_PERCENT = 0.85;
 
 export type Action =
   | {
@@ -20,6 +20,12 @@ export type Action =
     }
   | {
       type: "WORKOUT_ON_FAILURE";
+    }
+  | {
+      type: "WORKOUT_ON_FAILURE_FINISH";
+    }
+  | {
+      type: "WORKOUT_ON_SUCCESS_FINISH";
     };
 
 const TierRotation: Record<TierType, TierType> = {
@@ -79,6 +85,22 @@ export const trainReducer = (state: State, action: Action) => {
         workoutData: updateProtocol(state.workoutData, state.tier),
         tier: RotateTier(state.tier),
       };
+    case "WORKOUT_ON_FAILURE_FINISH":
+      if (state.workoutData === null) {
+        throw new Error("workdata is null");
+      }
+      return {
+        ...state,
+        workoutData: updateProtocol(state.workoutData, state.tier),
+      };
+    case "WORKOUT_ON_SUCCESS_FINISH":
+      if (state.workoutData === null) {
+        throw new Error("workdata is null");
+      }
+      return {
+        ...state,
+        workoutData: updateWeight(state.workoutData, state.tier),
+      };
     default:
       throw new Error();
   }
@@ -120,20 +142,22 @@ const weightIncrease = (name: Name, weight: number): number => {
 
 export const updateProtocol = (
   data: WorkoutData,
-  currentTier: TierType
+  currentTier: TierType,
 ): WorkoutData => {
-
   if (currentTier === "finished") {
     return data;
   }
 
-  const newProtocol = ProtocolsByTier(currentTier)
+  const newProtocol = ProtocolsByTier(currentTier);
   return {
     ...data,
     [currentTier]: {
       ...data[currentTier],
-      weight: data[currentTier].protocol.stage === 3 ? data[currentTier].weight * EIGHTY_FIVE_PERCENT : data[currentTier].weight,
-      protocol: newProtocol.get(data[currentTier].protocol.stage)
+      weight:
+        data[currentTier].protocol.stage === 3
+          ? data[currentTier].weight * EIGHTY_FIVE_PERCENT
+          : data[currentTier].weight,
+      protocol: newProtocol.get(data[currentTier].protocol.stage),
     },
   };
-}
+};
