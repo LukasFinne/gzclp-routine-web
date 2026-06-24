@@ -18,7 +18,7 @@ export interface finishData {
 
 export const finishAction = async (
   finishData: finishData,
-  prevState: WorkoutState | null,
+  _prevState: WorkoutState | null,
 ): Promise<WorkoutState> => {
   const { user, data } = finishData;
   if (!user) {
@@ -27,7 +27,6 @@ export const finishAction = async (
       message: "UnAuthorized",
     };
   }
-  console.log("Submitting this data:", data);
 
   try {
     console.log("initiaing...");
