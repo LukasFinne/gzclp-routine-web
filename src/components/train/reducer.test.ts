@@ -365,11 +365,8 @@ const createWeightData = (
       if (stage === 2) return { reps: 8, set: 3, stage: 2 as Stage };
       return { reps: 6, set: 3, stage: 3 as Stage };
     }
-    if (tier === "tier3") {
-      return { reps: 15, set: 3, stage: 1 as Stage };
-    }
-    // Default for finished or unknown
-    return { reps: 0, set: 0, stage: 1 as Stage };
+    // Default for tier3
+    return { reps: 15, set: 3, stage: 1 as Stage };
   };
 
   return {

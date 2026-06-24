@@ -3,6 +3,8 @@ import type { Name, TierType } from "../../lib/workout/tier";
 import type { WorkoutData } from "../../lib/workout/workout";
 
 const EIGHTY_FIVE_PERCENT = 0.85;
+const TWO_POINT_5_KILO = 2.5;
+const FIVE_KILO = 5;
 
 export type Action =
   | {
@@ -126,10 +128,10 @@ const weightIncrease = (name: Name, weight: number): number => {
   switch (name) {
     case "Squat":
     case "Deadlift":
-      return weight + 5;
+      return weight + FIVE_KILO;
     case "OHP":
     case "Bench":
-      return weight + 2.5;
+      return weight + TWO_POINT_5_KILO;
     default:
       return weight;
   }
