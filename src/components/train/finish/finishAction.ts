@@ -1,11 +1,14 @@
 import { doc, writeBatch } from "firebase/firestore";
-import { updateWorkoutDay, type WorkoutData } from "../../../lib/workout/workout";
+import {
+  updateWorkoutDay,
+  type WorkoutData,
+} from "../../../lib/workout/workout";
 import { db } from "../../../lib/firebase";
 import type { User } from "firebase/auth";
 
 export interface WorkoutState {
   isSuccess: boolean;
-  message?: string; 
+  message?: string;
 }
 
 export interface finishData {
@@ -15,41 +18,41 @@ export interface finishData {
 
 export const finishAction = async (
   finishData: finishData,
-  prevState: WorkoutState,
+  prevState: WorkoutState | null,
 ): Promise<WorkoutState> => {
-  const {user, data } = finishData
+  const { user, data } = finishData;
   if (!user) {
     return {
       isSuccess: false,
-      message: "UnAuthorized"
-    }
+      message: "UnAuthorized",
+    };
   }
   console.log("Submitting this data:", data);
 
   try {
-    console.log("initiaing...")
-    const userDocRef = doc(db, `users/${user.uid}`)
+    console.log("initiaing...");
+    const userDocRef = doc(db, `users/${user.uid}`);
     const newWorkoutDay = {
-      currentWorkout: updateWorkoutDay(data.docId) 
-    }
-    const workoutDataRef = doc(db, `users/${user.uid}/workouts/${data.docId}`)
-    const batch = writeBatch(db)
-    batch.set(userDocRef, newWorkoutDay,{
-      merge:true
-    })
+      currentWorkout: updateWorkoutDay(data.docId),
+    };
+    const workoutDataRef = doc(db, `users/${user.uid}/workouts/${data.docId}`);
+    const batch = writeBatch(db);
+    batch.set(userDocRef, newWorkoutDay, {
+      merge: true,
+    });
     batch.set(workoutDataRef, data, {
-      merge: true
-    })
-    await batch.commit()
-    console.log("finished")
+      merge: true,
+    });
+    await batch.commit();
+    console.log("finished");
     return {
       isSuccess: true,
-    }
-  } catch(error) {
-    console.log(error)
+    };
+  } catch (error) {
+    console.log(error);
     return {
       message: "Failed to update workout",
       isSuccess: false,
-    }
+    };
   }
 };
