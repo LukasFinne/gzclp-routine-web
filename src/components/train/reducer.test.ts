@@ -2,13 +2,14 @@ import { describe, expect, it } from "vitest";
 import { trainReducer, updateProtocol, type Action, type State } from "./reducer";
 import type { Name, TierType } from "../../lib/workout/tier";
 import type { Stage } from "../../lib/workout/protocol";
+import type { DocumentId } from "../../lib/workout/workout";
 
 describe("trainReducer", () => {
   it("rotate tier1 to tier2", () => {
     const action: Action = { type: "WORKOUT_ON_SUCCESS" };
     const state: State = {
       workoutData: createWeightData(
-        { tier1: "Squat", tier2: "Squat", tier3: "Squat", finished: "Squat" },
+        { tier1: "Squat", tier2: "Squat", tier3: "Squat" },
         { tier1: 10, tier2: 10, tier3: 10 },
       ),
       isError: false,
@@ -24,7 +25,6 @@ describe("trainReducer", () => {
           tier1: "Squat Day",
           tier2: "Squat",
           tier3: "Squat",
-          finished: "Squat",
         },
         { tier1: 15, tier2: 10, tier3: 10 },
       ),
@@ -39,7 +39,7 @@ describe("trainReducer", () => {
     const action: Action = { type: "WORKOUT_ON_SUCCESS" };
     const state: State = {
       workoutData: createWeightData(
-        { tier1: "Squat", tier2: "Squat", tier3: "Squat", finished: "Squat" },
+        { tier1: "Squat", tier2: "Squat", tier3: "Squat" },
         { tier1: 10, tier2: 10, tier3: 10 },
       ),
       isError: false,
@@ -54,7 +54,6 @@ describe("trainReducer", () => {
           tier1: "Squat",
           tier2: "Squat Day",
           tier3: "Squat",
-          finished: "Squat",
         },
         { tier1: 10, tier2: 15, tier3: 10 },
       ),
@@ -73,7 +72,6 @@ describe("trainReducer", () => {
           tier1: "Squat",
           tier2: "Bench",
           tier3: "Lat pulldown",
-          finished: "Squat",
         },
         { tier1: 10, tier2: 10, tier3: 10 },
       ),
@@ -90,7 +88,6 @@ describe("trainReducer", () => {
           tier1: "Squat Day",
           tier2: "Bench",
           tier3: "Lat pulldown",
-          finished: "Squat",
         },
         { tier1: 15, tier2: 10, tier3: 10 },
       ),
@@ -109,7 +106,6 @@ describe("trainReducer", () => {
           tier1: "Squat",
           tier2: "Bench",
           tier3: "Squat",
-          finished: "Squat",
         },
         { tier1: 10, tier2: 10, tier3: 10 },
       ),
@@ -125,7 +121,6 @@ describe("trainReducer", () => {
           tier1: "Squat",
           tier2: "Bench Day",
           tier3: "Squat",
-          finished: "Squat",
         },
         { tier1: 10, tier2: 12.5, tier3: 10 },
       ),
@@ -140,7 +135,7 @@ describe("trainReducer", () => {
     const action: Action = { type: "WORKOUT_ON_SUCCESS" };
     const state: State = {
       workoutData: createWeightData(
-        { tier1: "OHP", tier2: "Bench", tier3: "Squat", finished: "OHP" },
+        { tier1: "OHP", tier2: "Bench", tier3: "Squat"},
         { tier1: 10, tier2: 12.5, tier3: 10 },
       ),
       isError: false,
@@ -156,7 +151,6 @@ describe("trainReducer", () => {
           tier1: "OHP Day",
           tier2: "Bench",
           tier3: "Squat",
-          finished: "OHP",
         },
         { tier1: 12.5, tier2: 12.5, tier3: 10 },
       ),
@@ -171,7 +165,7 @@ describe("trainReducer", () => {
     const action: Action = { type: "WORKOUT_ON_SUCCESS" };
     const state: State = {
       workoutData: createWeightData(
-        { tier1: "OHP", tier2: "Deadlift", tier3: "Bench", finished: "OHP" },
+        { tier1: "OHP", tier2: "Deadlift", tier3: "Bench" },
         { tier1: 10, tier2: 12.5, tier3: 12.5 },
       ),
       isError: false,
@@ -186,7 +180,6 @@ describe("trainReducer", () => {
           tier1: "OHP",
           tier2: "Deadlift Day",
           tier3: "Bench",
-          finished: "OHP",
         },
         { tier1: 10, tier2: 17.5, tier3: 12.5 },
       ),
@@ -201,7 +194,7 @@ describe("trainReducer", () => {
     const action: Action = { type: "WORKOUT_ON_SUCCESS" };
     const state: State = {
       workoutData: createWeightData(
-        { tier1: "OHP", tier2: "Bench", tier3: "Deadlift", finished: "OHP" },
+        { tier1: "OHP", tier2: "Bench", tier3: "Deadlift" },
         { tier1: 10, tier2: 12.5, tier3: 12.5 },
       ),
       isError: false,
@@ -216,13 +209,12 @@ describe("trainReducer", () => {
           tier1: "OHP",
           tier2: "Bench",
           tier3: "Deadlift Day",
-          finished: "OHP",
         },
         { tier1: 10, tier2: 12.5, tier3: 12.5 },
       ),
       isError: false,
       isLoading: false,
-      tier: "finished",
+      tier: "tier1",
     };
     expect(newState).toStrictEqual(expectedState);
   });
@@ -350,7 +342,6 @@ const createWeightData = (
     tier1: 1,
     tier2: 1,
     tier3: 1,
-    finished: 1,
   },
 ) => {
   if (weights.tier1 === undefined) {
@@ -382,7 +373,7 @@ const createWeightData = (
   };
 
   return {
-    docId: "",
+    docId: "A1" as DocumentId,
     name: (names.root ?? names.tier1) as Name,
     tier1: {
       name: names.tier1 as Name,
