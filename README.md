@@ -48,6 +48,11 @@ Ensure you have the following installed:
     ```bash
     pnpm install
     ```
+3. Configure environment variables:
+    ```bash
+    cp .env.example .env
+    ```
+    Open the newly created `.env` file and insert your Firebase credentials.
 
 ### Running the App
 Start the Vite development server locally:
