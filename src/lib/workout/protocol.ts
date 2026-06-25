@@ -3,7 +3,7 @@ import { t3_protocols } from "../../components/workout/protocols/tierThree";
 import { t2_protocols } from "../../components/workout/protocols/tierTwo";
 import type { TierType } from "./tier";
 
-export interface protocol {
+export interface Protocol {
   reps: number;
   set: number;
   stage: Stage;

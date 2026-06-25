@@ -42,6 +42,7 @@ const RotateTier = (current: TierType) => {
 
 export interface State {
   workoutData: WorkoutData | null;
+  initialState: WorkoutData | null;
   tier: TierType;
   isLoading: boolean;
   isError: boolean;
@@ -59,6 +60,7 @@ export const trainReducer = (state: State, action: Action) => {
       return {
         ...state,
         workoutData: action.payload,
+        initialState: action.payload,
         isLoading: false,
         isError: false,
       };

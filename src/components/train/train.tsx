@@ -14,6 +14,7 @@ export const Train = ({ user }: { user: User }) => {
   const nav = useNavigate();
   const [workouts, dispatchWorkouts] = useReducer(trainReducer, {
     workoutData: null,
+    initialState: null,
     tier: "tier1",
     isLoading: false,
     isError: false,
@@ -26,7 +27,8 @@ export const Train = ({ user }: { user: User }) => {
         to: "/finish",
         state: (prev) => ({
           ...prev,
-          workouts: workouts.workoutData,
+          workout: workouts.workoutData,
+          initialWorkout: workouts.initialState
         }),
       }).catch(() => {
         console.log("failed to navigate");

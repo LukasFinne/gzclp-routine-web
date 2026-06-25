@@ -5,7 +5,8 @@ import { NotWorkoutData } from "../../components/train/finish/error";
 
 declare module "@tanstack/react-router" {
   interface HistoryState {
-    workouts: WorkoutData | null;
+    workout: WorkoutData | null;
+    initialWorkout: WorkoutData | null;
   }
 }
 
@@ -25,11 +26,13 @@ function RouteComponent() {
     return <p>Error</p>;
   }
   const location = useLocation();
-  const workout = location.state.workouts;
+  const {workout, initialWorkout} = location.state
 
-  if (!workout) {
+  if (!workout || !initialWorkout) {
     return <NotWorkoutData />;
   }
 
-  return <Finished workout={workout} />;
+  // Finished components slot pattern, summary, greeting slot
+  // Summary component. upload and progression slots.
+  return <Finished workout={workout} initialWorkout={initialWorkout} />;
 }

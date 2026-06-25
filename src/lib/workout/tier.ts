@@ -1,8 +1,8 @@
-import type { protocol } from "./protocol";
+import type { Protocol } from "./protocol";
 
 export interface Tier {
   name: Name;
-  protocol: protocol;
+  protocol: Protocol;
   weight: number;
 }
 export type Name =
