@@ -1,73 +1,63 @@
-# React + TypeScript + Vite
+*Partially written with gemini*
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+*Work in progress*
 
-Currently, two official plugins are available:
+# GZCLP Workout Tracker
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+A website for tracking the **GZCLP Linear Progression** strength training program. I built this for personal usage to help me track my progression.                
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🚀 Key Features
 
-## Expanding the ESLint configuration
+*   **GZCLP Progression**: Automated state machine managing weight increases on success (+5kg for Squat/Deadlift, +2.5kg for Bench/OHP) and program adjustments (reps/sets stages) on failure, down to the 85% reset stage.
+*   **Real-Time Data Syncing**: Direct integration with Firebase Cloud Firestore using active snapshot listeners to ensure cross-device consistency and instantaneous UI updates.
+*   **Type-Safe Routing**: Powered by TanStack Router for route protection (auth gates), type-safe navigation, and robust loader states.
+*   **Modern Responsive UI**: Crafted with React 19, Tailwind CSS v4, and DaisyUI v5, featuring an engaging, mobile-first design optimized for gym environments.
+*   **Test-Driven Design**: Core workouts, workout schedules, and state progression logic are fully covered with unit tests using Vitest.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🛠️ Technology Stack
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+*   **Frontend**: [React 19](https://react.dev/) & [TypeScript 6](https://www.typescriptlang.org/)
+*   **Build Tool**: [Vite 8](https://vitejs.dev/)
+*   **Routing**: [TanStack React Router](https://tanstack.com/router/latest)
+*   **Styling**: [Tailwind CSS v4](https://tailwindcss.com/) & [DaisyUI v5](https://daisyui.com/)
+*   **Backend & Database**: [Firebase](https://firebase.google.com/) (Authentication & Firestore)
+*   **Validation**: [Zod](https://zod.dev/)
+*   **Testing**: [Vitest](https://vitest.dev/)
+*   **Package Manager**: [pnpm](https://pnpm.io/)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+## ⚙️ Development Setup
+
+### Prerequisites
+Ensure you have the following installed:
+*   [Node.js](https://nodejs.org/) (v18+)
+*   [pnpm](https://pnpm.io/)
+
+### Installation
+1. Clone the repository:
+    ```bash
+    git clone <repository-url>
+    cd gzclp-project
+    ```
+2. Install dependencies:
+    ```bash
+    pnpm install
+    ```
+
+### Running the App
+Start the Vite development server locally:
+```bash
+pnpm dev
 ```
+By default, the application will run at `http://localhost:5173`.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Running Tests
+Execute the Vitest test suite to verify progression engine logic:
+```bash
+pnpm test
 ```
