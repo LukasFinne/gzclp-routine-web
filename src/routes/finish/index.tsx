@@ -1,7 +1,16 @@
-import { createFileRoute, redirect, useLocation, useRouteContext } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  redirect,
+  useLocation,
+  useRouteContext,
+} from "@tanstack/react-router";
 import type { WorkoutData } from "../../lib/workout/workout";
 import { Finished } from "../../components/train/finish/finished";
 import { NotWorkoutData } from "../../components/train/finish/error";
+import { Greeting } from "../../components/train/finish/components/greeting";
+import { Summary } from "../../components/train/finish/components/summary";
+import { Progression } from "../../components/train/finish/components/progression/progression";
+import { UploadButton } from "../../components/train/finish/components/uploadButton";
 
 declare module "@tanstack/react-router" {
   interface HistoryState {
@@ -26,13 +35,19 @@ function RouteComponent() {
     return <p>Error</p>;
   }
   const location = useLocation();
-  const {workout, initialWorkout} = location.state
+  const { workout, initialWorkout } = location.state;
 
   if (!workout || !initialWorkout) {
     return <NotWorkoutData />;
   }
 
-  // Finished components slot pattern, summary, greeting slot
-  // Summary component. upload and progression slots.
-  return <Finished workout={workout} initialWorkout={initialWorkout} />;
+  return (
+    <Finished>
+      <Greeting />
+      <Summary>
+        <Progression workout={workout} initialWorkout={initialWorkout} />
+        <UploadButton workout={workout} />
+      </Summary>
+    </Finished>
+  );
 }
