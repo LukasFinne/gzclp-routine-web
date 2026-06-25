@@ -3,9 +3,15 @@ interface WeightProps {
   initialWeight: number;
 }
 export const Weight = ({ weight, initialWeight }: WeightProps) => {
+  const roundedWeight = Math.round(weight)
+  const roundedInitialWeight = Math.round(initialWeight)
   if (initialWeight === weight) {
-    return <td>{weight} kg</td>
+    return <td>{roundedWeight} kg</td>;
   } else {
-    return <td className="font-medium text-green-500">{initialWeight} &gt; {weight} kg</td>;
+    return (
+      <td className="font-medium text-green-500">
+        {roundedInitialWeight} &gt; {roundedWeight} kg
+      </td>
+    );
   }
 };
