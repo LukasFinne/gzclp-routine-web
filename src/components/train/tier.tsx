@@ -10,12 +10,22 @@ interface TierProps {
 }
 
 export const Tier = ({ data, onFail, onSuccess, onClick }: TierProps) => {
+  const roundedWeight = Math.round(data.weight);
   return (
-    <div className="max-w-md">
+    <div className="max-w-md space-y-4">
       <h1 className="text-5xl font-bold">{data.name}</h1>
-      <ul className="py-6">
-        <li>{data.name}</li>
-      </ul>
+      <div className="flex justify-center space-x-8">
+        <div>
+          <h2>Weight</h2>
+          <p className="font-bold">{roundedWeight} kg</p>
+        </div>
+        <div>
+          <h2>Set x Rep</h2>
+          <p className="font-bold">
+            {data.protocol.set} x {data.protocol.reps}
+          </p>
+        </div>
+      </div>
       <div className="w-full space-x-4 ">
         <Button
           onClick={() => {
