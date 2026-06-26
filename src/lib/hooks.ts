@@ -1,7 +1,11 @@
 import { onAuthStateChanged, type User } from "firebase/auth";
 import { useEffect, useState } from "react";
-import { auth } from "./firebase";
+import { auth, db } from "./firebase";
 import { useRouter } from "@tanstack/react-router";
+import { doc, onSnapshot } from "firebase/firestore";
+import type { WorkoutData } from "./workout/workout";
+
+
 export const useUser = () => {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
@@ -21,4 +25,34 @@ export const useUser = () => {
   }, []);
 
   return user;
+};
+
+export const useWorkoutCollection = (user: User, docId: string) => {
+  const [workout, setWorkout] = useState<WorkoutData | null>(null);
+
+  useEffect(() => {
+    try {
+      const docRef = doc(db, `users/${user.uid}/workouts/${docId}`);
+      const unsub = onSnapshot(
+        docRef,
+        (snapshot) => {
+          const data = {
+            docId: snapshot.id,
+            ...snapshot.data(),
+          } as WorkoutData;
+          setWorkout(data);
+        },
+        (error) => {
+          throw error;
+        },
+      );
+      return () => {
+        unsub();
+      };
+    } catch (error: unknown) {
+      console.log(error);
+      setWorkout(null);
+    }
+  }, [user, docId]);
+  return workout;
 };

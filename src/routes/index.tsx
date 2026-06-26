@@ -12,7 +12,7 @@ function Index() {
   return (
     <div className="hero flex-1">
       <div className="hero-content flex-col lg:flex-row-reverse">
-        {user ? <WorkoutPage />: <Login />}
+        {user ? <WorkoutPage user={user} />: <Login />}
       </div>
     </div>
   );
