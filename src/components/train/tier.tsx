@@ -2,6 +2,22 @@ import type { Tier as TierData } from "../../lib/workout/tier";
 import { Button } from "../button";
 import type { Action } from "./reducer";
 
+
+export const TIER_CONFIG = {
+  tier1: {
+    onFail: { type: "WORKOUT_ON_FAILURE" } as Action,
+    onSuccess: { type: "WORKOUT_ON_SUCCESS" } as Action,
+  },
+  tier2: {
+    onFail: { type: "WORKOUT_ON_FAILURE" } as Action,
+    onSuccess: { type: "WORKOUT_ON_SUCCESS" } as Action,
+  },
+  tier3: {
+    onFail: { type: "WORKOUT_ON_FAILURE_FINISH" } as Action,
+    onSuccess: { type: "WORKOUT_ON_SUCCESS_FINISH" } as Action,
+  },
+}
+
 interface TierProps {
   data: TierData;
   onFail: Action;
