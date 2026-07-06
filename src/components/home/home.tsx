@@ -3,11 +3,11 @@ import { useCurrentDay } from "../../lib/user/hook";
 import type { User } from "firebase/auth/cordova";
 import { useWorkoutCollection } from "../../lib/hooks";
 
-interface WorkoutPageProps {
+interface HomeProps {
   user: User;
 }
 
-export const WorkoutPage = ({ user }: WorkoutPageProps) => {
+export const Home = ({ user }: HomeProps) => {
   const workoutDay = useCurrentDay();
   const workout = useWorkoutCollection(user, workoutDay.currentWorkout);
   return (

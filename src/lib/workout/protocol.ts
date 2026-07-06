@@ -1,6 +1,6 @@
-import { t1_protocols } from "../../components/workout/protocols/tierOne";
-import { t3_protocols } from "../../components/workout/protocols/tierThree";
-import { t2_protocols } from "../../components/workout/protocols/tierTwo";
+import { t1_protocols } from "../../components/home/protocols/tierOne";
+import { t3_protocols } from "../../components/home/protocols/tierThree";
+import { t2_protocols } from "../../components/home/protocols/tierTwo";
 import type { TierType } from "./tier";
 
 export interface Protocol {
