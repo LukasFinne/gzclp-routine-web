@@ -3,9 +3,9 @@ import {
   redirect,
   useRouteContext,
 } from "@tanstack/react-router";
-import { Train } from "../../components/train/train";
+import { Workout } from "../../components/workout/workout";
 
-export const Route = createFileRoute("/train/")({
+export const Route = createFileRoute("/workout/")({
   component: RouteComponent,
   beforeLoad: ({ context }) => {
     if (!context.user) {
@@ -16,9 +16,9 @@ export const Route = createFileRoute("/train/")({
 });
 
 function RouteComponent() {
-  const { user } = useRouteContext({ from: "/train/" });
+  const { user } = useRouteContext({ from: "/workout/" });
   if (!user) {
-    return <p>Error</p>
+    return <p>Error</p>;
   }
-  return <Train user={user} />;
+  return <Workout user={user} />;
 }

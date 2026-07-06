@@ -2,7 +2,7 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "../firebase";
 import { useUser } from "../hooks";
-import type { WorkoutKeys } from "../../components/train/workoutKeys";
+import type { WorkoutKeys } from "../../components/workout/workoutKeys";
 
 interface User {
   currentWorkout: WorkoutKeys;

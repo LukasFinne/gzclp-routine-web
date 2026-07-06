@@ -13,7 +13,7 @@ export const Home = ({ user }: HomeProps) => {
   return (
     <div className="flex flex-col space-y-4 justify-center">
       {workout && <h1 className="text-5xl font-bold">{workout.name}</h1>}
-      <Link className="btn btn-primary" to="/train">
+      <Link className="btn btn-primary" to="/workout">
         Start workout
       </Link>
     </div>

@@ -8,7 +8,7 @@ import type { WorkoutData } from "../../lib/workout/workout";
 import { Tier, TIER_CONFIG } from "./tier";
 import { useNavigate } from "@tanstack/react-router";
 
-export const Train = ({ user }: { user: User }) => {
+export const Workout = ({ user }: { user: User }) => {
   const currentDay = useCurrentDay();
   const nav = useNavigate();
   const [workouts, dispatchWorkouts] = useReducer(trainReducer, {
