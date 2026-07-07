@@ -1,4 +1,4 @@
-import type { Protocol } from "../../../../../lib/workout/protocol";
+import type { Protocol } from "../../../../lib/workout/protocol";
 
 
 interface ProtocolProps {

@@ -1,9 +1,9 @@
 import { useActionState } from "react";
-import { useUser } from "../../../../lib/hooks";
-import { finishAction } from "../finishAction";
-import type { WorkoutData } from "../../../../lib/workout/workout";
-import { Button } from "../../../button";
 import { Link } from "@tanstack/react-router";
+import { Button } from "../../button";
+import { useUser } from "../../../lib/hooks";
+import type { WorkoutData } from "../../../lib/workout/workout";
+import { finishAction } from "../finishAction";
 
 interface UploadButtonProps {
   workout: WorkoutData;

@@ -1,4 +1,4 @@
-import type { WorkoutData } from "../../../../../lib/workout/workout";
+import type { WorkoutData } from "../../../../lib/workout/workout";
 import { TierProgression } from "./tierProgression";
 
 interface ProgressionProps {

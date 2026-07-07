@@ -1,10 +1,7 @@
 import { doc, writeBatch } from "firebase/firestore";
-import {
-  rotateDay,
-  type WorkoutData,
-} from "../../../lib/workout/workout";
-import { db } from "../../../lib/firebase";
+import { rotateDay, type WorkoutData } from "../../lib/workout/workout";
 import type { User } from "firebase/auth";
+import { db } from "../../lib/firebase";
 
 export interface WorkoutState {
   isSuccess: boolean;

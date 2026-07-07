@@ -1,4 +1,4 @@
-import type { Tier } from "../../../../../lib/workout/tier";
+import type { Tier } from "../../../../lib/workout/tier";
 import { ProtocolRow } from "./protocol";
 import { Weight } from "./weight";
 
