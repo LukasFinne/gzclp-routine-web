@@ -12,11 +12,11 @@ export interface WorkoutData {
 
 export type DocumentId = "A1" | "A2" | "B1" | "B2"
 
-export const updateWorkoutDay = (currentDay: DocumentId) => {
-  return WorkoutDayRotation[currentDay]
+export const rotateDay = (currentDay: DocumentId) => {
+  return dayRotation[currentDay]
 }
 
-const WorkoutDayRotation: Record<DocumentId, DocumentId> = {
+const dayRotation: Record<DocumentId, DocumentId> = {
   A1: "B1",
   B1: "A2",
   A2: "B2",

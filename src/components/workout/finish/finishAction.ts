@@ -1,6 +1,6 @@
 import { doc, writeBatch } from "firebase/firestore";
 import {
-  updateWorkoutDay,
+  rotateDay,
   type WorkoutData,
 } from "../../../lib/workout/workout";
 import { db } from "../../../lib/firebase";
@@ -32,7 +32,7 @@ export const finishAction = async (
     console.log("initiaing...");
     const userDocRef = doc(db, `users/${user.uid}`);
     const newWorkoutDay = {
-      currentWorkout: updateWorkoutDay(data.docId),
+      currentWorkout: rotateDay(data.docId),
     };
     const workoutDataRef = doc(db, `users/${user.uid}/workouts/${data.docId}`);
     const batch = writeBatch(db);
