@@ -2,10 +2,10 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "../firebase";
 import { useUser } from "../hooks";
-import type { WorkoutKeys } from "../../components/workout/workoutKeys";
+import type { WorkoutDay } from "../../components/workout/workoutDay";
 
 interface User {
-  currentWorkout: WorkoutKeys;
+  currentWorkout: WorkoutDay;
 }
 
 export const useCurrentDay = () => {
