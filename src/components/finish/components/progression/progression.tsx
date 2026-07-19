@@ -1,5 +1,5 @@
 import type { WorkoutData } from "../../../../lib/workout/workout";
-import { TierProgression } from "./tierProgression";
+import { TierRow } from "./tierRow";
 
 interface ProgressionProps {
   workout: WorkoutData;
@@ -19,17 +19,17 @@ export const Progression = ({ workout, initialWorkout }: ProgressionProps) => {
           </tr>
         </thead>
         <tbody>
-          <TierProgression
+          <TierRow
             tier="1"
             initialTier={initialWorkout.tier1}
             currentTier={workout.tier1}
           />
-          <TierProgression
+          <TierRow
             tier="2"
             initialTier={initialWorkout.tier2}
             currentTier={workout.tier2}
           />
-          <TierProgression
+          <TierRow
             tier="3"
             initialTier={initialWorkout.tier3}
             currentTier={workout.tier3}
