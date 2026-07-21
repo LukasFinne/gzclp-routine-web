@@ -9,7 +9,7 @@ interface User {
 }
 
 export const useCurrentDay = () => {
-  const firebaseUser = useUser();
+  const { user: firebaseUser } = useUser();
   const [user, setUser] = useState<User>({currentWorkout: "A1"});
   useEffect(() => {
     if (!firebaseUser) {

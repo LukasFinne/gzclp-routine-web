@@ -10,7 +10,7 @@ interface UploadButtonProps {
 }
 
 export const UploadButton = ({ workout }: UploadButtonProps) => {
-  const user = useUser();
+  const { user } = useUser();
   const [state, action, isPending] = useActionState(
     finishAction.bind(null, { user, data: workout }),
     null,

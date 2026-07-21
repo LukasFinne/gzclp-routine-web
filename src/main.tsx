@@ -1,4 +1,4 @@
-import { StrictMode, useMemo } from "react";
+import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 
@@ -23,9 +23,8 @@ declare module "@tanstack/react-router" {
 }
 
 const App = () => {
-  const { user, isLoading } = useUser(router);
-  const context = useMemo(() => ({ user, isLoading }), [user, isLoading]);
-  return <RouterProvider router={router} context={context} />;
+  const auth = useUser();
+  return <RouterProvider router={router} context={auth} />;
 };
 
 // Render the app
