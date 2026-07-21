@@ -1,10 +1,12 @@
 import {
+  Await,
   createFileRoute,
   redirect,
   useRouteContext,
 } from "@tanstack/react-router";
 import { Workout } from "../../components/workout/workout";
 import { workoutExists } from "../../lib/workout/workout";
+import { Suspense } from "react";
 
 export const Route = createFileRoute("/workout/")({
   component: RouteComponent,
@@ -16,16 +18,30 @@ export const Route = createFileRoute("/workout/")({
   },
   loader: async ({ context }) => {
     if (!context.user) {
-      return { exists: false };
+      // eslint-disable-next-line @typescript-eslint/only-throw-error
+      throw redirect({ to: "/login" });
     }
+
     const exists = await workoutExists(context.user);
-    return { exists };
+
+    if (!exists) {
+      const generationPromise = createDefaultWorkouts(context.user);
+      return {
+        exists: false,
+        generationPromise: defer(generationPromise),
+      };
+    }
+
+    return {
+      exists: true,
+      generationPromise: null,
+    };
   },
 });
 
 function RouteComponent() {
   const { user, isLoading } = useRouteContext({ from: "/workout/" });
-  const { exists } = Route.useLoaderData();
+  const { exists, generationPromise } = Route.useLoaderData();
 
   if (isLoading) {
     return (
@@ -38,11 +54,23 @@ function RouteComponent() {
   if (!user) {
     return <p>Error</p>;
   }
-  
-  return <>
-    <p>
-      Workout:{ exists ? "true" : "false"}
-    </p>
-    <Workout user={user} />;
-  </>
+
+  if (!exists && generationPromise) {
+    return (
+      <Suspense
+        fallback={
+          <div className="flex-1 flex flex-col items-center justify-center gap-4">
+            <span className="loading loading-spinner loading-lg text-primary"></span>
+            <p className="text-lg font-semibold">Generating your workouts...</p>
+          </div>
+        }
+      >
+        <Await promise={generationPromise}>
+          {() => <Workout user={user} />}
+        </Await>
+      </Suspense>
+    );
+  }
+
+  return <Workout user={user} />;
 }
