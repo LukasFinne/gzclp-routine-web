@@ -1,26 +1,28 @@
 import { onAuthStateChanged, type User } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { auth } from "./firebase";
-import { useRouter } from "@tanstack/react-router";
+import type { AnyRouter } from "@tanstack/react-router";
 
-
-export const useUser = () => {
-  const router = useRouter();
+export const useUser = (router?: AnyRouter) => {
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
-    // 1. Wrap the listener in useEffect so it only runs once on mount
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       setUser(firebaseUser);
-      router.invalidate().catch(() => {
-        console.log("failed to invalidate");
-      });
+      setIsLoading(false);
+      if (router) {
+        router.invalidate().catch(() => {
+          console.log("failed to invalidate");
+        });
+      }
     });
 
-    // 2. Return the unsubscribe function to clean up the listener on unmount
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [router]);
 
-  return user;
+  return { user, isLoading };
 };
+
