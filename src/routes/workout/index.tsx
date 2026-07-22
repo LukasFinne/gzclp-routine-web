@@ -1,12 +1,14 @@
 import {
   Await,
   createFileRoute,
+  defer,
   redirect,
   useRouteContext,
 } from "@tanstack/react-router";
 import { Workout } from "../../components/workout/workout";
 import { workoutExists } from "../../lib/workout/workout";
 import { Suspense } from "react";
+import { setupDefaultWorkouts } from "../../components/workout/defaultWorkouts";
 
 export const Route = createFileRoute("/workout/")({
   component: RouteComponent,
@@ -25,7 +27,7 @@ export const Route = createFileRoute("/workout/")({
     const exists = await workoutExists(context.user);
 
     if (!exists) {
-      const generationPromise = createDefaultWorkouts(context.user);
+      const generationPromise = setupDefaultWorkouts(context.user.uid);
       return {
         exists: false,
         generationPromise: defer(generationPromise),
@@ -61,7 +63,7 @@ function RouteComponent() {
         fallback={
           <div className="flex-1 flex flex-col items-center justify-center gap-4">
             <span className="loading loading-spinner loading-lg text-primary"></span>
-            <p className="text-lg font-semibold">Generating your workouts...</p>
+            <p className="text-lg font-semibold">Setting up your account...</p>
           </div>
         }
       >

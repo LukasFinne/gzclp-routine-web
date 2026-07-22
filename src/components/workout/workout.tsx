@@ -80,7 +80,7 @@ export const Workout = ({ user }: { user: User }) => {
       <div className="hero bg-base-200 min-h-screen">
         <div className="hero-content text-center">
           {workouts.isLoading || workouts.workoutData === null ? (
-            <p>Loading...</p>
+            <p>Fetching your workouts...</p>
           ) : (
             <Tier
               data={workouts.workoutData[workouts.tier]}
