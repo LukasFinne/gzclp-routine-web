@@ -7,6 +7,7 @@ import { trainReducer, type Action } from "./reducer";
 import type { WorkoutData } from "../../lib/workout/workout";
 import { Tier, TIER_CONFIG } from "./tier";
 import { useNavigate } from "@tanstack/react-router";
+import { LoadingSpinner } from "../loading";
 
 export const Workout = ({ user }: { user: User }) => {
   const currentDay = useCurrentDay();
@@ -80,7 +81,7 @@ export const Workout = ({ user }: { user: User }) => {
       <div className="hero bg-base-200 min-h-screen">
         <div className="hero-content text-center">
           {workouts.isLoading || workouts.workoutData === null ? (
-            <p>Fetching your workouts...</p>
+            <LoadingSpinner text="Fetching your workouts" />
           ) : (
             <Tier
               data={workouts.workoutData[workouts.tier]}

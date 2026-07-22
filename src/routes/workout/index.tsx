@@ -9,6 +9,7 @@ import { Workout } from "../../components/workout/workout";
 import { workoutExists } from "../../lib/workout/workout";
 import { Suspense } from "react";
 import { setupDefaultWorkouts } from "../../components/workout/defaultWorkouts";
+import { LoadingSpinner } from "../../components/loading";
 
 export const Route = createFileRoute("/workout/")({
   component: RouteComponent,
@@ -47,9 +48,7 @@ function RouteComponent() {
 
   if (isLoading) {
     return (
-      <div className="flex-1 flex items-center justify-center">
-        <span className="loading loading-spinner loading-lg"></span>
-      </div>
+      <LoadingSpinner text="Loading, Please wait"/>
     );
   }
 
@@ -61,10 +60,7 @@ function RouteComponent() {
     return (
       <Suspense
         fallback={
-          <div className="flex-1 flex flex-col items-center justify-center gap-4">
-            <span className="loading loading-spinner loading-lg text-primary"></span>
-            <p className="text-lg font-semibold">Setting up your account...</p>
-          </div>
+          <LoadingSpinner text="Setting up your account..." />
         }
       >
         <Await promise={generationPromise}>
