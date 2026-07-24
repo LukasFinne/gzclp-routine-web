@@ -22,6 +22,9 @@ const RootLayout = () => (
   </>
 );
 
-export const Route = createRootRouteWithContext<{ user: User | null }>()({
+export const Route = createRootRouteWithContext<{
+  user: User | null;
+  isLoading: boolean;
+}>()({
   component: RootLayout,
 });

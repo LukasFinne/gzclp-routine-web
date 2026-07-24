@@ -1,8 +1,8 @@
-import type { Tier } from "../../../../../lib/workout/tier";
+import type { Tier } from "../../../../lib/workout/tier";
 import { ProtocolRow } from "./protocol";
 import { Weight } from "./weight";
 
-interface TierProgressionProps {
+interface TierRowProps {
   initialTier: Tier;
   currentTier: Tier;
   tier: string;
@@ -10,11 +10,11 @@ interface TierProgressionProps {
 // RED when failed and Green on Success
 // If the weight and protocl is the same == success?
 // else red?
-export const TierProgression = ({
+export const TierRow = ({
   initialTier,
   currentTier,
   tier,
-}: TierProgressionProps) => {
+}: TierRowProps) => {
 
   return (
     <tr>

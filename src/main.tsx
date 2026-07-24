@@ -11,6 +11,7 @@ const router = createRouter({
   routeTree,
   context: {
     user: null,
+    isLoading: true,
   },
 });
 
@@ -22,8 +23,8 @@ declare module "@tanstack/react-router" {
 }
 
 const App = () => {
-  const user = useUser();
-  return <RouterProvider router={router} context={{ user }} />;
+  const auth = useUser();
+  return <RouterProvider router={router} context={auth} />;
 };
 
 // Render the app

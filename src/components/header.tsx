@@ -3,7 +3,7 @@ import { useUser } from "../lib/hooks";
 import { SignOut } from "./sign-out";
 
 export const Header = () => {
-  const user = useUser();
+  const { user } = useUser();
   return (
     <div className="navbar bg-base-100 shadow-sm">
       <div className="navbar-start">

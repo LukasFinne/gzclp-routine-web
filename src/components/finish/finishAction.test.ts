@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { finishAction } from "./finishAction";
-import type { WorkoutData } from "../../../lib/workout/workout";
+import type { WorkoutData } from "../../lib/workout/workout";
 
 describe("finishAction", () => {
   it("Should be unauthorized", async () => {

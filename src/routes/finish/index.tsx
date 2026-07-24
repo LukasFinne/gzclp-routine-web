@@ -5,12 +5,12 @@ import {
   useRouteContext,
 } from "@tanstack/react-router";
 import type { WorkoutData } from "../../lib/workout/workout";
-import { Finished } from "../../components/workout/finish/finished";
-import { NotWorkoutData } from "../../components/workout/finish/error";
-import { Greeting } from "../../components/workout/finish/components/greeting";
-import { Summary } from "../../components/workout/finish/components/summary";
-import { Progression } from "../../components/workout/finish/components/progression/progression";
-import { UploadButton } from "../../components/workout/finish/components/uploadButton";
+import { Finished } from "../../components/finish/finished";
+import { NotWorkoutData } from "../../components/finish/error";
+import { Greeting } from "../../components/finish/components/greeting";
+import { Summary } from "../../components/finish/components/summary";
+import { Progression } from "../../components/finish/components/progression/progression";
+import { UploadButton } from "../../components/finish/components/uploadButton";
 
 declare module "@tanstack/react-router" {
   interface HistoryState {

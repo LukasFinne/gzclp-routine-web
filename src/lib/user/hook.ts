@@ -2,14 +2,14 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "../firebase";
 import { useUser } from "../hooks";
-import type { WorkoutKeys } from "../../components/workout/workoutKeys";
+import type { DocumentId } from "../workout/workout";
 
 interface User {
-  currentWorkout: WorkoutKeys;
+  currentWorkout: DocumentId;
 }
 
 export const useCurrentDay = () => {
-  const firebaseUser = useUser();
+  const { user: firebaseUser } = useUser();
   const [user, setUser] = useState<User>({currentWorkout: "A1"});
   useEffect(() => {
     if (!firebaseUser) {
