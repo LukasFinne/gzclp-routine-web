@@ -43,7 +43,7 @@ const Login = () => {
             validationErrors={actionState.errors?.password}
           />
           <Button type="submit" name="loginBtn" className="mt-4 w-full">
-            {!isPending ? (
+            {isPending ? (
               <LoadingDots />
             ) : (
               <p>Login</p>
