@@ -10,3 +10,6 @@ export const LoadingSpinner = ({text}: LoadingSpinnerProps) => {
     </div>
   )
 }
+
+
+export const LoadingDots = () => (<span className="loading loading-dots loading-md"></span>)

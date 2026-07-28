@@ -4,6 +4,7 @@ import { loginAction, type LoginState } from "./loginAction";
 import { Email } from "./email";
 import { Password } from "./password";
 import { Button } from "../button";
+import { LoadingDots } from "../loading";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -42,8 +43,8 @@ const Login = () => {
             validationErrors={actionState.errors?.password}
           />
           <Button type="submit" name="loginBtn" className="mt-4 w-full">
-            {isPending ? (
-              <span className="loading loading-dots loading-md"></span>
+            {!isPending ? (
+              <LoadingDots />
             ) : (
               <p>Login</p>
             )}
