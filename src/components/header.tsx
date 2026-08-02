@@ -7,9 +7,19 @@ export const Header = () => {
   return (
     <div className="navbar bg-base-100 shadow-sm">
       <div className="navbar-start">
-        <Link to="/" ><p className="text-xl">GZCLP</p></Link>
+        <Link to="/">
+          <p className="text-xl">GZCLP</p>
+        </Link>
       </div>
-      <div className="navbar-end">{user && <SignOut />}</div>
+      <div className="navbar-end">
+        {user ? (
+          <SignOut />
+        ) : (
+          <Link to="/login" className="btn btn-primary">
+            <p className="text-lg">Login</p>
+          </Link>
+        )}
+      </div>
     </div>
   );
 };
