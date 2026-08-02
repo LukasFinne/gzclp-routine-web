@@ -1,6 +1,6 @@
 import { signOut } from "firebase/auth";
-import { auth } from "../lib/firebase";
-import { Button } from "./button";
+import { auth } from "../../lib/firebase";
+import { Button } from "../button";
 
 export const SignOut = () => {
   const signOutAction = async () => {
@@ -15,6 +15,7 @@ export const SignOut = () => {
 
   return (
     <form action={signOutAction}>
+    
       <Button name="Sign out" type="submit">Sign out</Button>
     </form>
   );

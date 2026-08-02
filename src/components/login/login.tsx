@@ -5,8 +5,13 @@ import { Email } from "./email";
 import { Password } from "./password";
 import { Button } from "../button";
 import { LoadingDots } from "../loading";
+import { Navigate, type LinkComponentProps } from "@tanstack/react-router";
 
-const Login = () => {
+interface LoginProps{
+  redirect?: LinkComponentProps["to"]
+}
+
+const Login = ({ redirect }: LoginProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -25,6 +30,11 @@ const Login = () => {
     loginAction,
     { success: false }, // Initial state matches 'LoginState' because we included '| null'
   );
+
+  if (actionState.success && redirect) {
+    return <Navigate to={redirect} replace />
+  }
+
   return (
     <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
       <div className="card-body">
