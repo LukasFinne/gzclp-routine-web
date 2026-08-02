@@ -16,7 +16,10 @@ export const Route = createFileRoute("/workout/")({
   beforeLoad: ({ context }) => {
     if (!context.user && !context.isLoading) {
       // eslint-disable-next-line @typescript-eslint/only-throw-error
-      throw redirect({ to: "/login" });
+      throw redirect({
+        to: "/login", search: {
+        redirect: "/workout"
+      } });
     }
   },
   loader: async ({ context }) => {
