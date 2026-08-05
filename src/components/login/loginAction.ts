@@ -19,7 +19,7 @@ export interface LoginState {
 }
 
 export const loginAction = async (
-  prevState: LoginState, // The first argument is the state, NOT the form data
+  _prevState: LoginState, // The first argument is the state, NOT the form data
   formData: FormData,
 ): Promise<LoginState> => {
   // Must return the same LoginState type
