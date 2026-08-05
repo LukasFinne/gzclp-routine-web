@@ -15,7 +15,6 @@ export interface finishData {
 
 export const finishAction = async (
   finishData: finishData,
-  _prevState: WorkoutState | null,
 ): Promise<WorkoutState> => {
   const { user, data } = finishData;
   if (!user) {

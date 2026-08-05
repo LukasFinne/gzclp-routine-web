@@ -42,7 +42,7 @@ describe("finishAction", () => {
       message: "UnAuthorized"
     }
     const action = finishAction.bind(null, { data: workout, user: user })
-    const result = await action(null)
+    const result = await action()
     expect(result).toStrictEqual(expected)
   })
 })
