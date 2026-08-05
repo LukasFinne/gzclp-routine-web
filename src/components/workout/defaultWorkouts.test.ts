@@ -4,7 +4,7 @@ import {
   getInitialUserBatchPayload,
   setupDefaultWorkouts,
 } from "./defaultWorkouts";
-import type { Protocol } from "../../lib/workout/protocol";
+import type { Protocol, Stage } from "../../lib/workout/protocol";
 import type { WorkoutData } from "../../lib/workout/workout";
 
 describe("defaultWorkouts", () => {
@@ -16,8 +16,9 @@ describe("defaultWorkouts", () => {
       expect(Array.from(defaults.keys())).toEqual(["A1", "A2", "B1", "B2"]);
 
       // Verify A1
-      const a1 = defaults.get("A1")!;
+      const a1 = defaults.get("A1");
       expect(a1).toBeDefined();
+      if (!a1) throw new Error("A1 missing");
       expect(a1.docId).toBe("A1");
       expect(a1.name).toBe("Squat");
       expect(a1.tier1).toEqual({
@@ -37,8 +38,9 @@ describe("defaultWorkouts", () => {
       });
 
       // Verify A2
-      const a2 = defaults.get("A2")!;
+      const a2 = defaults.get("A2");
       expect(a2).toBeDefined();
+      if (!a2) throw new Error("A2 missing");
       expect(a2.docId).toBe("A2");
       expect(a2.name).toBe("Bench");
       expect(a2.tier1.name).toBe("Bench");
@@ -49,8 +51,9 @@ describe("defaultWorkouts", () => {
       expect(a2.tier3.weight).toBe(10);
 
       // Verify B1
-      const b1 = defaults.get("B1")!;
+      const b1 = defaults.get("B1");
       expect(b1).toBeDefined();
+      if (!b1) throw new Error("B1 missing");
       expect(b1.docId).toBe("B1");
       expect(b1.name).toBe("OHP");
       expect(b1.tier1.name).toBe("OHP");
@@ -61,8 +64,9 @@ describe("defaultWorkouts", () => {
       expect(b1.tier3.weight).toBe(10);
 
       // Verify B2
-      const b2 = defaults.get("B2")!;
+      const b2 = defaults.get("B2");
       expect(b2).toBeDefined();
+      if (!b2) throw new Error("B2 missing");
       expect(b2.docId).toBe("B2");
       expect(b2.name).toBe("Deadlift");
       expect(b2.tier1.name).toBe("Deadlift");
@@ -75,9 +79,9 @@ describe("defaultWorkouts", () => {
 
     it("accepts custom protocol maps", () => {
       const dummyProtocol: Protocol = { reps: 5, set: 5, stage: 1 };
-      const customT1 = new Map([[1, dummyProtocol]]);
-      const customT2 = new Map([[1, dummyProtocol]]);
-      const customT3 = new Map([[1, dummyProtocol]]);
+      const customT1 = new Map<Stage, Protocol>([[1, dummyProtocol]]);
+      const customT2 = new Map<Stage, Protocol>([[1, dummyProtocol]]);
+      const customT3 = new Map<Stage, Protocol>([[1, dummyProtocol]]);
 
       const defaults = getWorkoutDefaultValues(customT1, customT2, customT3);
       expect(defaults.get("A1")?.tier1.protocol).toEqual(dummyProtocol);
@@ -85,16 +89,16 @@ describe("defaultWorkouts", () => {
 
     describe("failed / edge cases for getWorkoutDefaultValues", () => {
       it("throws an error if all protocol maps are empty", () => {
-        const emptyMap = new Map();
+        const emptyMap = new Map<Stage, Protocol>();
         expect(() =>
           getWorkoutDefaultValues(emptyMap, emptyMap, emptyMap)
         ).toThrow("Default workout protocols (index 1) are missing.");
       });
 
       it("throws an error if tier 1 protocol map is missing stage 1", () => {
-        const invalidT1 = new Map();
-        const validT2 = new Map([[1, { reps: 5, set: 5, stage: 1 }] as const]);
-        const validT3 = new Map([[1, { reps: 15, set: 3, stage: 1 }] as const]);
+        const invalidT1 = new Map<Stage, Protocol>();
+        const validT2 = new Map<Stage, Protocol>([[1, { reps: 5, set: 5, stage: 1 }]]);
+        const validT3 = new Map<Stage, Protocol>([[1, { reps: 15, set: 3, stage: 1 }]]);
 
         expect(() =>
           getWorkoutDefaultValues(invalidT1, validT2, validT3)
@@ -102,9 +106,9 @@ describe("defaultWorkouts", () => {
       });
 
       it("throws an error if tier 2 protocol map is missing stage 1", () => {
-        const validT1 = new Map([[1, { reps: 5, set: 5, stage: 1 }] as const]);
-        const invalidT2 = new Map();
-        const validT3 = new Map([[1, { reps: 15, set: 3, stage: 1 }] as const]);
+        const validT1 = new Map<Stage, Protocol>([[1, { reps: 5, set: 5, stage: 1 }]]);
+        const invalidT2 = new Map<Stage, Protocol>();
+        const validT3 = new Map<Stage, Protocol>([[1, { reps: 15, set: 3, stage: 1 }]]);
 
         expect(() =>
           getWorkoutDefaultValues(validT1, invalidT2, validT3)
@@ -112,9 +116,9 @@ describe("defaultWorkouts", () => {
       });
 
       it("throws an error if tier 3 protocol map is missing stage 1", () => {
-        const validT1 = new Map([[1, { reps: 5, set: 5, stage: 1 }] as const]);
-        const validT2 = new Map([[1, { reps: 8, set: 3, stage: 1 }] as const]);
-        const invalidT3 = new Map();
+        const validT1 = new Map<Stage, Protocol>([[1, { reps: 5, set: 5, stage: 1 }]]);
+        const validT2 = new Map<Stage, Protocol>([[1, { reps: 8, set: 3, stage: 1 }]]);
+        const invalidT3 = new Map<Stage, Protocol>();
 
         expect(() =>
           getWorkoutDefaultValues(validT1, validT2, invalidT3)
@@ -134,19 +138,19 @@ describe("defaultWorkouts", () => {
 
       expect(payload.workouts[0]).toEqual({
         path: "users/test-user-456/workouts/A1",
-        data: expect.objectContaining({ docId: "A1", name: "Squat" }),
+        data: expect.objectContaining({ docId: "A1", name: "Squat" }) as WorkoutData,
       });
       expect(payload.workouts[1]).toEqual({
         path: "users/test-user-456/workouts/A2",
-        data: expect.objectContaining({ docId: "A2", name: "Bench" }),
+        data: expect.objectContaining({ docId: "A2", name: "Bench" }) as WorkoutData,
       });
       expect(payload.workouts[2]).toEqual({
         path: "users/test-user-456/workouts/B1",
-        data: expect.objectContaining({ docId: "B1", name: "OHP" }),
+        data: expect.objectContaining({ docId: "B1", name: "OHP" }) as WorkoutData,
       });
       expect(payload.workouts[3]).toEqual({
         path: "users/test-user-456/workouts/B2",
-        data: expect.objectContaining({ docId: "B2", name: "Deadlift" }),
+        data: expect.objectContaining({ docId: "B2", name: "Deadlift" }) as WorkoutData,
       });
     });
 

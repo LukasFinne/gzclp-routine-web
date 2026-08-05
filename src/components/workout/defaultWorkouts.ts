@@ -136,7 +136,7 @@ export const setupDefaultWorkouts = async (
   db: Firestore = defaultDb,
   defaultWorkouts = getWorkoutDefaultValues()
 ) => {
-  if (!userId || !userId.trim()) {
+  if (!userId.trim()) {
     throw new Error("userId is required to set up default workouts.");
   }
 
