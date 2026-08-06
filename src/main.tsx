@@ -1,4 +1,4 @@
-import { StrictMode } from "react";
+import { StrictMode, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 
@@ -24,6 +24,13 @@ declare module "@tanstack/react-router" {
 
 const App = () => {
   const auth = useUser();
+
+  useEffect(() => {
+    router.invalidate().catch((error: unknown) => {
+      console.log(error)
+    })
+  }, [auth.user, auth.isLoading]);
+
   return <RouterProvider router={router} context={auth} />;
 };
 
