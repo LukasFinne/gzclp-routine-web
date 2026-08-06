@@ -17,9 +17,11 @@ export const Route = createFileRoute("/workout/")({
     if (!context.user && !context.isLoading) {
       // eslint-disable-next-line @typescript-eslint/only-throw-error
       throw redirect({
-        to: "/login", search: {
-        redirect: "/workout"
-      } });
+        to: "/login",
+        search: {
+          redirect: "/workout",
+        },
+      });
     }
   },
   loader: async ({ context }) => {
@@ -49,14 +51,10 @@ function RouteComponent() {
   const { user, isLoading } = useRouteContext({ from: "/workout/" });
   const { exists, generationPromise } = Route.useLoaderData();
 
-  if (isLoading) {
+  if (isLoading || !user) {
     return (
       <LoadingSpinner text="Loading, Please wait"/>
     );
-  }
-
-  if (!user) {
-    return <p>Error</p>;
   }
 
   if (!exists && generationPromise) {

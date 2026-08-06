@@ -35,6 +35,10 @@ const Login = ({ redirect }: LoginProps) => {
     return <Navigate to={redirect} replace />
   }
 
+  if (actionState.success && !redirect) {
+    return <Navigate to="/" replace />
+  }
+
   return (
     <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
       <div className="card-body">

@@ -24,7 +24,12 @@ export const Route = createFileRoute("/finish/")({
   beforeLoad: ({ context }) => {
     if (!context.user) {
       // eslint-disable-next-line @typescript-eslint/only-throw-error
-      throw redirect({ to: "/" });
+      throw redirect({
+        to: "/login",
+        search: {
+          redirect: "/workout",
+        },
+      });
     }
   },
 });
