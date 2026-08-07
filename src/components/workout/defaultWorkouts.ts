@@ -4,6 +4,7 @@ import { t1_protocols } from "../home/protocols/tierOne";
 import { t3_protocols } from "../home/protocols/tierThree";
 import { t2_protocols } from "../home/protocols/tierTwo";
 import { db as defaultDb } from "../../lib/firebase";
+import type { User } from "firebase/auth";
 
 /**
  * Pure function: Generates default workout values safely without side effects.
@@ -132,17 +133,18 @@ export const getInitialUserBatchPayload = (
  * Sets up default workouts in Firestore using dependency injection.
  */
 export const setupDefaultWorkouts = async (
-  userId: string,
+  user: User | null,
   db: Firestore = defaultDb,
   defaultWorkouts = getWorkoutDefaultValues()
 ) => {
-  if (!userId.trim()) {
-    throw new Error("userId is required to set up default workouts.");
-  }
 
+  if (!user) {
+    throw new Error("user is required to set up default workouts.");
+  }
+  
   const batch = writeBatch(db);
   const { userPath, userData, workouts } = getInitialUserBatchPayload(
-    userId,
+    user.uid,
     defaultWorkouts
   );
 

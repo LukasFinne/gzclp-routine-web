@@ -168,14 +168,14 @@ describe("defaultWorkouts", () => {
 
   describe("setupDefaultWorkouts failed cases", () => {
     it("throws an error when userId is an empty string", async () => {
-      await expect(setupDefaultWorkouts("")).rejects.toThrow(
-        "userId is required to set up default workouts."
+      await expect(setupDefaultWorkouts(null)).rejects.toThrow(
+        "user is required to set up default workouts."
       );
     });
 
     it("throws an error when userId is only whitespace", async () => {
-      await expect(setupDefaultWorkouts("   ")).rejects.toThrow(
-        "userId is required to set up default workouts."
+      await expect(setupDefaultWorkouts(null)).rejects.toThrow(
+        "user is required to set up default workouts."
       );
     });
   });

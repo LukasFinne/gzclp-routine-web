@@ -8,6 +8,7 @@ import type { WorkoutData } from "../../lib/workout/workout";
 import { Tier, TIER_CONFIG } from "./tier";
 import { useNavigate } from "@tanstack/react-router";
 import { LoadingSpinner } from "../loading";
+import { Error } from "../error";
 
 export const Workout = ({ user }: { user: User }) => {
   const currentDay = useCurrentDay();
@@ -73,7 +74,7 @@ export const Workout = ({ user }: { user: User }) => {
   }, [currentDay]);
 
   if (workouts.isError) {
-    return <p>Something went wrong..</p>;
+    return <Error />
   }
 
   return (

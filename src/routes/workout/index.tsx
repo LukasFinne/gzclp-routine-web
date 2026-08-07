@@ -25,15 +25,11 @@ export const Route = createFileRoute("/workout/")({
     }
   },
   loader: async ({ context }) => {
-    if (!context.user) {
-      // eslint-disable-next-line @typescript-eslint/only-throw-error
-      throw redirect({ to: "/login" });
-    }
-
+   
     const exists = await workoutExists(context.user);
 
     if (!exists) {
-      const generationPromise = setupDefaultWorkouts(context.user.uid);
+      const generationPromise = setupDefaultWorkouts(context.user);
       return {
         exists: false,
         generationPromise: defer(generationPromise),
