@@ -11,6 +11,7 @@ import { Greeting } from "../../components/finish/components/greeting";
 import { Summary } from "../../components/finish/components/summary";
 import { Progression } from "../../components/finish/components/progression/progression";
 import { UploadButton } from "../../components/finish/components/uploadButton";
+import { LoadingSpinner } from "../../components/loading";
 
 declare module "@tanstack/react-router" {
   interface HistoryState {
@@ -22,7 +23,7 @@ declare module "@tanstack/react-router" {
 export const Route = createFileRoute("/finish/")({
   component: RouteComponent,
   beforeLoad: ({ context }) => {
-    if (!context.user) {
+    if (!context.user && !context.isLoading) {
       // eslint-disable-next-line @typescript-eslint/only-throw-error
       throw redirect({
         to: "/login",
@@ -35,13 +36,18 @@ export const Route = createFileRoute("/finish/")({
 });
 
 function RouteComponent() {
-  const { user } = useRouteContext({ from: "/finish/" });
+  const { user, isLoading } = useRouteContext({ from: "/finish/" });
+  const location = useLocation();
+  const { workout, initialWorkout } = location.state;
+  
+  if (isLoading) {
+    return <LoadingSpinner />
+  }
+
   if (!user) {
     return <p>Error</p>;
   }
-  const location = useLocation();
-  const { workout, initialWorkout } = location.state;
-
+  
   if (!workout || !initialWorkout) {
     return <NotWorkoutData />;
   }
