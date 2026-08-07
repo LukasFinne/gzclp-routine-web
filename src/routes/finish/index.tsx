@@ -6,12 +6,12 @@ import {
 } from "@tanstack/react-router";
 import type { WorkoutData } from "../../lib/workout/workout";
 import { Finished } from "../../components/finish/finished";
-import { NotWorkoutData } from "../../components/finish/error";
 import { Greeting } from "../../components/finish/components/greeting";
 import { Summary } from "../../components/finish/components/summary";
 import { Progression } from "../../components/finish/components/progression/progression";
 import { UploadButton } from "../../components/finish/components/uploadButton";
 import { LoadingSpinner } from "../../components/loading";
+import { Error } from "../../components/error";
 
 declare module "@tanstack/react-router" {
   interface HistoryState {
@@ -45,11 +45,12 @@ function RouteComponent() {
   }
 
   if (!user) {
-    return <p>Error</p>;
+    return <Error />
   }
   
   if (!workout || !initialWorkout) {
-    return <NotWorkoutData />;
+    return <Error title="No Data" description="It seems you reached this page directly or did not complete a
+    workout." />;
   }
 
   return (

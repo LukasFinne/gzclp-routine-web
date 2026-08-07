@@ -27,8 +27,13 @@ const dayRotation: Record<DocumentId, DocumentId> = {
 };
 
 
-export const workoutExists = async (user: User) => {
-    try {
+export const workoutExists = async (user: User | null) => {
+  try {
+    
+      if (!user) {
+        throw new Error("user is unauthorized")
+      }
+    
       const userDoc = doc(db, `users/${user.uid}`)
       const data = await getDoc(userDoc)
       console.log(data.exists())
