@@ -2,7 +2,6 @@ import { useEffect, useReducer } from "react";
 import type { User } from "firebase/auth";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../lib/firebase";
-import { useCurrentDay } from "../../lib/user/hook";
 import { trainReducer, type Action } from "./reducer";
 import type { WorkoutData } from "../../lib/workout/workout";
 import { Tier, TIER_CONFIG } from "./tier";
@@ -11,7 +10,6 @@ import { LoadingSpinner } from "../loading";
 import { Error } from "../error";
 
 export const Workout = ({ user }: { user: User }) => {
-  const currentDay = useCurrentDay();
   const nav = useNavigate();
   const [workouts, dispatchWorkouts] = useReducer(trainReducer, {
     workoutData: null,
@@ -48,7 +46,7 @@ export const Workout = ({ user }: { user: User }) => {
       console.log("workout init fetch")
       const docRef = doc(
         db,
-        `users/${user.uid}/workouts/${currentDay.currentWorkout}`,
+        `users/${user.uid}/workouts/A1`,
       );
 
       const unsub = onSnapshot(
@@ -76,7 +74,7 @@ export const Workout = ({ user }: { user: User }) => {
       console.log("unexpected workout fetch failure",error)
       dispatchWorkouts({ type: "WORKOUT_FETCH_FAILURE" });
     }
-  }, [currentDay]);
+  }, []);
 
   if (workouts.isError) {
     console.log(workouts.isError)
