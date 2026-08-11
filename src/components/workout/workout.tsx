@@ -74,7 +74,7 @@ export const Workout = ({ user }: { user: User }) => {
   }, [currentDay]);
 
   if (workouts.isError) {
-    return <Error />
+    return <Error error={workouts.isError} />;
   }
 
   return (
