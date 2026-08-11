@@ -1,6 +1,6 @@
 import { useEffect, useReducer } from "react";
 import type { User } from "firebase/auth";
-import { doc, onSnapshot } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import { trainReducer } from "./reducer";
 import { LoadingSpinner } from "../loading";
@@ -43,26 +43,19 @@ export const Workout = ({ user }: { user: User }) => {
         `users/${user.uid}/workouts/A1`,
       );
 
-      const unsub = onSnapshot(
-        docRef,
-        (snapshot) => {
-          const data = {
-            docId: snapshot.id,
-          }
-          console.log("workout success", data)
+       getDoc(docRef).then((data) => {
+         const docId = {
+           docId: data.id
+         }
+         console.log("workout success", data)
 
-          dispatchWorkouts({ type: "WORKOUT_FETCH_SUCCESS", payload: data.docId });
-        },
-        (error) => {
-          console.log(error);
-          console.log("workout fetch failure snapshot")
+         dispatchWorkouts({ type: "WORKOUT_FETCH_SUCCESS", payload: docId.docId });
+       }).catch((error: unknown) => {
+         console.log(error);
+         console.log("workout fetch failure getDoc")
 
-          dispatchWorkouts({ type: "WORKOUT_FETCH_FAILURE" });
-        },
-      );
-      return () => {
-        unsub();
-      };
+         dispatchWorkouts({ type: "WORKOUT_FETCH_FAILURE" });
+       })
     } catch(error: unknown) {
       console.log("unexpected workout fetch failure",error)
       dispatchWorkouts({ type: "WORKOUT_FETCH_FAILURE" });
