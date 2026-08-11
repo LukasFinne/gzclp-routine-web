@@ -138,7 +138,8 @@ export const setupDefaultWorkouts = async (
   defaultWorkouts = getWorkoutDefaultValues()
 ) => {
 
-  if (!user) {
+  console.log("setupDefault workous", user?.uid)
+  if (!user?.uid) {
     throw new Error("user is required to set up default workouts.");
   }
   
