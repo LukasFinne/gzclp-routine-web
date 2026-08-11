@@ -29,17 +29,16 @@ const dayRotation: Record<DocumentId, DocumentId> = {
 
 export const workoutExists = async (user: User | null) => {
   try {
-    
-      if (!user) {
+    console.log("user", user?.uid)
+    if (!user) {
+        console.log("not user found")
         throw new Error("user is unauthorized")
       }
     
       const userDoc = doc(db, `users/${user.uid}`)
       const data = await getDoc(userDoc)
-      console.log(data.exists())
       return data.exists()
-    } catch(e) {
-      console.log("something unexpected happened!",e)
-      throw new Error("something unexpected happened!")
+    } catch(e: unknown) {
+      console.log("something unexpected happened when checking if user exists",e)
     }
 }
