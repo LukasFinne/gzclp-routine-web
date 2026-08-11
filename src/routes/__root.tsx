@@ -30,17 +30,18 @@ export const Route = createRootRouteWithContext<{
   component: RootLayout,
   notFoundComponent: () => (
     <Error
-             title="404 - Page Not Found"
-             description="The page you are looking for does not exist or has been moved."
-           />
+      error={"not found"}
+      title="404 - Page Not Found"
+      description="The page you are looking for does not exist or has been moved."
+    />
   ),
   errorComponent: ({ error }) => {
-    console.log(error)
     return (
       <Error
+        error={error}
         title="Something went wrong!"
         description={"An unexpected error occurred."}
       />
-    )
+    );
   },
 });

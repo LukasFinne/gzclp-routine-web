@@ -45,6 +45,7 @@ export const Workout = ({ user }: { user: User }) => {
   useEffect(() => {
     try {
       dispatchWorkouts({ type: "WORKOUT_FETCH_INIT" });
+      console.log("workout init fetch")
       const docRef = doc(
         db,
         `users/${user.uid}/workouts/${currentDay.currentWorkout}`,
@@ -57,24 +58,29 @@ export const Workout = ({ user }: { user: User }) => {
             docId: snapshot.id,
             ...snapshot.data(),
           } as WorkoutData;
+          console.log("workout success")
 
           dispatchWorkouts({ type: "WORKOUT_FETCH_SUCCESS", payload: data });
         },
         (error) => {
           console.log(error);
+          console.log("workout fetch failure snapshot")
+
           dispatchWorkouts({ type: "WORKOUT_FETCH_FAILURE" });
         },
       );
       return () => {
         unsub();
       };
-    } catch {
+    } catch(error: unknown) {
+      console.log("unexpected workout fetch failure",error)
       dispatchWorkouts({ type: "WORKOUT_FETCH_FAILURE" });
     }
   }, [currentDay]);
 
   if (workouts.isError) {
-    return <Error />
+    console.log(workouts.isError)
+    return <Error error={workouts.isError} title="something happened when loading workouts" />;
   }
 
   return (

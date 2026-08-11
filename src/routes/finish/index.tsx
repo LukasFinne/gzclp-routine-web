@@ -39,18 +39,24 @@ function RouteComponent() {
   const { user, isLoading } = useRouteContext({ from: "/finish/" });
   const location = useLocation();
   const { workout, initialWorkout } = location.state;
-  
+
   if (isLoading) {
-    return <LoadingSpinner />
+    return <LoadingSpinner />;
   }
 
   if (!user) {
-    return <Error />
+    return <Error error={user} />;
   }
-  
+
   if (!workout || !initialWorkout) {
-    return <Error title="No Data" description="It seems you reached this page directly or did not complete a
-    workout." />;
+    return (
+      <Error
+        error={workout}
+        title="No Data"
+        description="It seems you reached this page directly or did not complete a
+    workout."
+      />
+    );
   }
 
   return (
