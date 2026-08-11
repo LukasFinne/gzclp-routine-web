@@ -11,7 +11,7 @@ export const Error = ({
   description = "Please press the button below",
   error,
 }: ErrorProps) => {
-  console.log(error);
+  console.log("ErrorComponent",error);
 
   return (
     <div className="hero bg-base-200 min-h-screen flex items-center justify-center">

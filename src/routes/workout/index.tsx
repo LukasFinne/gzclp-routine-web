@@ -25,8 +25,10 @@ export const Route = createFileRoute("/workout/")({
     }
   },
   loader: async ({ context }) => {
-   
+
+    console.log("exists check")
     const exists = await workoutExists(context.user);
+    console.log("exists check result: ", exists)
 
     if (!exists) {
       const generationPromise = setupDefaultWorkouts(context.user);
