@@ -2,15 +2,12 @@ import { useEffect, useReducer } from "react";
 import type { User } from "firebase/auth";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../lib/firebase";
-import { trainReducer, type Action } from "./reducer";
+import { trainReducer } from "./reducer";
 import type { WorkoutData } from "../../lib/workout/workout";
-import { Tier, TIER_CONFIG } from "./tier";
-import { useNavigate } from "@tanstack/react-router";
 import { LoadingSpinner } from "../loading";
 import { Error } from "../error";
 
 export const Workout = ({ user }: { user: User }) => {
-  const nav = useNavigate();
   const [workouts, dispatchWorkouts] = useReducer(trainReducer, {
     workoutData: null,
     initialState: null,
@@ -19,9 +16,7 @@ export const Workout = ({ user }: { user: User }) => {
     isError: false,
   });
 
-  const config = TIER_CONFIG[workouts.tier];
-
-  const handleOnClick = (action: Action) => {
+  /* const handleOnClick = (action: Action) => {
     dispatchWorkouts(action);
     if (
       action.type === "WORKOUT_ON_FAILURE_FINISH" ||
@@ -38,12 +33,12 @@ export const Workout = ({ user }: { user: User }) => {
         console.log("failed to navigate");
       });
     }
-  };
+    }; */
 
   useEffect(() => {
     try {
       dispatchWorkouts({ type: "WORKOUT_FETCH_INIT" });
-      console.log("workout init fetch")
+      console.log("workout init fetch", user.uid)
       const docRef = doc(
         db,
         `users/${user.uid}/workouts/A1`,
@@ -56,7 +51,7 @@ export const Workout = ({ user }: { user: User }) => {
             docId: snapshot.id,
             ...snapshot.data(),
           } as WorkoutData;
-          console.log("workout success")
+          console.log("workout success", data)
 
           dispatchWorkouts({ type: "WORKOUT_FETCH_SUCCESS", payload: data });
         },
@@ -88,14 +83,7 @@ export const Workout = ({ user }: { user: User }) => {
           {workouts.isLoading || workouts.workoutData === null ? (
             <LoadingSpinner text="Fetching your workouts" />
           ) : (
-            <Tier
-              data={workouts.workoutData[workouts.tier]}
-              onFail={config.onFail}
-              onSuccess={config.onSuccess}
-              onClick={(action) => {
-                handleOnClick(action);
-              }}
-            />
+              <p>{workouts.workoutData.tier1.name}</p>
           )}
         </div>
       </div>
