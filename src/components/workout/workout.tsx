@@ -3,7 +3,6 @@ import type { User } from "firebase/auth";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import { trainReducer } from "./reducer";
-import type { WorkoutData } from "../../lib/workout/workout";
 import { LoadingSpinner } from "../loading";
 import { Error } from "../error";
 
@@ -49,11 +48,10 @@ export const Workout = ({ user }: { user: User }) => {
         (snapshot) => {
           const data = {
             docId: snapshot.id,
-            ...snapshot.data(),
-          } as WorkoutData;
+          }
           console.log("workout success", data)
 
-          dispatchWorkouts({ type: "WORKOUT_FETCH_SUCCESS", payload: data });
+          dispatchWorkouts({ type: "WORKOUT_FETCH_SUCCESS", payload: data.docId });
         },
         (error) => {
           console.log(error);
@@ -83,7 +81,11 @@ export const Workout = ({ user }: { user: User }) => {
           {workouts.isLoading || workouts.workoutData === null ? (
             <LoadingSpinner text="Fetching your workouts" />
           ) : (
-              <p>{workouts.workoutData.tier1.name}</p>
+              <p>
+                {typeof workouts.workoutData === "string"
+                  ? workouts.workoutData
+                  : workouts.workoutData.tier1.name}
+              </p>
           )}
         </div>
       </div>
