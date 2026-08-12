@@ -21,11 +21,12 @@ export const Route = createFileRoute("/workout/")({
       });
     }
   },
-  loader: ({ context }) => {
+  loader: async ({ context }) => {
     if (!context.user) {
+      console.log("no user found")
       return null;
     }
-    return getWorkoutDay(context.user)
+    return await getWorkoutDay(context.user)
   },
 });
 
