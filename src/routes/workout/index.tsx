@@ -22,7 +22,7 @@ export const Route = createFileRoute("/workout/")({
     }
   },
   loader: async ({ context }) => {
-    if (!context.user) {
+    if (!context.user && !context.isLoading) {
       console.log("no user found")
       return null;
     }
