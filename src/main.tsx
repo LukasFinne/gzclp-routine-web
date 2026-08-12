@@ -4,7 +4,8 @@ import { RouterProvider, createRouter } from "@tanstack/react-router";
 
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";
-import { useUser } from "./lib/hooks";
+import { AuthProvider, useUser } from "./lib/hooks";
+import { LoadingSpinner } from "./components/loading";
 
 // Create a new router instance
 const router = createRouter({
@@ -22,16 +23,32 @@ declare module "@tanstack/react-router" {
   }
 }
 
-const App = () => {
+const RouterApp = () => {
   const auth = useUser();
 
   useEffect(() => {
     router.invalidate().catch((error: unknown) => {
-      console.log(error)
-    })
+      console.log(error);
+    });
   }, [auth.user, auth.isLoading]);
 
+  if (auth.isLoading) {
+    return (
+      <div className="flex h-screen w-screen items-center justify-center bg-base-200">
+        <LoadingSpinner text="Initializing session..." />
+      </div>
+    );
+  }
+
   return <RouterProvider router={router} context={auth} />;
+};
+
+const App = () => {
+  return (
+    <AuthProvider>
+      <RouterApp />
+    </AuthProvider>
+  );
 };
 
 // Render the app
