@@ -2,17 +2,21 @@ import { useEffect, useReducer } from "react";
 import type { User } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../lib/firebase";
-import { trainReducer } from "./reducer";
+import { trainReducer, type Action } from "./reducer";
 import { LoadingSpinner } from "../loading";
 import { Error } from "../error";
-import type { DocumentId } from "../../lib/workout/workout";
+import type { DocumentId, WorkoutData } from "../../lib/workout/workout";
+import { Tier, TIER_CONFIG } from "./tier";
+import { useNavigate } from "@tanstack/react-router";
 
-interface WorkoutProps{
-  user: User
-  workoutDay: DocumentId
+interface WorkoutProps {
+  user: User;
+  workoutDay: DocumentId;
 }
 
-export const Workout = ({ user, workoutDay}: WorkoutProps) => {
+export const Workout = ({ user, workoutDay }: WorkoutProps) => {
+  const nav = useNavigate();
+
   const [workouts, dispatchWorkouts] = useReducer(trainReducer, {
     workoutData: null,
     initialState: null,
@@ -21,7 +25,9 @@ export const Workout = ({ user, workoutDay}: WorkoutProps) => {
     isError: false,
   });
 
-  /* const handleOnClick = (action: Action) => {
+  const config = TIER_CONFIG[workouts.tier];
+
+  const handleOnClick = (action: Action) => {
     dispatchWorkouts(action);
     if (
       action.type === "WORKOUT_ON_FAILURE_FINISH" ||
@@ -38,39 +44,45 @@ export const Workout = ({ user, workoutDay}: WorkoutProps) => {
         console.log("failed to navigate");
       });
     }
-    }; */
+  };
 
   useEffect(() => {
     try {
       dispatchWorkouts({ type: "WORKOUT_FETCH_INIT" });
-      console.log("workout init fetch", user.uid)
-      const docRef = doc(
-        db,
-        `users/${user.uid}/workouts/${workoutDay}`,
-      );
+      const docRef = doc(db, `users/${user.uid}/workouts/${workoutDay}`);
 
-       getDoc(docRef).then((data) => {
-         const docId = {
-           docId: data.id
-         }
-         console.log("workout success", data)
+      getDoc(docRef)
+        .then((data) => {
+          const workoutData = {
+            docId: data.id,
+            ...data.data(),
+          } as WorkoutData;
 
-         dispatchWorkouts({ type: "WORKOUT_FETCH_SUCCESS", payload: docId.docId });
-       }).catch((error: unknown) => {
-         console.log(error);
-         console.log("workout fetch failure getDoc")
+          dispatchWorkouts({
+            type: "WORKOUT_FETCH_SUCCESS",
+            payload: workoutData,
+          });
+        })
+        .catch((error: unknown) => {
+          console.log(error);
+          console.log("workout fetch failure getDoc");
 
-         dispatchWorkouts({ type: "WORKOUT_FETCH_FAILURE" });
-       })
-    } catch(error: unknown) {
-      console.log("unexpected workout fetch failure",error)
+          dispatchWorkouts({ type: "WORKOUT_FETCH_FAILURE" });
+        });
+    } catch (error: unknown) {
+      console.log("unexpected workout fetch failure", error);
       dispatchWorkouts({ type: "WORKOUT_FETCH_FAILURE" });
     }
   }, []);
 
   if (workouts.isError) {
-    console.log(workouts.isError)
-    return <Error error={workouts.isError} title="something happened when loading workouts" />;
+    console.log(workouts.isError);
+    return (
+      <Error
+        error={workouts.isError}
+        title="something happened when loading workouts"
+      />
+    );
   }
 
   return (
@@ -80,11 +92,14 @@ export const Workout = ({ user, workoutDay}: WorkoutProps) => {
           {workouts.isLoading || workouts.workoutData === null ? (
             <LoadingSpinner text="Fetching your workouts" />
           ) : (
-              <p>
-                {typeof workouts.workoutData === "string"
-                  ? workouts.workoutData
-                  : workouts.workoutData.tier1.name}
-              </p>
+            <Tier
+              data={workouts.workoutData[workouts.tier]}
+              onFail={config.onFail}
+              onSuccess={config.onSuccess}
+              onClick={(action) => {
+                handleOnClick(action);
+              }}
+            />
           )}
         </div>
       </div>

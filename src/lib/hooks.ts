@@ -1,14 +1,37 @@
 import { onAuthStateChanged, type User } from "firebase/auth";
-import { useEffect, useState } from "react";
+import {
+  createContext,
+  createElement,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from "react";
 import { auth } from "./firebase";
-export const useUser = () => {
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+
+interface AuthContextType {
+  user: User | null;
+  isLoading: boolean;
+}
+
+const AuthContext = createContext<AuthContextType>({
+  user: null,
+  isLoading: true,
+});
+
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [authState, setAuthState] = useState<AuthContextType>({
+    user: null,
+    isLoading: true,
+  });
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-      setUser(firebaseUser);
-      setIsLoading(false);
+      setAuthState({
+        user: firebaseUser,
+        isLoading: false,
+      });
     });
 
     return () => {
@@ -16,6 +39,15 @@ export const useUser = () => {
     };
   }, []);
 
-  return { user, isLoading };
+  const value = useMemo(
+    () => authState,
+    [authState.user, authState.isLoading],
+  );
+
+  return createElement(AuthContext.Provider, { value }, children);
 };
+
+export const useUser = () => useContext(AuthContext);
+
+
 

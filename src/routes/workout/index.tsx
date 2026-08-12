@@ -11,7 +11,7 @@ import { Error } from "../../components/error";
 export const Route = createFileRoute("/workout/")({
   component: RouteComponent,
   beforeLoad: ({ context }) => {
-    if (!context.user && !context.isLoading) {
+    if (!context.user) {
       // eslint-disable-next-line @typescript-eslint/only-throw-error
       throw redirect({
         to: "/login",
@@ -23,10 +23,9 @@ export const Route = createFileRoute("/workout/")({
   },
   loader: async ({ context }) => {
     if (!context.user) {
-      console.log("no user found")
       return null;
     }
-    return await getWorkoutDay(context.user)
+    return await getWorkoutDay(context.user);
   },
 });
 
