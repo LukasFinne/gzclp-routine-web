@@ -5,8 +5,14 @@ import { db } from "../../lib/firebase";
 import { trainReducer } from "./reducer";
 import { LoadingSpinner } from "../loading";
 import { Error } from "../error";
+import type { DocumentId } from "../../lib/workout/workout";
 
-export const Workout = ({ user }: { user: User }) => {
+interface WorkoutProps{
+  user: User
+  workoutDay: DocumentId
+}
+
+export const Workout = ({ user, workoutDay}: WorkoutProps) => {
   const [workouts, dispatchWorkouts] = useReducer(trainReducer, {
     workoutData: null,
     initialState: null,
@@ -40,7 +46,7 @@ export const Workout = ({ user }: { user: User }) => {
       console.log("workout init fetch", user.uid)
       const docRef = doc(
         db,
-        `users/${user.uid}/workouts/A1`,
+        `users/${user.uid}/workouts/${workoutDay}`,
       );
 
        getDoc(docRef).then((data) => {
