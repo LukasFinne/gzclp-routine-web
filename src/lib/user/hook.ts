@@ -3,19 +3,23 @@ import { db } from "../firebase";
 import type { DocumentId } from "../workout/workout";
 import type { User } from "firebase/auth";
 
-interface UserDoc {
+export interface UserDoc {
   currentWorkout: DocumentId;
 }
 
-export async function getWorkoutDay(user: User | null) {
-  try {
-    if (!user) {
-      throw new Error("no user found in getWorkoutDay")
-    }
-    const docRef = doc(db, "users", user.uid);
-    const data = await getDoc(docRef)  
-    return  data.data() as UserDoc
-  } catch(error: unknown) {
-    console.error("Error fetching getWorkoutDay:", error);
+export async function getWorkoutDay(user: User): Promise<UserDoc | null> {
+  const docRef = doc(db, "users", user.uid);
+  const docSnap = await getDoc(docRef);
+
+  if (!docSnap.exists()) {
+    return null;
   }
+
+  const data = docSnap.data();
+  if (!("currentWorkout" in data)) {
+    return null;
+  }
+
+  return data as UserDoc;
 }
+

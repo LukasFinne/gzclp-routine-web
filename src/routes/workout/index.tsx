@@ -23,7 +23,6 @@ export const Route = createFileRoute("/workout/")({
   },
   loader: async ({ context }) => {
     if (!context.user) {
-      console.log("no user found")
       return null;
     }
     return await getWorkoutDay(context.user);
