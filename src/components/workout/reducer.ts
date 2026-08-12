@@ -12,7 +12,7 @@ export type Action =
     }
   | {
       type: "WORKOUT_FETCH_SUCCESS";
-      payload: WorkoutData | string;
+      payload: WorkoutData;
     }
   | {
       type: "WORKOUT_FETCH_FAILURE";
@@ -41,8 +41,8 @@ const RotateTier = (current: TierType) => {
 };
 
 export interface State {
-  workoutData: WorkoutData | string | null;
-  initialState: WorkoutData | string | null;
+  workoutData: WorkoutData | null;
+  initialState: WorkoutData | null;
   tier: TierType;
   isLoading: boolean;
   isError: boolean;
@@ -76,10 +76,7 @@ export const trainReducer = (state: State, action: Action) => {
       }
       return {
         ...state,
-        workoutData:
-          typeof state.workoutData === "string"
-            ? state.workoutData
-            : updateWeight(state.workoutData, state.tier),
+        workoutData: updateWeight(state.workoutData, state.tier),
         tier: RotateTier(state.tier),
       };
     case "WORKOUT_ON_FAILURE":
@@ -88,10 +85,7 @@ export const trainReducer = (state: State, action: Action) => {
       }
       return {
         ...state,
-        workoutData:
-          typeof state.workoutData === "string"
-            ? state.workoutData
-            : updateProtocol(state.workoutData, state.tier),
+        workoutData: updateProtocol(state.workoutData, state.tier),
         tier: RotateTier(state.tier),
       };
     case "WORKOUT_ON_FAILURE_FINISH":
@@ -100,10 +94,7 @@ export const trainReducer = (state: State, action: Action) => {
       }
       return {
         ...state,
-        workoutData:
-          typeof state.workoutData === "string"
-            ? state.workoutData
-            : updateProtocol(state.workoutData, state.tier),
+        workoutData: updateProtocol(state.workoutData, state.tier),
       };
     case "WORKOUT_ON_SUCCESS_FINISH":
       if (state.workoutData === null) {
@@ -111,10 +102,7 @@ export const trainReducer = (state: State, action: Action) => {
       }
       return {
         ...state,
-        workoutData:
-          typeof state.workoutData === "string"
-            ? state.workoutData
-            : updateWeight(state.workoutData, state.tier),
+        workoutData: updateWeight(state.workoutData, state.tier),
       };
     default:
       throw new Error();
