@@ -1,6 +1,6 @@
 import z from "zod";
 import { auth } from "../../lib/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth/web-extension";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 const createLoginSchema = z.object({
   email: z.email(),

@@ -1,18 +1,18 @@
 import { useEffect, useReducer } from "react";
 import type { User } from "firebase/auth";
-import { doc, onSnapshot } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../lib/firebase";
-import { useCurrentDay } from "../../lib/user/hook";
-import { trainReducer, type Action } from "./reducer";
-import type { WorkoutData } from "../../lib/workout/workout";
-import { Tier, TIER_CONFIG } from "./tier";
-import { useNavigate } from "@tanstack/react-router";
+import { trainReducer } from "./reducer";
 import { LoadingSpinner } from "../loading";
 import { Error } from "../error";
+import type { DocumentId } from "../../lib/workout/workout";
 
-export const Workout = ({ user }: { user: User }) => {
-  const currentDay = useCurrentDay();
-  const nav = useNavigate();
+interface WorkoutProps{
+  user: User
+  workoutDay: DocumentId
+}
+
+export const Workout = ({ user, workoutDay}: WorkoutProps) => {
   const [workouts, dispatchWorkouts] = useReducer(trainReducer, {
     workoutData: null,
     initialState: null,
@@ -21,9 +21,7 @@ export const Workout = ({ user }: { user: User }) => {
     isError: false,
   });
 
-  const config = TIER_CONFIG[workouts.tier];
-
-  const handleOnClick = (action: Action) => {
+  /* const handleOnClick = (action: Action) => {
     dispatchWorkouts(action);
     if (
       action.type === "WORKOUT_ON_FAILURE_FINISH" ||
@@ -40,43 +38,35 @@ export const Workout = ({ user }: { user: User }) => {
         console.log("failed to navigate");
       });
     }
-  };
+    }; */
 
   useEffect(() => {
     try {
       dispatchWorkouts({ type: "WORKOUT_FETCH_INIT" });
-      console.log("workout init fetch")
+      console.log("workout init fetch", user.uid)
       const docRef = doc(
         db,
-        `users/${user.uid}/workouts/${currentDay.currentWorkout}`,
+        `users/${user.uid}/workouts/${workoutDay}`,
       );
 
-      const unsub = onSnapshot(
-        docRef,
-        (snapshot) => {
-          const data = {
-            docId: snapshot.id,
-            ...snapshot.data(),
-          } as WorkoutData;
-          console.log("workout success")
+       getDoc(docRef).then((data) => {
+         const docId = {
+           docId: data.id
+         }
+         console.log("workout success", data)
 
-          dispatchWorkouts({ type: "WORKOUT_FETCH_SUCCESS", payload: data });
-        },
-        (error) => {
-          console.log(error);
-          console.log("workout fetch failure snapshot")
+         dispatchWorkouts({ type: "WORKOUT_FETCH_SUCCESS", payload: docId.docId });
+       }).catch((error: unknown) => {
+         console.log(error);
+         console.log("workout fetch failure getDoc")
 
-          dispatchWorkouts({ type: "WORKOUT_FETCH_FAILURE" });
-        },
-      );
-      return () => {
-        unsub();
-      };
+         dispatchWorkouts({ type: "WORKOUT_FETCH_FAILURE" });
+       })
     } catch(error: unknown) {
       console.log("unexpected workout fetch failure",error)
       dispatchWorkouts({ type: "WORKOUT_FETCH_FAILURE" });
     }
-  }, [currentDay]);
+  }, []);
 
   if (workouts.isError) {
     console.log(workouts.isError)
@@ -90,14 +80,11 @@ export const Workout = ({ user }: { user: User }) => {
           {workouts.isLoading || workouts.workoutData === null ? (
             <LoadingSpinner text="Fetching your workouts" />
           ) : (
-            <Tier
-              data={workouts.workoutData[workouts.tier]}
-              onFail={config.onFail}
-              onSuccess={config.onSuccess}
-              onClick={(action) => {
-                handleOnClick(action);
-              }}
-            />
+              <p>
+                {typeof workouts.workoutData === "string"
+                  ? workouts.workoutData
+                  : workouts.workoutData.tier1.name}
+              </p>
           )}
         </div>
       </div>
