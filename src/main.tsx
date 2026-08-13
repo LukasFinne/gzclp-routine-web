@@ -27,15 +27,17 @@ const RouterApp = () => {
   const auth = useUser();
 
   useEffect(() => {
-    router.invalidate().catch((error: unknown) => {
-      console.log(error);
-    });
+    if (!auth.user && !auth.isLoading) {
+      router.invalidate().catch((error: unknown) => {
+        console.log(error);
+      });
+    }
   }, [auth.user, auth.isLoading]);
 
   if (auth.isLoading) {
     return (
       <div className="flex h-screen w-screen items-center justify-center bg-base-200">
-        <LoadingSpinner text="Initializing session..." />
+        <LoadingSpinner text="Loading..." />
       </div>
     );
   }
