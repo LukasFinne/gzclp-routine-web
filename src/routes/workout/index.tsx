@@ -1,12 +1,12 @@
 import {
   createFileRoute,
+  Navigate,
   redirect,
   useRouteContext,
 } from "@tanstack/react-router";
 import { Workout } from "../../components/workout/workout";
 import { LoadingSpinner } from "../../components/loading";
 import { getWorkoutDay } from "../../lib/user/hook";
-import { Error } from "../../components/error";
 
 export const Route = createFileRoute("/workout/")({
   component: RouteComponent,
@@ -38,7 +38,7 @@ function RouteComponent() {
   }
 
   if (!currentWorkout) {
-    return <Error description="User needs to have an workoutDay" error={currentWorkout}/>
+    return <Navigate to="/onboard" replace />
   }
 
   return <Workout user={user} workoutDay={currentWorkout.currentWorkout} />;
