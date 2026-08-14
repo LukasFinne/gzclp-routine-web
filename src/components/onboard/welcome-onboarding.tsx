@@ -1,3 +1,5 @@
+import { Link } from "../link"
+
 export const Welcome = () => {
   return (
     <div className="max-w-md">
@@ -5,7 +7,7 @@ export const Welcome = () => {
       <p className="py-6">
         Before you can begin your workout, We need to know your current weight and protocol. As well as which step your a on ( A1, A2, B1, B2 )  
       </p>
-      <button className="btn btn-primary">Let's begin!</button>
+      <Link className="btn btn-primary" to="/onboard/configure">Let's begin!</Link>
     </div>
   )
 
