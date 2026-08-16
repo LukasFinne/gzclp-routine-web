@@ -16,13 +16,13 @@ export const ConfigureLayout = ({
       <div className="col-start-1 md:col-start-2 col-span-4 md:col-span-2 pt-8">
         {steps}
       </div>
-      <div className="row-start-2 row-span-4 col-span-4 w-full flex justify-center">
+      <div className="row-start-2 row-span-3 col-span-4 w-full flex justify-center">
         {content}
       </div>
-      <div className="row-start-6 col-start-1 col-span-2 w-full  flex items-center p-1">
+      <div className="row-start-5 col-start-1 col-span-2 w-full  flex items-center p-1">
         {leftButton}
       </div>
-      <div className="row-start-6 col-start-3 col-span-2 w-full flex items-center p-1">
+      <div className="row-start-5 col-start-3 col-span-2 w-full flex items-center p-1">
         {rightButton}
       </div>
     </div>

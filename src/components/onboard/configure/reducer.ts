@@ -1,22 +1,29 @@
+import type { DocumentId } from "../../../lib/workout/workout";
 import type { Steps } from "./steps";
 
 export type Action =
   | {
-      type: "CONFIGURE_INIT";
-    }
+    type: "CONFIGURE_INIT";
+  }
   | {
-      type: "NEXT_STEP";
-    }
+    type: "NEXT_STEP";
+  }
   | {
-      type: "PREVIOUS_STEP";
-    };
-
+    type: "PREVIOUS_STEP";
+  }
+  | {
+    type: "PICK_DAY";
+    payload: DocumentId;
+  };
+  
 export interface State {
+  workOutDay: DocumentId;
   previousSteps: Steps[];
   currentStep: Steps;
 }
 
 export const initialState: State = {
+  workOutDay: "A1",
   currentStep: "Day",
   previousSteps: ["Day"],
 };
@@ -42,11 +49,16 @@ export const configureReducer = (
         ...state,
       };
     }
+    case "PICK_DAY": {
+      return {
+        ...state,
+        workOutDay: action.payload
+      }
+    }
     case "NEXT_STEP": {
       const current = state.currentStep;
       const listOfPrevious = state.previousSteps;
       listOfPrevious.push(RotateDayOrder(current));
-
       return {
         ...state,
         previousSteps: listOfPrevious,
