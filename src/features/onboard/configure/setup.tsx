@@ -14,30 +14,38 @@ export const Setup = ({ step }: setupProps) => {
 };
 
 const WorkoutDays = () => (
-  <div className="card bg-base-100 p-4 h-full">
+  <div className="card bg-base-100 p-4 h-full flex flex-col gap-4">
     {workoutDays.map((day) => (
-      <div className="pt-4">
-        {day === "A1" ? (
-          <div className="indicator w-full">
-            <span className="indicator-item indicator-center badge badge-accent">
-              Default
-            </span>
-            <WorkoutDayButton day={day} />
-          </div>
-        ) : (
-          <WorkoutDayButton day={day} />
-        )}
-      </div>
+      <WorkoutDayButton key={day} day={day} isDefault={day === "A1"} />
     ))}
   </div>
 );
 
-const WorkoutDayButton = ({ day }: { day: DocumentId }) => (
-  <label className="label w-full cursor-pointer justify-start gap-3 rounded-2xl border border-base-300 bg-base-200/50 p-4 transition-all duration-150 hover:bg-base-200 hover:border-base-content/20 has-checked:border-primary has-checked:bg-primary has-checked:text-primary-content has-checked:shadow-sm">
-    <input type="radio" name="radio-1" className="peer hidden" />
-    <span className="label-text font-medium text-inherit">{day}</span>
-  </label>
-);
+const WorkoutDayButton = ({
+  day,
+  isDefault,
+}: {
+  day: DocumentId;
+  isDefault?: boolean;
+}) => {
+  const button = (
+    <label className="label w-full cursor-pointer justify-start gap-3 rounded-2xl border border-base-300 bg-base-200/50 p-4 transition-all duration-150 hover:bg-base-200 hover:border-base-content/20 has-checked:border-primary has-checked:bg-primary has-checked:text-primary-content has-checked:shadow-sm">
+      <input type="radio" name="radio-1" className="peer hidden" defaultChecked={isDefault} />
+      <span className="label-text font-medium text-inherit">{day}</span>
+    </label>
+  );
+
+  if (isDefault) return (
+    <div className="indicator w-full">
+      <span className="indicator-item indicator-center badge badge-accent">
+        Default
+      </span>
+      {button}
+    </div>
+  )
+
+  return button
+};
 
 const StepsState = {
   Day: <WorkoutDays />,
