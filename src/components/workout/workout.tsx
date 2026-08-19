@@ -1,20 +1,18 @@
-import { useEffect, useReducer } from "react";
+import { useReducer } from "react";
 import type { User } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../lib/firebase";
 import { trainReducer, type Action } from "./reducer";
 import { LoadingSpinner } from "../loading";
 import { Error } from "../error";
-import type { DocumentId, WorkoutData } from "../../lib/workout/workout";
 import { Tier, TIER_CONFIG } from "./tier";
 import { useNavigate } from "@tanstack/react-router";
+import type { UserDoc } from "../../lib/user/hook";
 
 interface WorkoutProps {
   user: User;
-  workoutDay: DocumentId;
+  userData: UserDoc;
 }
 
-export const Workout = ({ user, workoutDay }: WorkoutProps) => {
+export const Workout = ({ user, userData }: WorkoutProps) => {
   const nav = useNavigate();
 
   const [workouts, dispatchWorkouts] = useReducer(trainReducer, {
@@ -45,35 +43,6 @@ export const Workout = ({ user, workoutDay }: WorkoutProps) => {
       });
     }
   };
-
-  useEffect(() => {
-    try {
-      dispatchWorkouts({ type: "WORKOUT_FETCH_INIT" });
-      const docRef = doc(db, `users/${user.uid}/workouts/${workoutDay}`);
-
-      getDoc(docRef)
-        .then((data) => {
-          const workoutData = {
-            docId: data.id,
-            ...data.data(),
-          } as WorkoutData;
-
-          dispatchWorkouts({
-            type: "WORKOUT_FETCH_SUCCESS",
-            payload: workoutData,
-          });
-        })
-        .catch((error: unknown) => {
-          console.log(error);
-          console.log("workout fetch failure getDoc");
-
-          dispatchWorkouts({ type: "WORKOUT_FETCH_FAILURE" });
-        });
-    } catch (error: unknown) {
-      console.log("unexpected workout fetch failure", error);
-      dispatchWorkouts({ type: "WORKOUT_FETCH_FAILURE" });
-    }
-  }, []);
 
   if (workouts.isError) {
     console.log(workouts.isError);

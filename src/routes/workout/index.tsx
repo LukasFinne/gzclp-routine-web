@@ -4,9 +4,9 @@ import {
   redirect,
   useRouteContext,
 } from "@tanstack/react-router";
-import { Workout } from "../../components/workout/workout";
 import { LoadingSpinner } from "../../components/loading";
-import { getWorkoutDay } from "../../lib/user/hook";
+import { Workout } from "../../components/workout/workout";
+import { getWorkoutDay } from "../../lib/user/workout";
 
 export const Route = createFileRoute("/workout/")({
   component: RouteComponent,
@@ -30,16 +30,16 @@ export const Route = createFileRoute("/workout/")({
 });
 
 function RouteComponent() {
-  const { user, isLoading } = useRouteContext({ from: "/workout/" });
-  const currentWorkout = Route.useLoaderData();
+  const { user: auth, isLoading } = useRouteContext({ from: "/workout/" });
+  const userData = Route.useLoaderData();
 
-  if (isLoading || !user) {
+  if (isLoading || !auth) {
     return <LoadingSpinner text="Loading, Please wait" />;
   }
 
-  if (!currentWorkout) {
+  if (!userData) {
     return <Navigate to="/onboard" replace />
   }
 
-  return <Workout user={user} workoutDay={currentWorkout.currentWorkout} />;
+  return <Workout user={auth} workoutDay={userData} />;
 }
