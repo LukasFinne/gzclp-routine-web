@@ -1,12 +1,8 @@
-import {
-  createFileRoute,
-  Navigate,
-  redirect,
-  useRouteContext,
-} from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { LoadingSpinner } from "../../components/loading";
 import { workoutDay } from "../../features/workout/api/workout";
 import { Workout } from "../../features/workout/components/workout";
+import { Error } from "../../components/error";
 
 export const Route = createFileRoute("/workout/")({
   component: RouteComponent,
@@ -23,23 +19,28 @@ export const Route = createFileRoute("/workout/")({
   },
   loader: async ({ context }) => {
     if (!context.user) {
-      return null;
+      // eslint-disable-next-line @typescript-eslint/only-throw-error
+      throw redirect({ to: "/login" }); // 👈 Throw redirect instead of returning null!
     }
-    return await workoutDay(context.user);
+    const userDoc = await workoutDay(context.user.uid);
+
+    if (!userDoc) {
+      // eslint-disable-next-line @typescript-eslint/only-throw-error
+      throw redirect({ to: "/onboard" });
+    }
+
+    return {
+      currentWorkout: userDoc.currentWorkout,
+      workoutData: userDoc.workouts[userDoc.currentWorkout],
+    };
   },
+  pendingComponent: () => <LoadingSpinner text="Loading, Please wait" />,
+  errorComponent: ({ error }) => (
+    <Error error={error} title="Failed to load workout session" />
+  ),
 });
 
 function RouteComponent() {
-  const { user: auth, isLoading } = useRouteContext({ from: "/workout/" });
-  const userData = Route.useLoaderData();
-
-  if (isLoading || !auth) {
-    return <LoadingSpinner text="Loading, Please wait" />;
-  }
-
-  if (!userData) {
-    return <Navigate to="/onboard" replace />
-  }
-
-  return <Workout currentDay={userData.currentWorkout} userData={userData.workouts[userData.currentWorkout]} />;
+  const { currentWorkout, workoutData } = Route.useLoaderData();
+  return <Workout currentDay={currentWorkout} userData={workoutData} />;
 }
