@@ -41,5 +41,5 @@ function RouteComponent() {
     return <Navigate to="/onboard" replace />
   }
 
-  return <Workout userData={userData.workouts[userData.currentWorkout]} />;
+  return <Workout currentDay={userData.currentWorkout} userData={userData.workouts[userData.currentWorkout]} />;
 }

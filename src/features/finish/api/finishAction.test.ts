@@ -1,39 +1,33 @@
 import { describe, expect, it } from "vitest";
 import { finishAction } from "./finishAction";
-import type { WorkoutData } from "../../lib/workout/workout";
+import type { DocumentId, WorkoutData } from "../../../lib/workout/types";
 
 describe("finishAction", () => {
   it("Should be unauthorized", async () => {
     const user = null
+    const currentDay: DocumentId = "A1"
     const workout: WorkoutData = {
-      docId: "A1",
-      name: "Bench",
+      day: "Bench",
       tier1: {
-        name: "Bench",
+        exercise: "Bench",
         weight: 20,
-        protocol: {
-          stage: 1,
-          set: 1,
-          reps: 10
-        }
+        stage: 1,
+        set: 1,
+        reps: 10
       },
       tier2: {
-        name: "Bench",
+        exercise: "Bench",
         weight: 20,
-        protocol: {
-          stage: 1,
-          set: 1,
-          reps: 10
-        }
+        stage: 1,
+        set: 1,
+        reps: 10
       },
       tier3: {
-        name: "Bench",
+        exercise: "Bench",
         weight: 20,
-        protocol: {
-          stage: 1,
-          set: 1,
-          reps: 10
-        }
+        stage: 1,
+        set: 1,
+        reps: 10
       }
     }
 
@@ -41,7 +35,10 @@ describe("finishAction", () => {
       isSuccess: false,
       message: "UnAuthorized"
     }
-    const action = finishAction.bind(null, { data: workout, user: user })
+    const action = finishAction.bind(null, { data: {
+      currentDay:currentDay,
+      workout: workout
+    }, user: user })
     const result = await action()
     expect(result).toStrictEqual(expected)
   })

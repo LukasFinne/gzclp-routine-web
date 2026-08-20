@@ -1,12 +1,20 @@
-import type { Protocol } from "../../../../lib/workout/protocol";
-
-
 interface ProtocolProps {
-  initialProtocol: Protocol;
-  currentProtocol: Protocol;
+  initialProtocol: {
+    reps: number;
+    set: number;
+    stage: number;
+  };
+  currentProtocol: {
+    reps: number;
+    set: number;
+    stage: number;
+  };
 }
 
-export const ProtocolRow = ({ initialProtocol, currentProtocol }: ProtocolProps) => {
+export const ProtocolRow = ({
+  initialProtocol,
+  currentProtocol,
+}: ProtocolProps) => {
   if (isProtocolEqual(initialProtocol, currentProtocol)) {
     return (
       <td>
@@ -23,6 +31,17 @@ export const ProtocolRow = ({ initialProtocol, currentProtocol }: ProtocolProps)
   );
 };
 
-const isProtocolEqual = (p1: Protocol, p2: Protocol): boolean => {
+const isProtocolEqual = (
+  p1: {
+    reps: number;
+    set: number;
+    stage: number;
+  },
+  p2: {
+    reps: number;
+    set: number;
+    stage: number;
+  },
+): boolean => {
   return p1.reps === p2.reps && p1.set === p2.set && p1.stage === p2.stage;
 };

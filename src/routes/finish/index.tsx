@@ -4,17 +4,18 @@ import {
   useLocation,
   useRouteContext,
 } from "@tanstack/react-router";
-import { Finished } from "../../components/finish/finished";
-import { Greeting } from "../../components/finish/components/greeting";
-import { Summary } from "../../components/finish/components/summary";
-import { Progression } from "../../components/finish/components/progression/progression";
-import { UploadButton } from "../../components/finish/components/uploadButton";
+import { Finished } from "../../features/finish/components/finished";
+import { Greeting } from "../../features/finish/components/greeting";
+import { Summary } from "../../features/finish/components/summary";
+import { Progression } from "../../features/finish/components/progression/progression";
+import { UploadButton } from "../../features/finish/components/uploadButton";
 import { LoadingSpinner } from "../../components/loading";
 import { Error } from "../../components/error";
-import type { WorkoutData } from "../../lib/workout/types";
+import type { DocumentId, WorkoutData } from "../../lib/workout/types";
 
 declare module "@tanstack/react-router" {
   interface HistoryState {
+    currentDay: DocumentId;
     workout: WorkoutData | null;
     initialWorkout: WorkoutData | null;
   }
@@ -38,7 +39,7 @@ export const Route = createFileRoute("/finish/")({
 function RouteComponent() {
   const { user, isLoading } = useRouteContext({ from: "/finish/" });
   const location = useLocation();
-  const { workout, initialWorkout } = location.state;
+  const { workout, initialWorkout, currentDay } = location.state;
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -64,7 +65,7 @@ function RouteComponent() {
       <Greeting />
       <Summary>
         <Progression workout={workout} initialWorkout={initialWorkout} />
-        <UploadButton workout={workout} />
+        <UploadButton workout={workout} currentDay={currentDay} />
       </Summary>
     </Finished>
   );

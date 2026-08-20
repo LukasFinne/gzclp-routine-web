@@ -1,18 +1,19 @@
 import { useActionState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Button } from "../../button";
 import { useUser } from "../../../lib/hooks";
-import type { WorkoutData } from "../../../lib/workout/workout";
-import { finishAction } from "../finishAction";
+import type { DocumentId, WorkoutData } from "../../../lib/workout/types";
+import { finishAction } from "../api/finishAction";
+import { Button } from "../../../components/button";
 
 interface UploadButtonProps {
+  currentDay: DocumentId;
   workout: WorkoutData;
 }
 
-export const UploadButton = ({ workout }: UploadButtonProps) => {
+export const UploadButton = ({ workout, currentDay }: UploadButtonProps) => {
   const { user } = useUser();
   const [state, action, isPending] = useActionState(
-    finishAction.bind(null, { user, data: workout }),
+    finishAction.bind(null, { user, data: { workout: workout, currentDay: currentDay} }),
     null,
   );
 

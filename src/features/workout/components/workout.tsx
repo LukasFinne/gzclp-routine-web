@@ -4,14 +4,15 @@ import { LoadingSpinner } from "../../../components/loading";
 import { Error } from "../../../components/error";
 import { Tier, TIER_CONFIG } from "./tier";
 import { useNavigate } from "@tanstack/react-router";
-import type { WorkoutData } from "../../../lib/workout/types";
+import type { DocumentId, WorkoutData } from "../../../lib/workout/types";
 
 
 interface WorkoutProps {
   userData: WorkoutData;
+  currentDay: DocumentId;
 }
 
-export const Workout = ({  userData }: WorkoutProps) => {
+export const Workout = ({  userData, currentDay }: WorkoutProps) => {
   const nav = useNavigate();
 
   const [workouts, dispatchWorkouts] = useReducer(trainReducer, {
@@ -34,6 +35,7 @@ export const Workout = ({  userData }: WorkoutProps) => {
         to: "/finish",
         state: (prev) => ({
           ...prev,
+          currentDay: currentDay,
           workout: workouts.workoutData,
           initialWorkout: workouts.initialState,
         }),
