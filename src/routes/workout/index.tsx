@@ -20,7 +20,7 @@ export const Route = createFileRoute("/workout/")({
   loader: async ({ context }) => {
     if (!context.user) {
       // eslint-disable-next-line @typescript-eslint/only-throw-error
-      throw redirect({ to: "/login" }); // 👈 Throw redirect instead of returning null!
+      throw redirect({ to: "/login" }); 
     }
     const userDoc = await workoutDay(context.user.uid);
 
