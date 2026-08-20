@@ -21,8 +21,8 @@ export type Action =
     };
 
 export interface State {
-  workoutData: WorkoutData | null;
-  initialState: WorkoutData | null;
+  workoutData: WorkoutData; 
+  initialState: WorkoutData;
   tier: TierType;
   isLoading: boolean;
   isError: boolean;
@@ -31,35 +31,23 @@ export interface State {
 export const trainReducer = (state: State, action: Action) => {
   switch (action.type) {
     case "WORKOUT_ON_SUCCESS":
-      if (state.workoutData === null) {
-        throw new Error("workdata is null");
-      }
       return {
         ...state,
         workoutData: updateWeight(state.workoutData, state.tier),
         tier: RotateTier(state.tier),
       };
     case "WORKOUT_ON_FAILURE":
-      if (state.workoutData === null) {
-        throw new Error("workdata is null");
-      }
       return {
         ...state,
         workoutData: updateProtocol(state.workoutData, state.tier),
         tier: RotateTier(state.tier),
       };
     case "WORKOUT_ON_FAILURE_FINISH":
-      if (state.workoutData === null) {
-        throw new Error("workdata is null");
-      }
       return {
         ...state,
         workoutData: updateProtocol(state.workoutData, state.tier),
       };
     case "WORKOUT_ON_SUCCESS_FINISH":
-      if (state.workoutData === null) {
-        throw new Error("workdata is null");
-      }
       return {
         ...state,
         workoutData: updateWeight(state.workoutData, state.tier),

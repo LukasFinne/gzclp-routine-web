@@ -1,20 +1,18 @@
 import { useReducer } from "react";
 import { trainReducer, type Action } from "../workoutReducer";
-import { LoadingSpinner } from "../../../components/loading";
 import { Error } from "../../../components/error";
-import { Tier, TIER_CONFIG } from "./tier";
 import { useNavigate } from "@tanstack/react-router";
 import type { DocumentId, WorkoutData } from "../../../lib/workout/types";
-
+import { Exercise } from "./exercise";
+import { WorkoutButtons } from "./workoutButtons";
+import { TIER_CONFIG } from "../types";
 
 interface WorkoutProps {
   userData: WorkoutData;
   currentDay: DocumentId;
 }
-
-export const Workout = ({  userData, currentDay }: WorkoutProps) => {
+export const Workout = ({ userData, currentDay }: WorkoutProps) => {
   const nav = useNavigate();
-
   const [workouts, dispatchWorkouts] = useReducer(trainReducer, {
     workoutData: userData,
     initialState: userData,
@@ -57,22 +55,14 @@ export const Workout = ({  userData, currentDay }: WorkoutProps) => {
 
   return (
     <>
-      <div className="hero bg-base-200 min-h-screen">
-        <div className="hero-content text-center">
-          {workouts.isLoading || workouts.workoutData === null ? (
-            <LoadingSpinner text="Fetching your workouts" />
-          ) : (
-            <Tier
-              data={workouts.workoutData[workouts.tier]}
-              onFail={config.onFail}
-              onSuccess={config.onSuccess}
-              onClick={(action) => {
-                handleOnClick(action);
-              }}
-            />
-          )}
-        </div>
-      </div>
+      <Exercise data={workouts.workoutData[workouts.tier]} />
+      <WorkoutButtons
+        onFail={config.onFail}
+        onClick={(action) => {
+          handleOnClick(action);
+        }}
+        onSuccess={config.onSuccess}
+      />
     </>
   );
 };
