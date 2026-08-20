@@ -1,15 +1,14 @@
 import { describe, expect, it } from "vitest";
-import { trainReducer, updateProtocol, type Action, type State } from "./reducer";
-import type { Name, TierType } from "../../lib/workout/tier";
-import type { Stage } from "../../lib/workout/protocol";
-import type { DocumentId } from "../../lib/workout/workout";
+import { trainReducer, updateProtocol, type Action, type State } from "./workoutReducer";
+import type { TierType, Stage, Exercise } from "../../lib/workout/types";
+
 
 describe("trainReducer", () => {
   it("rotate tier1 to tier2", () => {
     const action: Action = { type: "WORKOUT_ON_SUCCESS" };
     const state: State = {
       workoutData: createWeightData(
-        { tier1: "Squat", tier2: "Squat", tier3: "Squat" },
+        { tier1: "Squat", tier2: "Bench", tier3: "Squat" },
         { tier1: 10, tier2: 10, tier3: 10 },
       ),
       initialState: null,
@@ -23,8 +22,8 @@ describe("trainReducer", () => {
       workoutData: createWeightData(
         {
           root: "Squat",
-          tier1: "Squat Day",
-          tier2: "Squat",
+          tier1: "Squat",
+          tier2: "Bench",
           tier3: "Squat",
         },
         { tier1: 15, tier2: 10, tier3: 10 },
@@ -41,7 +40,7 @@ describe("trainReducer", () => {
     const action: Action = { type: "WORKOUT_ON_SUCCESS" };
     const state: State = {
       workoutData: createWeightData(
-        { tier1: "Squat", tier2: "Squat", tier3: "Squat" },
+        { tier1: "Squat", tier2: "Deadlift", tier3: "Squat" },
         { tier1: 10, tier2: 10, tier3: 10 },
       ),
       initialState: null,
@@ -55,7 +54,7 @@ describe("trainReducer", () => {
       workoutData: createWeightData(
         {
           tier1: "Squat",
-          tier2: "Squat Day",
+          tier2: "Deadlift",
           tier3: "Squat",
         },
         { tier1: 10, tier2: 15, tier3: 10 },
@@ -90,7 +89,7 @@ describe("trainReducer", () => {
       workoutData: createWeightData(
         {
           root: "Squat",
-          tier1: "Squat Day",
+          tier1: "Squat",
           tier2: "Bench",
           tier3: "Lat pulldown",
         },
@@ -126,7 +125,7 @@ describe("trainReducer", () => {
       workoutData: createWeightData(
         {
           tier1: "Squat",
-          tier2: "Bench Day",
+          tier2: "Bench",
           tier3: "Squat",
         },
         { tier1: 10, tier2: 12.5, tier3: 10 },
@@ -157,7 +156,7 @@ describe("trainReducer", () => {
       workoutData: createWeightData(
         {
           root: "OHP",
-          tier1: "OHP Day",
+          tier1: "OHP",
           tier2: "Bench",
           tier3: "Squat",
         },
@@ -189,7 +188,7 @@ describe("trainReducer", () => {
       workoutData: createWeightData(
         {
           tier1: "OHP",
-          tier2: "Deadlift Day",
+          tier2: "Deadlift",
           tier3: "Bench",
         },
         { tier1: 10, tier2: 17.5, tier3: 12.5 },
@@ -221,7 +220,7 @@ describe("trainReducer", () => {
         {
           tier1: "OHP",
           tier2: "Bench",
-          tier3: "Deadlift Day",
+          tier3: "Deadlift",
         },
         { tier1: 10, tier2: 12.5, tier3: 12.5 },
       ),
@@ -237,9 +236,9 @@ describe("trainReducer", () => {
     const action: Action = { type: "WORKOUT_ON_FAILURE" };
     const state: State = {
       workoutData: createWeightData(
-        { tier1: "Squat", tier2: "Bench", tier3: "Lat pulldown" },
-        { tier1: 20, tier2: 15, tier3: 10 },
-        { tier1: 1, tier2: 1, tier3: 1 },
+        { tier1: "Squat", tier2: "Bench", tier3: "Lat pulldown" }, // Exercise
+        { tier1: 20, tier2: 15, tier3: 10 }, // Weight
+        { tier1: 1, tier2: 1, tier3: 1 }, // Stage
       ),
       initialState: null,
       isError: false,
@@ -388,21 +387,26 @@ const createWeightData = (
   };
 
   return {
-    docId: "A1" as DocumentId,
-    name: (names.root ?? names.tier1) as Name,
+    day: (names.root ?? names.tier1) as Exercise,
     tier1: {
-      name: names.tier1 as Name,
-      protocol: getProtocol("tier1", stages.tier1 ?? 1),
+      exercise: names.tier1 as Exercise,
+      set: getProtocol("tier1", stages.tier1 ?? 1).set,
+      reps: getProtocol("tier1", stages.tier1 ?? 1).reps,
+      stage: getProtocol("tier1", stages.tier1 ?? 1).stage , 
       weight: weights.tier1,
     },
     tier2: {
-      name: names.tier2 as Name,
-      protocol: getProtocol("tier2", stages.tier2 ?? 1),
+      exercise: names.tier2 as Exercise,
+      set: getProtocol("tier2", stages.tier2 ?? 1).set,
+      reps: getProtocol("tier2", stages.tier2 ?? 1).reps,
+      stage: getProtocol("tier2", stages.tier2 ?? 1).stage , 
       weight: weights.tier2,
     },
     tier3: {
-      name: names.tier3 as Name,
-      protocol: getProtocol("tier3", stages.tier3 ?? 1),
+      exercise: names.tier3 as Exercise,
+      set: getProtocol("tier3", stages.tier3 ?? 1).set,
+      reps: getProtocol("tier3", stages.tier3 ?? 1).reps,
+      stage: getProtocol("tier3", stages.tier3 ?? 1).stage , 
       weight: weights.tier3,
     },
   };

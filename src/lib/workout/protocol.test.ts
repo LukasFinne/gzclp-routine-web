@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { rotateDay } from './workout'
+import { rotateDay } from './protocol'
 
 
 test('Rotation of keys are correct order', () => {

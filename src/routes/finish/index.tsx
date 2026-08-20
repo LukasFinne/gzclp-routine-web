@@ -4,7 +4,6 @@ import {
   useLocation,
   useRouteContext,
 } from "@tanstack/react-router";
-import type { WorkoutData } from "../../lib/workout/workout";
 import { Finished } from "../../components/finish/finished";
 import { Greeting } from "../../components/finish/components/greeting";
 import { Summary } from "../../components/finish/components/summary";
@@ -12,6 +11,7 @@ import { Progression } from "../../components/finish/components/progression/prog
 import { UploadButton } from "../../components/finish/components/uploadButton";
 import { LoadingSpinner } from "../../components/loading";
 import { Error } from "../../components/error";
+import type { WorkoutData } from "../../lib/workout/types";
 
 declare module "@tanstack/react-router" {
   interface HistoryState {

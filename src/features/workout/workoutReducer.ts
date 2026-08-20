@@ -1,22 +1,12 @@
-import { ProtocolsByTier } from "../../lib/workout/protocol";
-import type { Name, TierType } from "../../lib/workout/tier";
-import type { WorkoutData } from "../../lib/workout/workout";
+import type { Exercise, TierType, WorkoutData } from "../../lib/workout/types";
+import { protocolsByTier } from "../../lib/workout/protocol";
+import { RotateTier } from "../../lib/workout/tier";
 
 const EIGHTY_FIVE_PERCENT = 0.85;
 const TWO_POINT_5_KILO = 2.5;
 const FIVE_KILO = 5;
 
 export type Action =
-  | {
-      type: "WORKOUT_FETCH_INIT";
-    }
-  | {
-      type: "WORKOUT_FETCH_SUCCESS";
-      payload: WorkoutData;
-    }
-  | {
-      type: "WORKOUT_FETCH_FAILURE";
-    }
   | {
       type: "WORKOUT_ON_SUCCESS";
     }
@@ -30,16 +20,6 @@ export type Action =
       type: "WORKOUT_ON_SUCCESS_FINISH";
     };
 
-const TierRotation: Record<TierType, TierType> = {
-  tier1: "tier2",
-  tier2: "tier3",
-  tier3: "tier1",
-};
-
-const RotateTier = (current: TierType) => {
-  return TierRotation[current];
-};
-
 export interface State {
   workoutData: WorkoutData | null;
   initialState: WorkoutData | null;
@@ -50,26 +30,6 @@ export interface State {
 
 export const trainReducer = (state: State, action: Action) => {
   switch (action.type) {
-    case "WORKOUT_FETCH_INIT":
-      return {
-        ...state,
-        isLoading: true,
-        isError: false,
-      };
-    case "WORKOUT_FETCH_SUCCESS":
-      return {
-        ...state,
-        workoutData: action.payload,
-        initialState: action.payload,
-        isLoading: false,
-        isError: false,
-      };
-    case "WORKOUT_FETCH_FAILURE":
-      return {
-        ...state,
-        isLoading: false,
-        isError: true,
-      };
     case "WORKOUT_ON_SUCCESS":
       if (state.workoutData === null) {
         throw new Error("workdata is null");
@@ -117,17 +77,20 @@ export const updateWeight = (
     ...data,
     [currentTier]: {
       ...data[currentTier],
-      name: `${data[currentTier].name} Day`,
+      exercise: data[currentTier].exercise,
       weight:
         currentTier === "tier3"
           ? data[currentTier].weight
-          : weightIncrease(data[currentTier].name, data[currentTier].weight),
+          : weightIncrease(
+              data[currentTier].exercise,
+              data[currentTier].weight,
+            ),
     },
   };
 };
 
-const weightIncrease = (name: Name, weight: number): number => {
-  switch (name) {
+const weightIncrease = (exercise: Exercise, weight: number): number => {
+  switch (exercise) {
     case "Squat":
     case "Deadlift":
       return weight + FIVE_KILO;
@@ -143,16 +106,19 @@ export const updateProtocol = (
   data: WorkoutData,
   currentTier: TierType,
 ): WorkoutData => {
-  const newProtocol = ProtocolsByTier(currentTier);
+  const newProtocol = protocolsByTier(currentTier);
+  console.log("protocol", newProtocol);
   return {
     ...data,
     [currentTier]: {
       ...data[currentTier],
       weight:
-        data[currentTier].protocol.stage === 3
+        data[currentTier].stage === 3
           ? data[currentTier].weight * EIGHTY_FIVE_PERCENT
           : data[currentTier].weight,
-      protocol: newProtocol.get(data[currentTier].protocol.stage),
+      stage: newProtocol.get(data[currentTier].stage)?.stage,
+      reps: newProtocol.get(data[currentTier].stage)?.reps,
+      set: newProtocol.get(data[currentTier].stage)?.set,
     },
   };
 };

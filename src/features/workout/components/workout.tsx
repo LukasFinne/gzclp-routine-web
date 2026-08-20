@@ -1,23 +1,22 @@
 import { useReducer } from "react";
-import type { User } from "firebase/auth";
-import { trainReducer, type Action } from "./reducer";
-import { LoadingSpinner } from "../loading";
-import { Error } from "../error";
+import { trainReducer, type Action } from "../workoutReducer";
+import { LoadingSpinner } from "../../../components/loading";
+import { Error } from "../../../components/error";
 import { Tier, TIER_CONFIG } from "./tier";
 import { useNavigate } from "@tanstack/react-router";
-import type { UserDoc } from "../../lib/user/hook";
+import type { WorkoutData } from "../../../lib/workout/types";
+
 
 interface WorkoutProps {
-  user: User;
-  userData: UserDoc;
+  userData: WorkoutData;
 }
 
-export const Workout = ({ user, userData }: WorkoutProps) => {
+export const Workout = ({  userData }: WorkoutProps) => {
   const nav = useNavigate();
 
   const [workouts, dispatchWorkouts] = useReducer(trainReducer, {
-    workoutData: null,
-    initialState: null,
+    workoutData: userData,
+    initialState: userData,
     tier: "tier1",
     isLoading: false,
     isError: false,

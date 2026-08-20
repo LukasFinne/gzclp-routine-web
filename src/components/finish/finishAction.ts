@@ -1,7 +1,8 @@
 import { doc, writeBatch } from "firebase/firestore";
-import { rotateDay, type WorkoutData } from "../../lib/workout/workout";
 import type { User } from "firebase/auth";
 import { db } from "../../lib/firebase";
+import type { WorkoutData } from "../../lib/workout/types";
+import { rotateDay } from "../../lib/workout/protocol";
 
 export interface WorkoutState {
   isSuccess: boolean;
@@ -28,7 +29,7 @@ export const finishAction = async (
     console.log("initiaing...");
     const userDocRef = doc(db, `users/${user.uid}`);
     const newWorkoutDay = {
-      currentWorkout: rotateDay(data.docId),
+      currentWorkout: rotateDay(data.day),
     };
     const workoutDataRef = doc(db, `users/${user.uid}/workouts/${data.docId}`);
     const batch = writeBatch(db);

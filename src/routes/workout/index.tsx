@@ -5,8 +5,8 @@ import {
   useRouteContext,
 } from "@tanstack/react-router";
 import { LoadingSpinner } from "../../components/loading";
-import { Workout } from "../../components/workout/workout";
-import { getWorkoutDay } from "../../lib/user/workout";
+import { workoutDay } from "../../features/workout/api/workout";
+import { Workout } from "../../features/workout/components/workout";
 
 export const Route = createFileRoute("/workout/")({
   component: RouteComponent,
@@ -25,7 +25,7 @@ export const Route = createFileRoute("/workout/")({
     if (!context.user) {
       return null;
     }
-    return await getWorkoutDay(context.user);
+    return await workoutDay(context.user);
   },
 });
 
@@ -41,5 +41,5 @@ function RouteComponent() {
     return <Navigate to="/onboard" replace />
   }
 
-  return <Workout user={auth} workoutDay={userData} />;
+  return <Workout userData={userData.workouts[userData.currentWorkout]} />;
 }
