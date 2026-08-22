@@ -1,13 +1,11 @@
+import { BasicHero } from "../../../components/ui/hero";
+
 interface FinishedProps {
   children: React.ReactNode;
 }
 
-export const Finished = ({children}: FinishedProps) => (
-  <div className="hero bg-base-200 min-h-screen py-8 flex items-center justify-center">
-    <div className="hero-content text-center w-full max-w-lg">
-      <div className="w-full">
-        {children}
-      </div>
-    </div>
-  </div>
+export const Finished = ({ children }: FinishedProps) => (
+  <BasicHero>
+    <div className="w-full">{children}</div>
+  </BasicHero>
 );

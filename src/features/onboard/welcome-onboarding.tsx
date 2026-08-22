@@ -1,4 +1,4 @@
-import { Link } from "../link"
+import { Link } from "@tanstack/react-router"
 
 export const Welcome = () => {
   return (
