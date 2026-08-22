@@ -3,16 +3,7 @@ import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { Header } from "../components/layout/header";
 import type { User } from "firebase/auth";
 import { Error } from "../components/ui/error";
-{
-  /* <div className="p-2 flex gap-2">
-    <Link to="/" className="[&.active]:font-bold">
-      Home
-    </Link>{" "}
-    <Link to="/about" className="[&.active]:font-bold">
-      About
-    </Link>
-  </div> */
-}
+
 const RootLayout = () => (
   <>
     <div className="flex flex-col h-screen overflow-hidden bg-base-200">
