@@ -1,8 +1,10 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { LoadingSpinner } from "../../components/loading";
 import { workoutDay } from "../../features/workout/api/workout";
-import { Workout } from "../../features/workout/components/workout";
 import { Error } from "../../components/error";
+import {WorkoutLayout } from "../../features/workout/components/workoutLayout";
+import { Workout } from "../../features/workout/components/workout";
+
 
 export const Route = createFileRoute("/workout/")({
   component: RouteComponent,
@@ -20,7 +22,7 @@ export const Route = createFileRoute("/workout/")({
   loader: async ({ context }) => {
     if (!context.user) {
       // eslint-disable-next-line @typescript-eslint/only-throw-error
-      throw redirect({ to: "/login" }); 
+      throw redirect({ to: "/login" });
     }
     const userDoc = await workoutDay(context.user.uid);
 
@@ -30,7 +32,7 @@ export const Route = createFileRoute("/workout/")({
     }
 
     return {
-      currentWorkout: userDoc.currentWorkout,
+      currentDay: userDoc.currentWorkout,
       workoutData: userDoc.workouts[userDoc.currentWorkout],
     };
   },
@@ -41,6 +43,10 @@ export const Route = createFileRoute("/workout/")({
 });
 
 function RouteComponent() {
-  const { currentWorkout, workoutData } = Route.useLoaderData();
-  return <Workout currentDay={currentWorkout} userData={workoutData} />;
+  const { currentDay, workoutData } = Route.useLoaderData();
+  return (
+    <WorkoutLayout>
+      <Workout currentDay={currentDay} userData={workoutData} />
+    </WorkoutLayout>
+  );
 }

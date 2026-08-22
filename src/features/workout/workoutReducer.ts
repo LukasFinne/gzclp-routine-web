@@ -6,64 +6,39 @@ const EIGHTY_FIVE_PERCENT = 0.85;
 const TWO_POINT_5_KILO = 2.5;
 const FIVE_KILO = 5;
 
-export type Action =
-  | {
-      type: "WORKOUT_ON_SUCCESS";
-    }
-  | {
-      type: "WORKOUT_ON_FAILURE";
-    }
-  | {
-      type: "WORKOUT_ON_FAILURE_FINISH";
-    }
-  | {
-      type: "WORKOUT_ON_SUCCESS_FINISH";
-    };
+export type Action = { type: "WORKOUT_SUCCESS" } | { type: "WORKOUT_FAILURE" };
 
 export interface State {
-  workoutData: WorkoutData | null;
-  initialState: WorkoutData | null;
+  workoutData: WorkoutData;
+  initialState: WorkoutData;
   tier: TierType;
-  isLoading: boolean;
-  isError: boolean;
+  isFinished: boolean;
 }
 
-export const trainReducer = (state: State, action: Action) => {
+export const trainReducer = (state: State, action: Action): State => {
+  const isLastTier = state.tier === "tier3";
+
   switch (action.type) {
-    case "WORKOUT_ON_SUCCESS":
-      if (state.workoutData === null) {
-        throw new Error("workdata is null");
-      }
+    case "WORKOUT_SUCCESS": {
+      const nextWorkoutData = updateWeight(state.workoutData, state.tier);
       return {
         ...state,
-        workoutData: updateWeight(state.workoutData, state.tier),
-        tier: RotateTier(state.tier),
+        workoutData: nextWorkoutData,
+        tier: isLastTier ? state.tier : RotateTier(state.tier),
+        isFinished: isLastTier,
       };
-    case "WORKOUT_ON_FAILURE":
-      if (state.workoutData === null) {
-        throw new Error("workdata is null");
-      }
+    }
+
+    case "WORKOUT_FAILURE": {
+      const nextWorkoutData = updateProtocol(state.workoutData, state.tier);
       return {
         ...state,
-        workoutData: updateProtocol(state.workoutData, state.tier),
-        tier: RotateTier(state.tier),
+        workoutData: nextWorkoutData,
+        tier: isLastTier ? state.tier : RotateTier(state.tier),
+        isFinished: isLastTier,
       };
-    case "WORKOUT_ON_FAILURE_FINISH":
-      if (state.workoutData === null) {
-        throw new Error("workdata is null");
-      }
-      return {
-        ...state,
-        workoutData: updateProtocol(state.workoutData, state.tier),
-      };
-    case "WORKOUT_ON_SUCCESS_FINISH":
-      if (state.workoutData === null) {
-        throw new Error("workdata is null");
-      }
-      return {
-        ...state,
-        workoutData: updateWeight(state.workoutData, state.tier),
-      };
+    }
+
     default:
       throw new Error();
   }
@@ -107,7 +82,6 @@ export const updateProtocol = (
   currentTier: TierType,
 ): WorkoutData => {
   const newProtocol = protocolsByTier(currentTier);
-  console.log("protocol", newProtocol);
   return {
     ...data,
     [currentTier]: {
