@@ -1,6 +1,6 @@
-import { useUser } from "../lib/hooks";
-import { Link } from "./link";
-import { SignOut } from "./login/sign-out";
+import { useUser } from "../../lib/hooks";
+import { Link } from "../ui/link";
+import { SignOut } from "../../features/login/sign-out";
 
 export const Header = () => {
   const { user } = useUser();

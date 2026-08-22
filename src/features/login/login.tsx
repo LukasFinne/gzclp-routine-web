@@ -1,11 +1,11 @@
 import React, { useActionState, useState } from "react";
-import { WarningAlert } from "../alert";
 import { loginAction, type LoginState } from "./loginAction";
 import { Email } from "./email";
 import { Password } from "./password";
-import { Button } from "../button";
-import { LoadingDots } from "../loading";
 import { Navigate, type LinkComponentProps } from "@tanstack/react-router";
+import { WarningAlert } from "../../components/ui/alert";
+import { Button } from "../../components/ui/button";
+import { LoadingDots } from "../../components/ui/loading";
 
 interface LoginProps{
   redirect?: LinkComponentProps["to"]

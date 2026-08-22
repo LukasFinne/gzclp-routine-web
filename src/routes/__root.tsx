@@ -1,8 +1,8 @@
 import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-import { Header } from "../components/header";
+import { Header } from "../components/layout/header";
 import type { User } from "firebase/auth";
-import { Error } from "../components/error";
+import { Error } from "../components/ui/error";
 {
   /* <div className="p-2 flex gap-2">
     <Link to="/" className="[&.active]:font-bold">

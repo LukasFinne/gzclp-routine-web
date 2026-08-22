@@ -5,8 +5,8 @@ import {
   type LinkComponentProps,
 } from "@tanstack/react-router";
 import { z } from "zod";
-import Login from "../../components/login/login";
-import { LoadingSpinner } from "../../components/loading";
+import Login from "../../features/login/login";
+import { LoadingSpinner } from "../../components/ui/loading";
 
 const loginSearchSchema = z.object({
   redirect: z.custom<LinkComponentProps["to"]>().optional(),

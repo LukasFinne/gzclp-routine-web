@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { useUser } from "../../../lib/hooks";
 import type { DocumentId, WorkoutData } from "../../../lib/workout/types";
 import { finishAction } from "../api/finishAction";
-import { Button } from "../../../components/button";
+import { Button } from "../../../components/ui/button";
 
 interface UploadButtonProps {
   currentDay: DocumentId;
