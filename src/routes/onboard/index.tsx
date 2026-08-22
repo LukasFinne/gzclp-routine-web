@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Welcome } from "../../components/onboard/welcome-onboarding";
+import { Welcome } from "../../features/onboard/welcome-onboarding";
 
 export const Route = createFileRoute("/onboard/")({
   component: RouteComponent,

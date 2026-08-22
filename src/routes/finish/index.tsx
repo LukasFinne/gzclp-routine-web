@@ -9,8 +9,8 @@ import { Greeting } from "../../features/finish/components/greeting";
 import { Summary } from "../../features/finish/components/summary";
 import { Progression } from "../../features/finish/components/progression/progression";
 import { UploadButton } from "../../features/finish/components/uploadButton";
-import { LoadingSpinner } from "../../components/loading";
-import { Error } from "../../components/error";
+import { LoadingSpinner } from "../../components/ui/loading";
+import { Error } from "../../components/ui/error";
 import type { DocumentId, WorkoutData } from "../../lib/workout/types";
 
 declare module "@tanstack/react-router" {

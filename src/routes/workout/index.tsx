@@ -1,7 +1,7 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { LoadingSpinner } from "../../components/loading";
+import { LoadingSpinner } from "../../components/ui/loading";
 import { workoutDay } from "../../features/workout/api/workout";
-import { Error } from "../../components/error";
+import { Error } from "../../components/ui/error";
 import {WorkoutLayout } from "../../features/workout/components/workoutLayout";
 import { Workout } from "../../features/workout/components/workout";
 
