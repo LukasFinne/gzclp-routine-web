@@ -1,32 +1,28 @@
 import { Button } from "../../../components/button";
-import type { Action } from "../workoutReducer";
 
-interface WorkoutButtonsProps {
-  onFail: Action;
-  onSuccess: Action;
-  onClick: (action: Action) => void;
-}
+  interface WorkoutButtonsProps {
+    onSuccess: () => void;
+    onFailure: () => void;
+    disabled?: boolean;
+  }
 
-
-export const WorkoutButtons = ({ onFail, onSuccess, onClick }: WorkoutButtonsProps) => {
-  return (
-    <div className="w-full space-x-4 ">
-      <Button
-        onClick={() => {
-          onClick(onFail);
-        }}
-        className="btn btn-secondary btn-xl sm:btn-md"
-      >
-        Failed
-      </Button>
-      <Button
-        onClick={() => {
-          onClick(onSuccess);
-        }}
-        className="btn btn-primary btn-xl sm:btn-md"
-      >
-        Success
-      </Button>
-    </div>
-  )
-}
+  export const WorkoutButtons = ({ onSuccess, onFailure, disabled }: WorkoutButtonsProps) => {
+    return (
+      <div className="w-full space-x-4">
+        <Button
+          onClick={onFailure}
+          disabled={disabled}
+          className="btn btn-secondary btn-xl sm:btn-md"
+        >
+          Failed
+        </Button>
+        <Button
+          onClick={onSuccess}
+          disabled={disabled}
+          className="btn btn-primary btn-xl sm:btn-md"
+        >
+          Success
+        </Button>
+      </div>
+    );
+  };

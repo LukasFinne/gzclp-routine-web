@@ -5,15 +5,17 @@ import type { TierType, Stage, Exercise } from "../../lib/workout/types";
 
 describe("trainReducer", () => {
   it("rotate tier1 to tier2", () => {
-    const action: Action = { type: "WORKOUT_ON_SUCCESS" };
+    const action: Action = { type: "WORKOUT_SUCCESS" };
     const state: State = {
       workoutData: createWeightData(
         { tier1: "Squat", tier2: "Bench", tier3: "Squat" },
         { tier1: 10, tier2: 10, tier3: 10 },
       ),
-      initialState: null,
-      isError: false,
-      isLoading: false,
+      initialState: createWeightData(
+        { tier1: "Squat", tier2: "Bench", tier3: "Squat" },
+        { tier1: 10, tier2: 10, tier3: 10 },
+      ),
+      isFinished: false,
       tier: "tier1", // Start at tier1
     };
     const newState = trainReducer(state, action);
@@ -28,24 +30,28 @@ describe("trainReducer", () => {
         },
         { tier1: 15, tier2: 10, tier3: 10 },
       ),
-      initialState: null,
-      isError: false,
-      isLoading: false,
+      initialState: createWeightData(
+        { tier1: "Squat", tier2: "Bench", tier3: "Squat" },
+        { tier1: 10, tier2: 10, tier3: 10 },
+      ),
+      isFinished: false,
       tier: "tier2",
     };
     expect(newState).toStrictEqual(expectedState);
   });
 
   it("rotate tier tier2 to tier3", () => {
-    const action: Action = { type: "WORKOUT_ON_SUCCESS" };
+    const action: Action = { type: "WORKOUT_SUCCESS" };
     const state: State = {
       workoutData: createWeightData(
         { tier1: "Squat", tier2: "Deadlift", tier3: "Squat" },
         { tier1: 10, tier2: 10, tier3: 10 },
       ),
-      initialState: null,
-      isError: false,
-      isLoading: false,
+      initialState: createWeightData(
+        { tier1: "Squat", tier2: "Bench", tier3: "Squat" },
+        { tier1: 10, tier2: 10, tier3: 10 },
+      ),
+      isFinished: false,
       tier: "tier2",
     };
     const newState = trainReducer(state, action);
@@ -59,16 +65,18 @@ describe("trainReducer", () => {
         },
         { tier1: 10, tier2: 15, tier3: 10 },
       ),
-      initialState: null,
-      isError: false,
-      isLoading: false,
+      initialState: createWeightData(
+        { tier1: "Squat", tier2: "Bench", tier3: "Squat" },
+        { tier1: 10, tier2: 10, tier3: 10 },
+      ),
+      isFinished: false,
       tier: "tier3",
     };
     expect(newState).toStrictEqual(expectedState);
   });
 
   it("new Squat weight should be 15", () => {
-    const action: Action = { type: "WORKOUT_ON_SUCCESS" };
+    const action: Action = { type: "WORKOUT_SUCCESS" };
     const state: State = {
       workoutData: createWeightData(
         {
@@ -78,9 +86,11 @@ describe("trainReducer", () => {
         },
         { tier1: 10, tier2: 10, tier3: 10 },
       ),
-      initialState: null,
-      isError: false,
-      isLoading: false,
+      initialState: createWeightData(
+        { tier1: "Squat", tier2: "Bench", tier3: "Squat" },
+        { tier1: 10, tier2: 10, tier3: 10 },
+      ),
+      isFinished: false,
       tier: "tier1",
     };
     const newState = trainReducer(state, action);
@@ -95,16 +105,18 @@ describe("trainReducer", () => {
         },
         { tier1: 15, tier2: 10, tier3: 10 },
       ),
-      initialState: null,
-      isError: false,
-      isLoading: false,
+      initialState: createWeightData(
+        { tier1: "Squat", tier2: "Bench", tier3: "Squat" },
+        { tier1: 10, tier2: 10, tier3: 10 },
+      ),
+      isFinished: false,
       tier: "tier2",
     };
     expect(newState).toStrictEqual(expectedState);
   });
 
   it("new Bench weight should be 12.5", () => {
-    const action: Action = { type: "WORKOUT_ON_SUCCESS" };
+    const action: Action = { type: "WORKOUT_SUCCESS" };
     const state: State = {
       workoutData: createWeightData(
         {
@@ -114,9 +126,11 @@ describe("trainReducer", () => {
         },
         { tier1: 10, tier2: 10, tier3: 10 },
       ),
-      initialState: null,
-      isError: false,
-      isLoading: false,
+      initialState: createWeightData(
+        { tier1: "Squat", tier2: "Bench", tier3: "Squat" },
+        { tier1: 10, tier2: 10, tier3: 10 },
+      ),
+      isFinished: false,
       tier: "tier2",
     };
     const newState = trainReducer(state, action);
@@ -130,24 +144,28 @@ describe("trainReducer", () => {
         },
         { tier1: 10, tier2: 12.5, tier3: 10 },
       ),
-      initialState: null,
-      isError: false,
-      isLoading: false,
+      initialState: createWeightData(
+        { tier1: "Squat", tier2: "Bench", tier3: "Squat" },
+        { tier1: 10, tier2: 10, tier3: 10 },
+      ),
+      isFinished: false,
       tier: "tier3",
     };
     expect(newState).toStrictEqual(expectedState);
   });
 
   it("new OHP weight should be 12.5", () => {
-    const action: Action = { type: "WORKOUT_ON_SUCCESS" };
+    const action: Action = { type: "WORKOUT_SUCCESS" };
     const state: State = {
       workoutData: createWeightData(
         { tier1: "OHP", tier2: "Bench", tier3: "Squat"},
         { tier1: 10, tier2: 12.5, tier3: 10 },
       ),
-      initialState: null,
-      isError: false,
-      isLoading: false,
+      initialState: createWeightData(
+        { tier1: "Squat", tier2: "Bench", tier3: "Squat" },
+        { tier1: 10, tier2: 10, tier3: 10 },
+      ),
+      isFinished: false,
       tier: "tier1",
     };
     const newState = trainReducer(state, action);
@@ -162,24 +180,28 @@ describe("trainReducer", () => {
         },
         { tier1: 12.5, tier2: 12.5, tier3: 10 },
       ),
-      initialState: null,
-      isError: false,
-      isLoading: false,
+      initialState: createWeightData(
+        { tier1: "Squat", tier2: "Bench", tier3: "Squat" },
+        { tier1: 10, tier2: 10, tier3: 10 },
+      ),
+      isFinished: false,
       tier: "tier2",
     };
     expect(newState).toStrictEqual(expectedState);
   });
 
   it("new Deadlift weight should be 17.5", () => {
-    const action: Action = { type: "WORKOUT_ON_SUCCESS" };
+    const action: Action = { type: "WORKOUT_SUCCESS" };
     const state: State = {
       workoutData: createWeightData(
         { tier1: "OHP", tier2: "Deadlift", tier3: "Bench" },
         { tier1: 10, tier2: 12.5, tier3: 12.5 },
       ),
-      initialState: null,
-      isError: false,
-      isLoading: false,
+      initialState: createWeightData(
+        { tier1: "Squat", tier2: "Bench", tier3: "Squat" },
+        { tier1: 10, tier2: 10, tier3: 10 },
+      ),
+      isFinished: false,
       tier: "tier2",
     };
     const newState = trainReducer(state, action);
@@ -193,24 +215,28 @@ describe("trainReducer", () => {
         },
         { tier1: 10, tier2: 17.5, tier3: 12.5 },
       ),
-      initialState: null,
-      isError: false,
-      isLoading: false,
+      initialState: createWeightData(
+        { tier1: "Squat", tier2: "Bench", tier3: "Squat" },
+        { tier1: 10, tier2: 10, tier3: 10 },
+      ),
+      isFinished: false,
       tier: "tier3",
     };
     expect(newState).toStrictEqual(expectedState);
   });
 
   it("tier3 weight should not change after action", () => {
-    const action: Action = { type: "WORKOUT_ON_SUCCESS" };
+    const action: Action = { type: "WORKOUT_SUCCESS" };
     const state: State = {
       workoutData: createWeightData(
         { tier1: "OHP", tier2: "Bench", tier3: "Deadlift" },
         { tier1: 10, tier2: 12.5, tier3: 12.5 },
       ),
-      initialState: null,
-      isError: false,
-      isLoading: false,
+      initialState: createWeightData(
+        { tier1: "Squat", tier2: "Bench", tier3: "Squat" },
+        { tier1: 10, tier2: 10, tier3: 10 },
+      ),
+      isFinished: true,
       tier: "tier3",
     };
     const newState = trainReducer(state, action);
@@ -224,25 +250,29 @@ describe("trainReducer", () => {
         },
         { tier1: 10, tier2: 12.5, tier3: 12.5 },
       ),
-      initialState: null,
-      isError: false,
-      isLoading: false,
-      tier: "tier1",
+      initialState: createWeightData(
+        { tier1: "Squat", tier2: "Bench", tier3: "Squat" },
+        { tier1: 10, tier2: 10, tier3: 10 },
+      ),
+      isFinished: true,
+      tier: "tier3",
     };
     expect(newState).toStrictEqual(expectedState);
   });
 
   it("should update tier1 stage on failure", () => {
-    const action: Action = { type: "WORKOUT_ON_FAILURE" };
+    const action: Action = { type: "WORKOUT_FAILURE" };
     const state: State = {
       workoutData: createWeightData(
         { tier1: "Squat", tier2: "Bench", tier3: "Lat pulldown" }, // Exercise
         { tier1: 20, tier2: 15, tier3: 10 }, // Weight
         { tier1: 1, tier2: 1, tier3: 1 }, // Stage
       ),
-      initialState: null,
-      isError: false,
-      isLoading: false,
+      initialState: createWeightData(
+        { tier1: "Squat", tier2: "Bench", tier3: "Squat" },
+        { tier1: 10, tier2: 10, tier3: 10 },
+      ),
+      isFinished: false,
       tier: "tier1",
     };
     const newState = trainReducer(state, action);
@@ -253,25 +283,29 @@ describe("trainReducer", () => {
         { tier1: 20, tier2: 15, tier3: 10 },
         { tier1: 2, tier2: 1, tier3: 1 },
       ),
-      initialState: null,
-      isError: false,
-      isLoading: false,
+      initialState: createWeightData(
+        { tier1: "Squat", tier2: "Bench", tier3: "Squat" },
+        { tier1: 10, tier2: 10, tier3: 10 },
+      ),
+      isFinished: false,
       tier: "tier2",
     };
     expect(newState).toStrictEqual(expectedState);
   });
 
   it("should update tier2 stage on failure", () => {
-    const action: Action = { type: "WORKOUT_ON_FAILURE" };
+    const action: Action = { type: "WORKOUT_FAILURE" };
     const state: State = {
       workoutData: createWeightData(
         { tier1: "Squat", tier2: "Bench", tier3: "Lat pulldown" },
         { tier1: 20, tier2: 15, tier3: 10 },
         { tier1: 1, tier2: 1, tier3: 1 },
       ),
-      initialState: null,
-      isError: false,
-      isLoading: false,
+      initialState: createWeightData(
+        { tier1: "Squat", tier2: "Bench", tier3: "Squat" },
+        { tier1: 10, tier2: 10, tier3: 10 },
+      ),
+      isFinished: false,
       tier: "tier2",
     };
     const newState = trainReducer(state, action);
@@ -282,9 +316,11 @@ describe("trainReducer", () => {
         { tier1: 20, tier2: 15, tier3: 10 },
         { tier1: 1, tier2: 2, tier3: 1 },
       ),
-      initialState: null,
-      isError: false,
-      isLoading: false,
+      initialState: createWeightData(
+        { tier1: "Squat", tier2: "Bench", tier3: "Squat" },
+        { tier1: 10, tier2: 10, tier3: 10 },
+      ),
+      isFinished: false,
       tier: "tier3",
     };
     expect(newState).toStrictEqual(expectedState);
