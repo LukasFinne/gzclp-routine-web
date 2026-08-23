@@ -2,8 +2,8 @@ import { useReducer } from "react";
 import { ConfigureLayout } from "./configureLayout";
 import { Setup } from "./setup";
 import { StepsBar } from "./steps";
-import { configureReducer, initialState } from "./reducer";
-import { Button } from "../../../components/ui/button";
+import { configureReducer, initialState } from "../reducer";
+import { Button } from "../../../../components/ui/button";
 
 export const Configure = () => {
   const [state, dispatch] = useReducer(configureReducer, initialState);

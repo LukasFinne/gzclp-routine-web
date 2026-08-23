@@ -1,4 +1,4 @@
-import type { Action, State } from "./reducer";
+import type { Action, State } from "../reducer";
 import type { Steps } from "./steps";
 import { WorkoutDays } from "./WorkoutDayButton";
 

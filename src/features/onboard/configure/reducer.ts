@@ -1,5 +1,5 @@
 import type { DocumentId } from "../../../lib/workout/types";
-import type { Steps } from "./steps";
+import type { Steps } from "./components/steps";
 
 export type Action =
   | {
