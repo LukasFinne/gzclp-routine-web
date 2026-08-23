@@ -1,4 +1,4 @@
-import type { DocumentId } from "../../../lib/workout/workout";
+import type { DocumentId } from "../../../lib/workout/types";
 import type { Steps } from "./steps";
 
 export type Action =
