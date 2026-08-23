@@ -1,5 +1,5 @@
-import type { DocumentId } from "../../../../lib/workout/types";
-import type { Action } from "../reducer";
+import type { DocumentId } from "../../../../../lib/workout/types";
+import type { Action } from "../../reducer";
 
 
 const workoutDays: DocumentId[] = ["A1", "B1", "A2", "B2"];

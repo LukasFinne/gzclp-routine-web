@@ -1,6 +1,7 @@
 import type { Action, State } from "../reducer";
 import type { Steps } from "./steps";
-import { WorkoutDays } from "./WorkoutDayButton";
+import { Weight } from "./weight/weight";
+import { WorkoutDays } from "./workoutDay/workoutDay";
 
 interface SetupProps {
   state: State
@@ -13,7 +14,7 @@ const getStepContent = (
   state: State,
 ): Record<Steps, React.ReactNode> => ({
   Day: <WorkoutDays currentDay={state.workOutDay} onClick={onClick} />,
-  Weight: <p>weight</p>,
+  Weight: <Weight />,
   Protocol: <p>protocol</p>,
   Finish: <p>finish</p>,
 });
