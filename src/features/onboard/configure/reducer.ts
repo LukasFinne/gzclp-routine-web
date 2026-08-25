@@ -1,4 +1,4 @@
-import type { DocumentId } from "../../../lib/workout/types";
+import type { DocumentId, Exercise } from "../../../lib/workout/types";
 import type { Steps } from "./components/steps";
 
 export type Action =
@@ -14,16 +14,29 @@ export type Action =
   | {
     type: "PICK_DAY";
     payload: DocumentId;
+  }
+  | {
+    type: "PICK_WEIGHT"
+    payload: Record<Exercise, number>
   };
   
 export interface State {
   workOutDay: DocumentId;
+  exercises: Record<Exercise, number>,
   previousSteps: Steps[];
   currentStep: Steps;
 }
 
 export const initialState: State = {
   workOutDay: "A1",
+  exercises: {
+    Squat: 20,
+    Deadlift: 20,
+    Bench: 10,
+    OHP: 10,
+    "Lat pulldown": 10,
+    "Dumbell row": 10,
+  },
   currentStep: "Day",
   previousSteps: ["Day"],
 };
@@ -53,6 +66,12 @@ export const configureReducer = (
       return {
         ...state,
         workOutDay: action.payload
+      }
+    }
+    case "PICK_WEIGHT": {
+      return {
+        ...state,
+        exercises: action.payload
       }
     }
     case "NEXT_STEP": {

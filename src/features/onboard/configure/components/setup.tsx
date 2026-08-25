@@ -14,7 +14,7 @@ const getStepContent = (
   state: State,
 ): Record<Steps, React.ReactNode> => ({
   Day: <WorkoutDays currentDay={state.workOutDay} onClick={onClick} />,
-  Weight: <Weight />,
+  Weight: <Weight initialExercies={state.exercises} onClick={onClick}/>,
   Protocol: <p>protocol</p>,
   Finish: <p>finish</p>,
 });
