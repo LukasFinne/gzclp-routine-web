@@ -1,28 +1,55 @@
-import type { DocumentId, Exercise } from "../../../lib/workout/types";
+
+import type {
+  DocumentId,
+  Exercise,
+  Tier1And2Exercise,
+  Tier3Exercise,
+} from "../../../lib/workout/types";
 import type { Steps } from "./components/steps";
+import { TierOneProtocols, TierThreeProtocols, TierTwoProtocols, type Protocol } from "./types";
+
+export type ListOfProtocols =
+  | {
+      name: Tier1And2Exercise;
+      tiers: {
+        tier1: Protocol;
+        tier2: Protocol;
+      };
+    }
+  | {
+      name: Tier3Exercise;
+      tiers: {
+        tier3: Protocol;
+      };
+    };
 
 export type Action =
   | {
-    type: "CONFIGURE_INIT";
-  }
+      type: "CONFIGURE_INIT";
+    }
   | {
-    type: "NEXT_STEP";
-  }
+      type: "NEXT_STEP";
+    }
   | {
-    type: "PREVIOUS_STEP";
-  }
+      type: "PREVIOUS_STEP";
+    }
   | {
-    type: "PICK_DAY";
-    payload: DocumentId;
-  }
+      type: "PICK_DAY";
+      payload: DocumentId;
+    }
   | {
-    type: "PICK_WEIGHT"
-    payload: Record<Exercise, number>
-  };
-  
+      type: "PICK_WEIGHT";
+      payload: Record<Exercise, number>;
+    }
+  | {
+      type: "PICK_PROTOCOL";
+      payload: ListOfProtocols[];
+    };
+
 export interface State {
   workOutDay: DocumentId;
-  exercises: Record<Exercise, number>,
+  exercises: Record<Exercise, number>;
+  protocols: ListOfProtocols[];
   previousSteps: Steps[];
   currentStep: Steps;
 }
@@ -37,6 +64,48 @@ export const initialState: State = {
     "Lat pulldown": 10,
     "Dumbell row": 10,
   },
+  protocols: [
+    {
+      name: "Squat",
+      tiers: {
+        tier1: TierOneProtocols[1],
+        tier2: TierTwoProtocols[1],
+      },
+    },
+    {
+      name: "Deadlift",
+      tiers: {
+        tier1: TierOneProtocols[1],
+        tier2: TierTwoProtocols[1],
+      },
+    },
+    {
+      name: "Bench",
+      tiers: {
+        tier1: TierOneProtocols[1],
+        tier2: TierTwoProtocols[1],
+      },
+    },
+    {
+      name: "OHP",
+      tiers: {
+        tier1: TierOneProtocols[1],
+        tier2: TierTwoProtocols[1],
+      },
+    },
+    {
+      name: "Lat pulldown",
+      tiers: {
+        tier3: TierThreeProtocols[1],
+      },
+    },
+    {
+      name: "Dumbell row",
+      tiers: {
+        tier3: TierThreeProtocols[1],
+      },
+    },
+  ],
   currentStep: "Day",
   previousSteps: ["Day"],
 };
@@ -65,14 +134,20 @@ export const configureReducer = (
     case "PICK_DAY": {
       return {
         ...state,
-        workOutDay: action.payload
-      }
+        workOutDay: action.payload,
+      };
     }
     case "PICK_WEIGHT": {
       return {
         ...state,
-        exercises: action.payload
-      }
+        exercises: action.payload,
+      };
+    }
+    case "PICK_PROTOCOL": {
+      return {
+        ...state,
+        protocols: action.payload
+      };
     }
     case "NEXT_STEP": {
       const current = state.currentStep;

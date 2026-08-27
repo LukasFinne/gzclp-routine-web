@@ -1,5 +1,58 @@
 import { describe, expect, it } from "vitest";
-import { configureReducer, type Action, type State } from "./reducer";
+import {
+  configureReducer,
+  type Action,
+  type ListOfProtocols,
+  type State,
+} from "./reducer";
+import {
+  TierOneProtocols,
+  TierThreeProtocols,
+  TierTwoProtocols,
+} from "./types";
+
+const defaultProtocols: ListOfProtocols[] = [
+  {
+    name: "Squat",
+    tiers: {
+      tier1: TierOneProtocols[1],
+      tier2: TierTwoProtocols[1],
+    },
+  },
+  {
+    name: "Deadlift",
+    tiers: {
+      tier1: TierOneProtocols[1],
+      tier2: TierTwoProtocols[1],
+    },
+  },
+  {
+    name: "Bench",
+    tiers: {
+      tier1: TierOneProtocols[1],
+      tier2: TierTwoProtocols[1],
+    },
+  },
+  {
+    name: "OHP",
+    tiers: {
+      tier1: TierOneProtocols[1],
+      tier2: TierTwoProtocols[1],
+    },
+  },
+  {
+    name: "Lat pulldown",
+    tiers: {
+      tier3: TierThreeProtocols[1],
+    },
+  },
+  {
+    name: "Dumbell row",
+    tiers: {
+      tier3: TierThreeProtocols[1],
+    },
+  },
+];
 
 export const createMockState = (overrides: Partial<State> = {}): State => ({
   workOutDay: "A1",
@@ -13,6 +66,7 @@ export const createMockState = (overrides: Partial<State> = {}): State => ({
     "Lat pulldown": 10,
     "Dumbell row": 10,
   },
+  protocols: defaultProtocols,
   ...overrides,
 });
 
@@ -252,5 +306,32 @@ describe("ReducuerWeightStep", () => {
       exercises: newExercises,
       previousSteps: ["Day"],
     });
+  });
+});
+
+describe("configureReducuer protocol step", () => {
+  it("Changing protocols should update the initialStates protocol", () => {
+    const updatedProtocols: ListOfProtocols[] = defaultProtocols.map((p) =>
+      p.name === "Squat"
+        ? {
+            ...p,
+            tiers: {
+              ...p.tiers,
+              tier1: TierOneProtocols[1],
+              tier2: TierTwoProtocols[2],
+            },
+          }
+        : p,
+    );
+    const action: Action = {
+      type: "PICK_PROTOCOL",
+      payload: updatedProtocols,
+    };
+    const initialState = createMockState({
+      protocols: defaultProtocols,
+    });
+    const state = configureReducer(initialState, action);
+
+    expect(state.protocols).toMatchObject(updatedProtocols);
   });
 });
