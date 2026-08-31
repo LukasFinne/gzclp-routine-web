@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Welcome } from "../../features/onboard/welcome-onboarding";
+import { Welcome } from "../../features/onboard/components/welcome-onboarding";
+import { BasicHero } from "../../components/ui/hero";
 
 export const Route = createFileRoute("/onboard/")({
   component: RouteComponent,
@@ -7,10 +8,8 @@ export const Route = createFileRoute("/onboard/")({
 
 function RouteComponent() {
   return (
-    <div className="hero bg-base-200 min-h-screen">
-      <div className="hero-content text-center">
-        <Welcome />
-      </div>
-    </div>
+    <BasicHero>
+      <Welcome />
+    </BasicHero>
   );
 }
