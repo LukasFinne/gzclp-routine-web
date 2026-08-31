@@ -1,4 +1,3 @@
-
 import type {
   DocumentId,
   Exercise,
@@ -6,22 +5,30 @@ import type {
   Tier3Exercise,
 } from "../../../lib/workout/types";
 import type { Steps } from "./components/steps";
-import { TierOneProtocols, TierThreeProtocols, TierTwoProtocols, type Protocol } from "./types";
+import {
+  TierOneProtocols,
+  TierThreeProtocols,
+  TierTwoProtocols,
+  type Protocol,
+} from "./types";
 
-export type ListOfProtocols =
-  | {
-      name: Tier1And2Exercise;
-      tiers: {
-        tier1: Protocol;
-        tier2: Protocol;
-      };
-    }
-  | {
-      name: Tier3Exercise;
-      tiers: {
-        tier3: Protocol;
-      };
-    };
+export interface ListOfProtocols {
+  tierOneAndTwo: tierOneAndTwo[];
+  tierThree: tierThree[];
+}
+
+export interface tierOneAndTwo {
+  name: Tier1And2Exercise;
+  protocol: {
+    tier1: Protocol;
+    tier2: Protocol;
+  };
+}
+
+interface tierThree {
+  name: Tier3Exercise;
+  protocol: Protocol;
+}
 
 export type Action =
   | {
@@ -43,13 +50,13 @@ export type Action =
     }
   | {
       type: "PICK_PROTOCOL";
-      payload: ListOfProtocols[];
+      payload: tierOneAndTwo;
     };
 
 export interface State {
   workOutDay: DocumentId;
   exercises: Record<Exercise, number>;
-  protocols: ListOfProtocols[];
+  protocols: ListOfProtocols;
   previousSteps: Steps[];
   currentStep: Steps;
 }
@@ -64,48 +71,48 @@ export const initialState: State = {
     "Lat pulldown": 10,
     "Dumbell row": 10,
   },
-  protocols: [
-    {
-      name: "Squat",
-      tiers: {
-        tier1: TierOneProtocols[1],
-        tier2: TierTwoProtocols[1],
+  protocols: {
+    tierOneAndTwo: [
+      {
+        name: "Squat",
+        protocol: {
+          tier1: TierOneProtocols[1],
+          tier2: TierTwoProtocols[1],
+        },
       },
-    },
-    {
-      name: "Deadlift",
-      tiers: {
-        tier1: TierOneProtocols[1],
-        tier2: TierTwoProtocols[1],
+      {
+        name: "Deadlift",
+        protocol: {
+          tier1: TierOneProtocols[1],
+          tier2: TierTwoProtocols[1],
+        },
       },
-    },
-    {
-      name: "Bench",
-      tiers: {
-        tier1: TierOneProtocols[1],
-        tier2: TierTwoProtocols[1],
+      {
+        name: "Bench",
+        protocol: {
+          tier1: TierOneProtocols[1],
+          tier2: TierTwoProtocols[1],
+        },
       },
-    },
-    {
-      name: "OHP",
-      tiers: {
-        tier1: TierOneProtocols[1],
-        tier2: TierTwoProtocols[1],
+      {
+        name: "OHP",
+        protocol: {
+          tier1: TierOneProtocols[1],
+          tier2: TierTwoProtocols[1],
+        },
       },
-    },
-    {
-      name: "Lat pulldown",
-      tiers: {
-        tier3: TierThreeProtocols[1],
+    ],
+    tierThree: [
+      {
+        name: "Lat pulldown",
+        protocol: TierThreeProtocols[1],
       },
-    },
-    {
-      name: "Dumbell row",
-      tiers: {
-        tier3: TierThreeProtocols[1],
+      {
+        name: "Dumbell row",
+        protocol: TierThreeProtocols[1],
       },
-    },
-  ],
+    ],
+  },
   currentStep: "Day",
   previousSteps: ["Day"],
 };
@@ -144,9 +151,15 @@ export const configureReducer = (
       };
     }
     case "PICK_PROTOCOL": {
+      const newProtocol = action.payload;
       return {
         ...state,
-        protocols: action.payload
+        protocols: {
+          ...state.protocols,
+          tierOneAndTwo: state.protocols.tierOneAndTwo.map((item) =>
+            item.name === newProtocol.name ? newProtocol : item,
+          ),
+        },
       };
     }
     case "NEXT_STEP": {

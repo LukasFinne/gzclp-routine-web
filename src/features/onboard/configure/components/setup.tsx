@@ -1,4 +1,5 @@
 import type { Action, State } from "../reducer";
+import { ProtocolComponent } from "./protocol/protocol";
 import type { Steps } from "./steps";
 import { Weight } from "./weight/weight";
 import { WorkoutDays } from "./workoutDay/workoutDay";
@@ -15,7 +16,7 @@ const getStepContent = (
 ): Record<Steps, React.ReactNode> => ({
   Day: <WorkoutDays currentDay={state.workOutDay} onClick={onClick} />,
   Weight: <Weight initialExercies={state.exercises} onClick={onClick}/>,
-  Protocol: <p>protocol</p>,
+  Protocol: <ProtocolComponent intialProtocols={state.protocols} onClick={onClick} />,
   Finish: <p>finish</p>,
 });
 

@@ -6,9 +6,9 @@ export interface Protocol {
 }
 
 // Tier one exercises
-const FiveOfThree: Protocol = { set: 5, reps: 3 } as const;
-const SixOfTwo: Protocol = { set: 6,  reps: 2,} as const;
-const TenOfOne: Protocol = { set: 10, reps: 1 } as const;
+export const FiveOfThree: Protocol = { set: 5, reps: 3 } as const;
+export const SixOfTwo: Protocol = { set: 6,  reps: 2,} as const;
+export const TenOfOne: Protocol = { set: 10, reps: 1 } as const;
 
 export const TierOneProtocols = {
   1: FiveOfThree,
@@ -18,8 +18,8 @@ export const TierOneProtocols = {
 
 // Tier two exercises
 export const ThreeOfTen: Protocol = { set: 3, reps: 10,} as const;
-export const ThreeOfEight: Protocol = { set: 6,  reps: 2,} as const;
-export const ThreeOfSix: Protocol = { set: 10, reps: 1, } as const;
+export const ThreeOfEight: Protocol = { set: 3,  reps: 8,} as const;
+export const ThreeOfSix: Protocol = { set: 3, reps: 6, } as const;
 
 export const TierTwoProtocols = {
   1: ThreeOfTen,

@@ -4,6 +4,7 @@ import {
   type Action,
   type ListOfProtocols,
   type State,
+  type tierOneAndTwo,
 } from "./reducer";
 import {
   TierOneProtocols,
@@ -11,48 +12,48 @@ import {
   TierTwoProtocols,
 } from "./types";
 
-const defaultProtocols: ListOfProtocols[] = [
-  {
-    name: "Squat",
-    tiers: {
-      tier1: TierOneProtocols[1],
-      tier2: TierTwoProtocols[1],
+const defaultProtocols: ListOfProtocols = {
+  tierOneAndTwo: [
+    {
+      name: "Squat",
+      protocol: {
+        tier1: TierOneProtocols[1],
+        tier2: TierTwoProtocols[1],
+      },
     },
-  },
-  {
-    name: "Deadlift",
-    tiers: {
-      tier1: TierOneProtocols[1],
-      tier2: TierTwoProtocols[1],
+    {
+      name: "Deadlift",
+      protocol: {
+        tier1: TierOneProtocols[1],
+        tier2: TierTwoProtocols[1],
+      },
     },
-  },
-  {
-    name: "Bench",
-    tiers: {
-      tier1: TierOneProtocols[1],
-      tier2: TierTwoProtocols[1],
+    {
+      name: "Bench",
+      protocol: {
+        tier1: TierOneProtocols[1],
+        tier2: TierTwoProtocols[1],
+      },
     },
-  },
-  {
-    name: "OHP",
-    tiers: {
-      tier1: TierOneProtocols[1],
-      tier2: TierTwoProtocols[1],
+    {
+      name: "OHP",
+      protocol: {
+        tier1: TierOneProtocols[1],
+        tier2: TierTwoProtocols[1],
+      },
     },
-  },
-  {
-    name: "Lat pulldown",
-    tiers: {
-      tier3: TierThreeProtocols[1],
+  ],
+  tierThree: [
+    {
+      name: "Lat pulldown",
+      protocol: TierThreeProtocols[1],
     },
-  },
-  {
-    name: "Dumbell row",
-    tiers: {
-      tier3: TierThreeProtocols[1],
+    {
+      name: "Dumbell row",
+      protocol: TierThreeProtocols[1],
     },
-  },
-];
+  ],
+};
 
 export const createMockState = (overrides: Partial<State> = {}): State => ({
   workOutDay: "A1",
@@ -311,27 +312,29 @@ describe("ReducuerWeightStep", () => {
 
 describe("configureReducuer protocol step", () => {
   it("Changing protocols should update the initialStates protocol", () => {
-    const updatedProtocols: ListOfProtocols[] = defaultProtocols.map((p) =>
-      p.name === "Squat"
-        ? {
-            ...p,
-            tiers: {
-              ...p.tiers,
-              tier1: TierOneProtocols[1],
-              tier2: TierTwoProtocols[2],
-            },
-          }
-        : p,
-    );
+    const updatedProtocol: tierOneAndTwo = {
+      name: "Squat",
+      protocol: {
+        tier1: TierOneProtocols[1],
+        tier2: TierTwoProtocols[2],
+      },
+    };
     const action: Action = {
       type: "PICK_PROTOCOL",
-      payload: updatedProtocols,
+      payload: updatedProtocol,
     };
     const initialState = createMockState({
       protocols: defaultProtocols,
     });
     const state = configureReducer(initialState, action);
 
-    expect(state.protocols).toMatchObject(updatedProtocols);
+    const expectedProtocols: ListOfProtocols = {
+      ...defaultProtocols,
+      tierOneAndTwo: defaultProtocols.tierOneAndTwo.map((item) =>
+        item.name === "Squat" ? updatedProtocol : item,
+      ),
+    };
+
+    expect(state.protocols).toMatchObject(expectedProtocols);
   });
 });
