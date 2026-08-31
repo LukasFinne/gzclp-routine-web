@@ -22,7 +22,6 @@ export const WeightItem = ({ exercise, onChange }: WeightItemProps) => (
         type="number"
         placeholder="Weight"
         defaultValue={exercise.weight}
-        value={exercise.weight}
       />
     </div>
   </div>
