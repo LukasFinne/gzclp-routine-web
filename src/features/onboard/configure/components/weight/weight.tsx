@@ -3,7 +3,7 @@ import { Button } from "../../../../../components/ui/button";
 import type { Exercise } from "../../../../../lib/workout/types";
 import type { Action } from "../../reducer";
 import { WeightItem } from "./weightItem";
-import { WeightCard } from "./weightCard";
+import {BasicCard} from "../../../../../components/ui/card.tsx";
 
 interface WeightProps {
   initialExercies: Record<Exercise, number>;
@@ -27,7 +27,7 @@ export const Weight = ({ initialExercies, onClick }: WeightProps) => {
 
   return (
     <>
-      <WeightCard>
+      <BasicCard>
         {exerciseList.map((exercise) => (
           <WeightItem
             key={exercise.name}
@@ -37,7 +37,7 @@ export const Weight = ({ initialExercies, onClick }: WeightProps) => {
             }}
           />
         ))}
-      </WeightCard>
+      </BasicCard>
       <Button
         style="btn btn-secondary"
         onClick={() => {
