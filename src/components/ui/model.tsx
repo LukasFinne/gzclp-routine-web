@@ -3,10 +3,13 @@ import {Button} from "./button.tsx";
 
 interface ModalProps {
     title: string;
+    btnStyle?: string;
+    btnText?: string;
+    modalAction?: ReactNode | ((closeModal: () => void) => ReactNode);
     children: ReactNode;
 }
 
-export const ViewModal = ({ title, children }: ModalProps) => {
+export const ViewModal = ({ title, btnStyle= "btn btn-ghost btn-square", btnText = "View", modalAction, children }: ModalProps) => {
     const dialogRef = useRef<HTMLDialogElement>(null);
 
     const openModal = () => dialogRef.current?.showModal();
@@ -14,8 +17,8 @@ export const ViewModal = ({ title, children }: ModalProps) => {
 
     return (
         <>
-            <Button style={"btn btn-ghost btn-square"} onClick={openModal}>
-                View
+            <Button style={btnStyle} onClick={openModal}>
+                {btnText}
             </Button>
 
             <dialog ref={dialogRef} className="modal">
@@ -25,9 +28,13 @@ export const ViewModal = ({ title, children }: ModalProps) => {
                     <div className="py-2">{children}</div>
 
                     <div className="modal-action">
-                        <Button style="btn" onClick={closeModal}>
-                            Close
-                        </Button>
+                        {typeof modalAction === "function"
+                            ? modalAction(closeModal)
+                            : (modalAction ?? (
+                                <Button style="btn" onClick={closeModal}>
+                                    Close
+                                </Button>
+                            ))}
                     </div>
                 </div>
 
