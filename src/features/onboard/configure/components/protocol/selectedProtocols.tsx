@@ -1,8 +1,8 @@
-import type { tierOneAndTwo } from "../../reducer";
+import type { TierOneAndTwo } from "../../reducer";
 import { SetRepsItem } from "./setRepsItem";
 
 interface SelectedProtocolsProps {
-  selected: tierOneAndTwo;
+  selected: TierOneAndTwo;
 }
 
 export const SelectedProtocols = ({ selected }: SelectedProtocolsProps) => {

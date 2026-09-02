@@ -1,10 +1,10 @@
 import { Button } from "../../../../../components/ui/button";
-import type { tierOneAndTwo, Action } from "../../reducer";
+import type { TierOneAndTwo, Action } from "../../reducer";
 import { TierOneProtocols, TierTwoProtocols, type Protocol } from "../../types";
 import { SetRepsItem } from "./setRepsItem";
 
 interface ListOfTierOneProtocolsProps {
-  selected: tierOneAndTwo;
+  selected: TierOneAndTwo;
   onClick: (action: Action) => void;
 }
 
@@ -51,7 +51,7 @@ export const ListOfTierOneProtocols = ({
 };
 
 interface ListOfTierTwoProtocolsProps {
-  selected: tierOneAndTwo;
+  selected: TierOneAndTwo;
   onClick: (action: Action) => void;
 }
 

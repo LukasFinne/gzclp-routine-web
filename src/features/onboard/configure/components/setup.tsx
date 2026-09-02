@@ -3,6 +3,7 @@ import { ProtocolComponent } from "./protocol/protocol";
 import type { Steps } from "./steps";
 import { Weight } from "./weight/weight";
 import { WorkoutDays } from "./workoutDay/workoutDay";
+import {Finish} from "./finish/finish.tsx";
 
 interface SetupProps {
   state: State
@@ -17,7 +18,7 @@ const getStepContent = (
   Day: <WorkoutDays currentDay={state.workOutDay} onClick={onClick} />,
   Weight: <Weight initialExercies={state.exercises} onClick={onClick}/>,
   Protocol: <ProtocolComponent intialProtocols={state.protocols} onClick={onClick} />,
-  Finish: <p>finish</p>,
+  Finish: <Finish state={state} />
 });
 
 export const Setup = ({ step, onClick, state }: SetupProps) => {

@@ -4,7 +4,7 @@ import {
   type Action,
   type ListOfProtocols,
   type State,
-  type tierOneAndTwo,
+  type TierOneAndTwo,
 } from "./reducer";
 import {
   TierOneProtocols,
@@ -312,7 +312,7 @@ describe("ReducuerWeightStep", () => {
 
 describe("configureReducuer protocol step", () => {
   it("Changing protocols should update the initialStates protocol", () => {
-    const updatedProtocol: tierOneAndTwo = {
+    const updatedProtocol: TierOneAndTwo = {
       name: "Squat",
       protocol: {
         tier1: TierOneProtocols[1],

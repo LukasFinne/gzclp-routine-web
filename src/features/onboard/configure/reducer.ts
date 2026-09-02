@@ -13,11 +13,11 @@ import {
 } from "./types";
 
 export interface ListOfProtocols {
-  tierOneAndTwo: tierOneAndTwo[];
-  tierThree: tierThree[];
+  tierOneAndTwo: TierOneAndTwo[];
+  tierThree: TierThree[];
 }
 
-export interface tierOneAndTwo {
+export interface TierOneAndTwo {
   name: Tier1And2Exercise;
   protocol: {
     tier1: Protocol;
@@ -25,7 +25,7 @@ export interface tierOneAndTwo {
   };
 }
 
-interface tierThree {
+export interface TierThree {
   name: Tier3Exercise;
   protocol: Protocol;
 }
@@ -50,7 +50,7 @@ export type Action =
     }
   | {
       type: "PICK_PROTOCOL";
-      payload: tierOneAndTwo;
+      payload: TierOneAndTwo;
     };
 
 export interface State {
