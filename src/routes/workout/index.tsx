@@ -1,10 +1,9 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import {createFileRoute, Navigate, redirect} from "@tanstack/react-router";
 import { LoadingSpinner } from "../../components/ui/loading";
-import { workoutDay } from "../../features/workout/api/workout";
 import { Error } from "../../components/ui/error";
-import {WorkoutLayout } from "../../features/workout/components/workoutLayout";
+import { WorkoutLayout } from "../../features/workout/components/workoutLayout";
 import { Workout } from "../../features/workout/components/workout";
-
+import {useUserDoc} from "../../lib/workout/useUserDoc.ts";
 
 export const Route = createFileRoute("/workout/")({
   component: RouteComponent,
@@ -19,21 +18,18 @@ export const Route = createFileRoute("/workout/")({
       });
     }
   },
-  loader: async ({ context }) => {
+  loader: ({ context }) => {
     if (!context.user) {
       // eslint-disable-next-line @typescript-eslint/only-throw-error
-      throw redirect({ to: "/login" });
+      throw redirect({
+        to: "/login",
+        search: {
+          redirect: "/workout",
+        },
+      });
     }
-    const userDoc = await workoutDay(context.user.uid);
-
-    if (!userDoc) {
-      // eslint-disable-next-line @typescript-eslint/only-throw-error
-      throw redirect({ to: "/onboard" });
-    }
-
     return {
-      currentDay: userDoc.currentWorkout,
-      workoutData: userDoc.workouts[userDoc.currentWorkout],
+      user: context.user,
     };
   },
   pendingComponent: () => <LoadingSpinner text="Loading, Please wait" />,
@@ -43,10 +39,29 @@ export const Route = createFileRoute("/workout/")({
 });
 
 function RouteComponent() {
-  const { currentDay, workoutData } = Route.useLoaderData();
+  const { user } = Route.useLoaderData();
+
+  const {userDoc, exists , error} = useUserDoc(user.uid);
+
+
+  if (!exists){
+    return <Navigate to={"/onboard"}/>
+  }
+
+  if (error) {
+    return <Error error={error} title="Failed to load workout session" />;
+  }
+
+  if (!userDoc) {
+    return <LoadingSpinner text="Loading workout data..." />;
+  }
+
   return (
     <WorkoutLayout>
-      <Workout currentDay={currentDay} userData={workoutData} />
+      <Workout
+        currentDay={userDoc.currentWorkout}
+        userData={userDoc.workouts[userDoc.currentWorkout]}
+      />
     </WorkoutLayout>
   );
 }
