@@ -10,30 +10,15 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as WorkoutIndexRouteImport } from './routes/workout/index'
-import { Route as OnboardIndexRouteImport } from './routes/onboard/index'
-import { Route as LoginIndexRouteImport } from './routes/login/index'
 import { Route as FinishIndexRouteImport } from './routes/finish/index'
+import { Route as LoginIndexRouteImport } from './routes/login/index'
+import { Route as OnboardIndexRouteImport } from './routes/onboard/index'
 import { Route as OnboardConfigureRouteImport } from './routes/onboard/configure'
+import { Route as WorkoutIndexRouteImport } from './routes/workout/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const WorkoutIndexRoute = WorkoutIndexRouteImport.update({
-  id: '/workout/',
-  path: '/workout/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const OnboardIndexRoute = OnboardIndexRouteImport.update({
-  id: '/onboard/',
-  path: '/onboard/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LoginIndexRoute = LoginIndexRouteImport.update({
-  id: '/login/',
-  path: '/login/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FinishIndexRoute = FinishIndexRouteImport.update({
@@ -41,9 +26,24 @@ const FinishIndexRoute = FinishIndexRouteImport.update({
   path: '/finish/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LoginIndexRoute = LoginIndexRouteImport.update({
+  id: '/login/',
+  path: '/login/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardIndexRoute = OnboardIndexRouteImport.update({
+  id: '/onboard/',
+  path: '/onboard/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OnboardConfigureRoute = OnboardConfigureRouteImport.update({
   id: '/onboard/configure',
   path: '/onboard/configure',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WorkoutIndexRoute = WorkoutIndexRouteImport.update({
+  id: '/workout/',
+  path: '/workout/',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -83,12 +83,7 @@ export interface FileRouteTypes {
     | '/workout/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
-    | '/onboard/configure'
-    | '/finish'
-    | '/login'
-    | '/onboard'
-    | '/workout'
+    '/' | '/onboard/configure' | '/finish' | '/login' | '/onboard' | '/workout'
   id:
     | '__root__'
     | '/'
@@ -117,18 +112,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/workout/': {
-      id: '/workout/'
-      path: '/workout'
-      fullPath: '/workout/'
-      preLoaderRoute: typeof WorkoutIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/onboard/': {
-      id: '/onboard/'
-      path: '/onboard'
-      fullPath: '/onboard/'
-      preLoaderRoute: typeof OnboardIndexRouteImport
+    '/finish/': {
+      id: '/finish/'
+      path: '/finish'
+      fullPath: '/finish/'
+      preLoaderRoute: typeof FinishIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login/': {
@@ -138,11 +126,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/finish/': {
-      id: '/finish/'
-      path: '/finish'
-      fullPath: '/finish/'
-      preLoaderRoute: typeof FinishIndexRouteImport
+    '/onboard/': {
+      id: '/onboard/'
+      path: '/onboard'
+      fullPath: '/onboard/'
+      preLoaderRoute: typeof OnboardIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/onboard/configure': {
@@ -150,6 +138,13 @@ declare module '@tanstack/react-router' {
       path: '/onboard/configure'
       fullPath: '/onboard/configure'
       preLoaderRoute: typeof OnboardConfigureRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/workout/': {
+      id: '/workout/'
+      path: '/workout'
+      fullPath: '/workout/'
+      preLoaderRoute: typeof WorkoutIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
   }

@@ -65,7 +65,7 @@ function RouteComponent() {
       <Greeting />
       <Summary>
         <Progression workout={workout} initialWorkout={initialWorkout} />
-        <UploadButton workout={workout} currentDay={currentDay} />
+        <UploadButton userId={user.uid} workout={workout} currentDay={currentDay} />
       </Summary>
     </Finished>
   );
