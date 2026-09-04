@@ -8,6 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "prettier": "exec prettier . --write",
     "test": "vitest run"
   },
   "dependencies": {
@@ -29,9 +30,11 @@
     "@vitejs/plugin-react": "^6.1.1",
     "daisyui": "^5.7.22",
     "eslint": "^10.9.1",
+    "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.5",
     "globals": "^17.11.0",
+    "prettier": "3.9.6",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.68.0",
     "vite": "^8.2.2",

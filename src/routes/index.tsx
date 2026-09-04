@@ -10,6 +10,6 @@ function Index() {
   return (
     <BasicHero>
       <Home />
-    </BasicHero> 
+    </BasicHero>
   );
 }

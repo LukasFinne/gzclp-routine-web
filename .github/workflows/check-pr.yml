@@ -22,7 +22,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
+          cache: "pnpm"
 
       # Ensures exact versions are installed without updating pnpm-lock.yaml in CI
       - name: Install dependencies
@@ -33,6 +33,6 @@ jobs:
 
       - name: Type-check and Build
         run: pnpm build
-        
+
       - name: Test vitest
         run: pnpm test

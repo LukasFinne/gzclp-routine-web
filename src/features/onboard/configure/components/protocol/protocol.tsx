@@ -1,5 +1,8 @@
 import type { Action, ListOfProtocols } from "../../reducer";
-import { ListOfTierOneProtocols, ListOfTierTwoProtocols } from "./listProtocols";
+import {
+  ListOfTierOneProtocols,
+  ListOfTierTwoProtocols,
+} from "./listProtocols";
 import { SelectedProtocols } from "./selectedProtocols";
 
 interface ProtocolProps {
@@ -31,5 +34,3 @@ export const ProtocolComponent = ({
     </div>
   );
 };
-
-

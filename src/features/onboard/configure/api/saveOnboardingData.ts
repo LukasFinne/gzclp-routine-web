@@ -1,7 +1,7 @@
 import type { State } from "../reducer";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../../../lib/firebase";
-import {mapStateToUserDoc} from "./saveOnboardingDataMapper.ts";
+import { mapStateToUserDoc } from "./saveOnboardingDataMapper.ts";
 
 export interface SaveOnboardingResult {
   isSuccess: boolean;
