@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "prettier": "exec prettier . --write",
+    "check": "prettier . --check",
     "test": "vitest run"
   },
   "dependencies": {
