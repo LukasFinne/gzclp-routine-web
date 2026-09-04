@@ -3,7 +3,7 @@ import { Button } from "../../../../../components/ui/button";
 import type { Exercise } from "../../../../../lib/workout/types";
 import type { Action } from "../../reducer";
 import { WeightItem } from "./weightItem";
-import {BasicCard} from "../../../../../components/ui/card.tsx";
+import { BasicCard } from "../../../../../components/ui/card.tsx";
 
 interface WeightProps {
   initialExercies: Record<Exercise, number>;
@@ -14,9 +14,9 @@ export const Weight = ({ initialExercies, onClick }: WeightProps) => {
   const [exercises, setExercises] = useState(initialExercies);
 
   const exerciseList = (Object.keys(exercises) as Exercise[]).map((name) => ({
-      name,
-      weight: exercises[name],
-    }));
+    name,
+    weight: exercises[name],
+  }));
 
   const handleChange = useCallback((exercise: Exercise, newWeight: number) => {
     setExercises((prev) => ({

@@ -7,7 +7,7 @@ export const SignOut = () => {
     try {
       await signOut(auth);
       console.log("Logged out!");
-    } catch(error) {
+    } catch (error) {
       console.log(error);
       console.log("Something unexpected happened!");
     }
@@ -15,7 +15,9 @@ export const SignOut = () => {
 
   return (
     <form action={signOutAction}>
-      <Button name="Sign out" type="submit">Sign out</Button>
+      <Button name="Sign out" type="submit">
+        Sign out
+      </Button>
     </form>
   );
 };
