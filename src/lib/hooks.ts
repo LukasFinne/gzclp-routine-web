@@ -39,15 +39,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
   }, []);
 
-  const value = useMemo(
-    () => authState,
-    [authState.user, authState.isLoading],
-  );
+  const value = useMemo(() => authState, [authState.user, authState.isLoading]);
 
   return createElement(AuthContext.Provider, { value }, children);
 };
 
 export const useUser = () => useContext(AuthContext);
-
-
-

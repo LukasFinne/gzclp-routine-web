@@ -1,7 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { trainReducer, updateProtocol, type Action, type State } from "./workoutReducer";
+import {
+  trainReducer,
+  updateProtocol,
+  type Action,
+  type State,
+} from "./workoutReducer";
 import type { TierType, Stage, Exercise } from "../../lib/workout/types";
-
 
 describe("trainReducer", () => {
   it("rotate tier1 to tier2", () => {
@@ -158,7 +162,7 @@ describe("trainReducer", () => {
     const action: Action = { type: "WORKOUT_SUCCESS" };
     const state: State = {
       workoutData: createWeightData(
-        { tier1: "OHP", tier2: "Bench", tier3: "Squat"},
+        { tier1: "OHP", tier2: "Bench", tier3: "Squat" },
         { tier1: 10, tier2: 12.5, tier3: 10 },
       ),
       initialState: createWeightData(
@@ -327,66 +331,65 @@ describe("trainReducer", () => {
   });
 });
 
-
 describe("upateProtocol", () => {
   it("tier 1 stage 1 to 2", () => {
     const workoutData = createWeightData(
       { tier1: "Squat", tier2: "Bench", tier3: "Lat pulldown" },
       { tier1: 20, tier2: 15, tier3: 10 },
       { tier1: 1, tier2: 2, tier3: 1 },
-    )
-    
+    );
+
     // Capture the NEW object returned by the function
-    const result = updateProtocol(workoutData, "tier1")
-    
+    const result = updateProtocol(workoutData, "tier1");
+
     const expectedData = createWeightData(
       { tier1: "Squat", tier2: "Bench", tier3: "Lat pulldown" },
       { tier1: 20, tier2: 15, tier3: 10 },
       { tier1: 2, tier2: 2, tier3: 1 },
-    )
-    
+    );
+
     // Assert against the result, not the original input
-    expect(result).toStrictEqual(expectedData)
-  })
+    expect(result).toStrictEqual(expectedData);
+  });
   it("tier 1 stage 2 to 3", () => {
     const workoutData = createWeightData(
       { tier1: "Squat", tier2: "Bench", tier3: "Lat pulldown" },
       { tier1: 20, tier2: 15, tier3: 10 },
       { tier1: 2, tier2: 2, tier3: 1 },
-    )
-    
+    );
+
     // Capture the NEW object returned by the function
-    const result = updateProtocol(workoutData, "tier1")
-    
+    const result = updateProtocol(workoutData, "tier1");
+
     const expectedData = createWeightData(
       { tier1: "Squat", tier2: "Bench", tier3: "Lat pulldown" },
       { tier1: 20, tier2: 15, tier3: 10 },
       { tier1: 3, tier2: 2, tier3: 1 },
-    )
-    
+    );
+
     // Assert against the result, not the original input
-    expect(result).toStrictEqual(expectedData)
-  })
+    expect(result).toStrictEqual(expectedData);
+  });
   it("tier 1 stage 3 to 1 and weight should decrease by 85 percent", () => {
     const workoutData = createWeightData(
       { tier1: "Squat", tier2: "Bench", tier3: "Lat pulldown" },
       { tier1: 100, tier2: 15, tier3: 10 },
       { tier1: 3, tier2: 2, tier3: 1 },
-    )
-    
+    );
+
     // Capture the NEW object returned by the function
-    const result = updateProtocol(workoutData, "tier1")
-    
+    const result = updateProtocol(workoutData, "tier1");
+
     const expectedData = createWeightData(
       { tier1: "Squat", tier2: "Bench", tier3: "Lat pulldown" },
       { tier1: 85, tier2: 15, tier3: 10 },
       { tier1: 1, tier2: 2, tier3: 1 },
-    )
-    
+    );
+
     // Assert against the result, not the original input
-    expect(result).toStrictEqual(expectedData)
-  })
-})
+    expect(result).toStrictEqual(expectedData);
+  });
+});
 
 const createWeightData = (
   names: Partial<Record<TierType, string>> & { root?: string },
@@ -411,7 +414,7 @@ const createWeightData = (
     if (tier === "tier1") {
       if (stage === 1) return { reps: 3, set: 5, stage: 1 as Stage };
       if (stage === 2) return { reps: 2, set: 6, stage: 2 as Stage };
-       return { reps: 1, set: 10, stage: 3 as Stage };
+      return { reps: 1, set: 10, stage: 3 as Stage };
     }
     if (tier === "tier2") {
       if (stage === 1) return { reps: 10, set: 3, stage: 1 as Stage };
@@ -428,21 +431,21 @@ const createWeightData = (
       exercise: names.tier1 as Exercise,
       set: getProtocol("tier1", stages.tier1 ?? 1).set,
       reps: getProtocol("tier1", stages.tier1 ?? 1).reps,
-      stage: getProtocol("tier1", stages.tier1 ?? 1).stage , 
+      stage: getProtocol("tier1", stages.tier1 ?? 1).stage,
       weight: weights.tier1,
     },
     tier2: {
       exercise: names.tier2 as Exercise,
       set: getProtocol("tier2", stages.tier2 ?? 1).set,
       reps: getProtocol("tier2", stages.tier2 ?? 1).reps,
-      stage: getProtocol("tier2", stages.tier2 ?? 1).stage , 
+      stage: getProtocol("tier2", stages.tier2 ?? 1).stage,
       weight: weights.tier2,
     },
     tier3: {
       exercise: names.tier3 as Exercise,
       set: getProtocol("tier3", stages.tier3 ?? 1).set,
       reps: getProtocol("tier3", stages.tier3 ?? 1).reps,
-      stage: getProtocol("tier3", stages.tier3 ?? 1).stage , 
+      stage: getProtocol("tier3", stages.tier3 ?? 1).stage,
       weight: weights.tier3,
     },
   };

@@ -7,8 +7,8 @@ import { WarningAlert } from "../../components/ui/alert";
 import { Button } from "../../components/ui/button";
 import { LoadingDots } from "../../components/ui/loading";
 
-interface LoginProps{
-  redirect?: LinkComponentProps["to"]
+interface LoginProps {
+  redirect?: LinkComponentProps["to"];
 }
 
 const Login = ({ redirect }: LoginProps) => {
@@ -32,11 +32,11 @@ const Login = ({ redirect }: LoginProps) => {
   );
 
   if (actionState.success && redirect) {
-    return <Navigate to={redirect} replace />
+    return <Navigate to={redirect} replace />;
   }
 
   if (actionState.success && !redirect) {
-    return <Navigate to="/" replace />
+    return <Navigate to="/" replace />;
   }
 
   return (
@@ -57,11 +57,7 @@ const Login = ({ redirect }: LoginProps) => {
             validationErrors={actionState.errors?.password}
           />
           <Button type="submit" name="loginBtn" className="mt-4 w-full">
-            {isPending ? (
-              <LoadingDots />
-            ) : (
-              <p>Login</p>
-            )}
+            {isPending ? <LoadingDots /> : <p>Login</p>}
           </Button>
         </form>
       </div>

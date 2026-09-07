@@ -1,5 +1,8 @@
 export const WarningAlert = (message: string) => (
-  <div role="alert" className="alert alert-warning animate-slide-down shadow-md">
+  <div
+    role="alert"
+    className="alert alert-warning animate-slide-down shadow-md"
+  >
     <svg
       xmlns="http://www.w3.org/2000/svg"
       className="h-6 w-6 shrink-0 stroke-current"
@@ -22,7 +25,10 @@ interface ErrorProps {
 }
 
 export const ErrorAlert = ({ message }: ErrorProps) => (
-  <div role="alert" className="alert alert-error mr-4 ml-4 mt-4 animate-slide-down shadow-md">
+  <div
+    role="alert"
+    className="alert alert-error mr-4 ml-4 mt-4 animate-slide-down shadow-md"
+  >
     <svg
       xmlns="http://www.w3.org/2000/svg"
       className="h-6 w-6 shrink-0 stroke-current"

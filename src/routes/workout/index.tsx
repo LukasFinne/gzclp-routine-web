@@ -1,9 +1,9 @@
-import {createFileRoute, Navigate, redirect} from "@tanstack/react-router";
+import { createFileRoute, Navigate, redirect } from "@tanstack/react-router";
 import { LoadingSpinner } from "../../components/ui/loading";
 import { Error } from "../../components/ui/error";
 import { WorkoutLayout } from "../../features/workout/components/workoutLayout";
 import { Workout } from "../../features/workout/components/workout";
-import {useUserDoc} from "../../lib/workout/useUserDoc.ts";
+import { useUserDoc } from "../../lib/workout/useUserDoc.ts";
 
 export const Route = createFileRoute("/workout/")({
   component: RouteComponent,
@@ -41,11 +41,10 @@ export const Route = createFileRoute("/workout/")({
 function RouteComponent() {
   const { user } = Route.useLoaderData();
 
-  const {userDoc, exists , error} = useUserDoc(user.uid);
+  const { userDoc, exists, error } = useUserDoc(user.uid);
 
-
-  if (!exists){
-    return <Navigate to={"/onboard"}/>
+  if (!exists) {
+    return <Navigate to={"/onboard"} />;
   }
 
   if (error) {

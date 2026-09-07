@@ -8,145 +8,145 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as FinishIndexRouteImport } from './routes/finish/index'
-import { Route as LoginIndexRouteImport } from './routes/login/index'
-import { Route as OnboardIndexRouteImport } from './routes/onboard/index'
-import { Route as OnboardConfigureRouteImport } from './routes/onboard/configure'
-import { Route as WorkoutIndexRouteImport } from './routes/workout/index'
+import { Route as rootRouteImport } from "./routes/__root";
+import { Route as IndexRouteImport } from "./routes/index";
+import { Route as FinishIndexRouteImport } from "./routes/finish/index";
+import { Route as LoginIndexRouteImport } from "./routes/login/index";
+import { Route as OnboardIndexRouteImport } from "./routes/onboard/index";
+import { Route as OnboardConfigureRouteImport } from "./routes/onboard/configure";
+import { Route as WorkoutIndexRouteImport } from "./routes/workout/index";
 
 const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+  id: "/",
+  path: "/",
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const FinishIndexRoute = FinishIndexRouteImport.update({
-  id: '/finish/',
-  path: '/finish/',
+  id: "/finish/",
+  path: "/finish/",
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const LoginIndexRoute = LoginIndexRouteImport.update({
-  id: '/login/',
-  path: '/login/',
+  id: "/login/",
+  path: "/login/",
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const OnboardIndexRoute = OnboardIndexRouteImport.update({
-  id: '/onboard/',
-  path: '/onboard/',
+  id: "/onboard/",
+  path: "/onboard/",
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const OnboardConfigureRoute = OnboardConfigureRouteImport.update({
-  id: '/onboard/configure',
-  path: '/onboard/configure',
+  id: "/onboard/configure",
+  path: "/onboard/configure",
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const WorkoutIndexRoute = WorkoutIndexRouteImport.update({
-  id: '/workout/',
-  path: '/workout/',
+  id: "/workout/",
+  path: "/workout/",
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/onboard/configure': typeof OnboardConfigureRoute
-  '/finish/': typeof FinishIndexRoute
-  '/login/': typeof LoginIndexRoute
-  '/onboard/': typeof OnboardIndexRoute
-  '/workout/': typeof WorkoutIndexRoute
+  "/": typeof IndexRoute;
+  "/onboard/configure": typeof OnboardConfigureRoute;
+  "/finish/": typeof FinishIndexRoute;
+  "/login/": typeof LoginIndexRoute;
+  "/onboard/": typeof OnboardIndexRoute;
+  "/workout/": typeof WorkoutIndexRoute;
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/onboard/configure': typeof OnboardConfigureRoute
-  '/finish': typeof FinishIndexRoute
-  '/login': typeof LoginIndexRoute
-  '/onboard': typeof OnboardIndexRoute
-  '/workout': typeof WorkoutIndexRoute
+  "/": typeof IndexRoute;
+  "/onboard/configure": typeof OnboardConfigureRoute;
+  "/finish": typeof FinishIndexRoute;
+  "/login": typeof LoginIndexRoute;
+  "/onboard": typeof OnboardIndexRoute;
+  "/workout": typeof WorkoutIndexRoute;
 }
 export interface FileRoutesById {
-  __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/onboard/configure': typeof OnboardConfigureRoute
-  '/finish/': typeof FinishIndexRoute
-  '/login/': typeof LoginIndexRoute
-  '/onboard/': typeof OnboardIndexRoute
-  '/workout/': typeof WorkoutIndexRoute
+  __root__: typeof rootRouteImport;
+  "/": typeof IndexRoute;
+  "/onboard/configure": typeof OnboardConfigureRoute;
+  "/finish/": typeof FinishIndexRoute;
+  "/login/": typeof LoginIndexRoute;
+  "/onboard/": typeof OnboardIndexRoute;
+  "/workout/": typeof WorkoutIndexRoute;
 }
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
+  fileRoutesByFullPath: FileRoutesByFullPath;
   fullPaths:
-    | '/'
-    | '/onboard/configure'
-    | '/finish/'
-    | '/login/'
-    | '/onboard/'
-    | '/workout/'
-  fileRoutesByTo: FileRoutesByTo
+    | "/"
+    | "/onboard/configure"
+    | "/finish/"
+    | "/login/"
+    | "/onboard/"
+    | "/workout/";
+  fileRoutesByTo: FileRoutesByTo;
   to:
-    '/' | '/onboard/configure' | '/finish' | '/login' | '/onboard' | '/workout'
+    "/" | "/onboard/configure" | "/finish" | "/login" | "/onboard" | "/workout";
   id:
-    | '__root__'
-    | '/'
-    | '/onboard/configure'
-    | '/finish/'
-    | '/login/'
-    | '/onboard/'
-    | '/workout/'
-  fileRoutesById: FileRoutesById
+    | "__root__"
+    | "/"
+    | "/onboard/configure"
+    | "/finish/"
+    | "/login/"
+    | "/onboard/"
+    | "/workout/";
+  fileRoutesById: FileRoutesById;
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  OnboardConfigureRoute: typeof OnboardConfigureRoute
-  FinishIndexRoute: typeof FinishIndexRoute
-  LoginIndexRoute: typeof LoginIndexRoute
-  OnboardIndexRoute: typeof OnboardIndexRoute
-  WorkoutIndexRoute: typeof WorkoutIndexRoute
+  IndexRoute: typeof IndexRoute;
+  OnboardConfigureRoute: typeof OnboardConfigureRoute;
+  FinishIndexRoute: typeof FinishIndexRoute;
+  LoginIndexRoute: typeof LoginIndexRoute;
+  OnboardIndexRoute: typeof OnboardIndexRoute;
+  WorkoutIndexRoute: typeof WorkoutIndexRoute;
 }
 
-declare module '@tanstack/react-router' {
+declare module "@tanstack/react-router" {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/finish/': {
-      id: '/finish/'
-      path: '/finish'
-      fullPath: '/finish/'
-      preLoaderRoute: typeof FinishIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/login/': {
-      id: '/login/'
-      path: '/login'
-      fullPath: '/login/'
-      preLoaderRoute: typeof LoginIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/onboard/': {
-      id: '/onboard/'
-      path: '/onboard'
-      fullPath: '/onboard/'
-      preLoaderRoute: typeof OnboardIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/onboard/configure': {
-      id: '/onboard/configure'
-      path: '/onboard/configure'
-      fullPath: '/onboard/configure'
-      preLoaderRoute: typeof OnboardConfigureRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/workout/': {
-      id: '/workout/'
-      path: '/workout'
-      fullPath: '/workout/'
-      preLoaderRoute: typeof WorkoutIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+    "/": {
+      id: "/";
+      path: "/";
+      fullPath: "/";
+      preLoaderRoute: typeof IndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/finish/": {
+      id: "/finish/";
+      path: "/finish";
+      fullPath: "/finish/";
+      preLoaderRoute: typeof FinishIndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/login/": {
+      id: "/login/";
+      path: "/login";
+      fullPath: "/login/";
+      preLoaderRoute: typeof LoginIndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/onboard/": {
+      id: "/onboard/";
+      path: "/onboard";
+      fullPath: "/onboard/";
+      preLoaderRoute: typeof OnboardIndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/onboard/configure": {
+      id: "/onboard/configure";
+      path: "/onboard/configure";
+      fullPath: "/onboard/configure";
+      preLoaderRoute: typeof OnboardConfigureRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/workout/": {
+      id: "/workout/";
+      path: "/workout";
+      fullPath: "/workout/";
+      preLoaderRoute: typeof WorkoutIndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
   }
 }
 
@@ -157,7 +157,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginIndexRoute: LoginIndexRoute,
   OnboardIndexRoute: OnboardIndexRoute,
   WorkoutIndexRoute: WorkoutIndexRoute,
-}
+};
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+  ._addFileTypes<FileRouteTypes>();

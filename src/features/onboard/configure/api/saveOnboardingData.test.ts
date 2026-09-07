@@ -2,7 +2,11 @@ import { describe, expect, it } from "vitest";
 import { initialState } from "../reducer";
 
 import { TierOneProtocols, TierTwoProtocols } from "../types";
-import {getStageFromProtocol, mapStateToUserDoc, mapWorkoutDay} from "./saveOnboardingDataMapper";
+import {
+  getStageFromProtocol,
+  mapStateToUserDoc,
+  mapWorkoutDay,
+} from "./saveOnboardingDataMapper";
 
 describe("saveOnboardingData mappers", () => {
   it("getStageFromProtocol correctly identifies stages", () => {

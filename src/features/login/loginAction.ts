@@ -4,7 +4,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 
 const createLoginSchema = z.object({
   email: z.email(),
-  password: z.string().nonempty("Password cannot be empty")
+  password: z.string().nonempty("Password cannot be empty"),
 });
 
 export interface LoginState {
