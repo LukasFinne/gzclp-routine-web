@@ -163,13 +163,14 @@ export const configureReducer = (
       };
     }
     case "NEXT_STEP": {
-      const current = state.currentStep;
-      const listOfPrevious = state.previousSteps;
-      listOfPrevious.push(RotateDayOrder(current));
+      const current = RotateDayOrder(state.currentStep);
+      const listOfPrevious = state.previousSteps.includes(current)
+        ? state.previousSteps
+        : [...state.previousSteps, current];
       return {
         ...state,
         previousSteps: listOfPrevious,
-        currentStep: RotateDayOrder(current),
+        currentStep: current,
       };
     }
     case "PREVIOUS_STEP": {
