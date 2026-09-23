@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Home } from "../features/home/home";
-import { BasicHero } from "../components/ui/hero";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -8,8 +7,8 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <BasicHero>
+    <main className="flex-1 overflow-y-auto bg-base-200">
       <Home />
-    </BasicHero>
+    </main>
   );
 }
